@@ -451,7 +451,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(fiscalYear) {
       const param = {
-        fiscalYear: fiscalYear || this.$store.state.userInfo.year,
+        fiscalYear: this.$store.state.userInfo.year,
         page: this.mainPagerConfig.currentPage,
         pageSize: this.mainPagerConfig.pageSize,
         regulationClass: this.params5,

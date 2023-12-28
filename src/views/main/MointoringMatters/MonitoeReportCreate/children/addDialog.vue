@@ -41,7 +41,7 @@
                     <div class="sub-title-add" style="width:20%;float:left;margin-top:8px"><font color="red">*</font>&nbsp;年份</div>
                     <el-select
                       v-model="year"
-                      disabled="true"
+                      :disabled="isSx"
                       placeholder="请选择年份"
                       style="width:70%"
                     >
@@ -186,7 +186,8 @@ export default {
       askProvince: '',
       askProvinceOptions: [],
       treeQueryparams: { elementcode: 'admdiv', province: this.$store.state.userInfo.province, year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
-      provinceNameList: []
+      provinceNameList: [],
+      isSx: this.$store.getters.isSx
     }
   },
   methods: {

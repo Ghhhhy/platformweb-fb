@@ -1,4 +1,4 @@
-import store from '@/store/index'
+// import store from '@/store/index'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -27,11 +27,12 @@ const proconf = {
     {
       title: '业务年度',
       field: 'fiscalYear',
+      visible: false,
       width: '8',
       align: 'left',
       formula: '',
       name: '$vxeSelect',
-      visible: !store.getters.isSx,
+      // visible: !store.getters.isSx,
       itemRender: {
         name: '$vxeSelect',
         options: [

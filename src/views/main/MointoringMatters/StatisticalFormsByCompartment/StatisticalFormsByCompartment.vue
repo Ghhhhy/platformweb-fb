@@ -420,7 +420,7 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: fiscalYear || this.$store.state.userInfo.year,
+        fiscalYear: this.$store.state.userInfo.year,
         regulationClass: this.params5,
         agencyCodeList: this.agencyCodeList,
         mofDivCodeList: this.mofDivCodeList,

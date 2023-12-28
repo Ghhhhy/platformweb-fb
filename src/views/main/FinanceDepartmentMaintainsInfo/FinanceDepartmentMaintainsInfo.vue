@@ -75,9 +75,7 @@
               <!-- <div class="fn-inline"> -->
               <div class="fn-inline" style="float:left; visibility: hidden">
                 <div class="footer-btn" style="margin-left: 10px; padding-left: 10px;">
-                  <el-row
-                    style="display: inline-block;height: 42px;"
-                  >
+                  <el-row style="display: inline-block;height: 42px;">
                     <el-col :span="16">
                       <span ref="uploadref" class="sp-my">上传附件</span>
                     </el-col>
@@ -120,12 +118,7 @@
     >
       <div style="overflow: hidden">
         <el-select v-model="filetype" style="width: 100%">
-          <el-option
-            v-for="item in fileTypeOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+          <el-option v-for="item in fileTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </div>
       <div slot="footer">
@@ -138,6 +131,8 @@
 <script>
 import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfo.js'
 import { config } from './financeDepartmentMaintainsInfo'
+// import { DownLoadToFile } from '@/api/http'
+
 export default {
   data() {
     return {
@@ -359,14 +354,35 @@ export default {
       const date = time.getDate() - 1 + ''
       return year + (month < 10 ? '0' + month : month) + (date < 10 ? '0' + date : date)
     },
+    dataURLtoBlob(base64Str) {
+      var bstr = atob(base64Str)
+      var n = bstr.length
+      var u8arr = new Uint8Array(n)
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n)
+      }
+      // 下载的是excel格式的文件
+      return new Blob([u8arr], { type: 'application/vnd.ms-excel' })
+    },
     handleImport() {
       let self = this
       self.$refs.tmp.$refs.tableRef.triggerImportOption({
         downloadTemplateCallback() {
-          const a = document.createElement('a')
-          a.setAttribute('download', '')
-          a.setAttribute('href', 'static/files/国债资金监控导入模板.xls')
-          a.click()
+          // const a = document.createElement('a')
+          // a.setAttribute('download', '')
+          // a.setAttribute('href', 'static/files/国债资金监控导入模板.xlsx')
+          // a.click()
+          self.$http.get(BSURL.dfr_file_downLoadFile).then(res => {
+            if (res.code === '000000') {
+              const fileName = '增发国债资金项目基本信息导入.xlsx'
+              let blob = self.dataURLtoBlob(res.data)
+              let downloadUrl = window.URL.createObjectURL(blob)
+              let anchor = document.createElement('a')
+              anchor.href = downloadUrl
+              anchor.download = fileName
+              anchor.click()
+            }
+          })
         },
         importSuccessCallback(res) {
           let basicInfo = res['基本情况明细表']
@@ -1018,7 +1034,8 @@ export default {
 .Titans-form ::v-deep .vxe-form .boss-tree__input .el-select {
   height: 34px;
 }
-.app-main .boss-main .el-tab-pane{
-  height: auto!important;
+
+.app-main .boss-main .el-tab-pane {
+  height: auto !important;
 }
 </style>

@@ -117,6 +117,9 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    isBatch() { // 是否批量处理
+      return this.title === '批量整改处理单'
     }
   },
   props: {
@@ -128,6 +131,12 @@ export default {
       type: Object,
       default () {
         return {}
+      }
+    },
+    selectIds: {
+      type: Array,
+      default () {
+        return []
       }
     }
   },
@@ -185,7 +194,7 @@ export default {
       this.otherAmt = this.selectData.otherAmt
       this.dfrFileCode = this.selectData.dfrFileCode
       this.diBillId = this.selectData.diBillId
-      if (this.title === '整改处理单') {
+      if (this.title === '整改处理单' || this.isBatch) {
         this.attachmentId = this.$ToolFn.utilFn.getUuid()
       } else {
         this.attachmentId = this.selectData.dfrFileCode
@@ -212,7 +221,7 @@ export default {
         this.$message.warning('请输入整改结果')
         return
       }
-      if (this.title === '整改处理单' || this.title === '修改整改处理单') {
+      if (this.title === '整改处理单' || this.title === '修改整改处理单' || this.isBatch) {
         let param = {
           rectifyDetail: this.rectifyDetail,
           warnType: this.warnType,
@@ -222,11 +231,18 @@ export default {
           diBillId: this.diBillId,
           dfrFileCode: this.attachmentId
         }
+        let prefixStr = ''
+        let defaultFetchUrlName = 'update'
+        if (this.isBatch && Array.isArray(this.selectIds) && this.selectIds.length) {
+          param.selectIds = this.selectIds
+          prefixStr = '批量'
+          defaultFetchUrlName = 'updateZGBatch'
+        }
         this.addLoading = true
-        HttpModule.update(param).then(res => {
+        HttpModule[defaultFetchUrlName](param).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
-            this.$message.success('新增成功')
+            this.$message.success(`${prefixStr}新增成功`)
             this.dialogClose()
           } else {
             this.$message.error(res.message)

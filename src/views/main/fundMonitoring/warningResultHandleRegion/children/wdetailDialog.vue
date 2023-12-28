@@ -51,12 +51,14 @@
       v-if="dialogVisibles"
       :title="dialogTitle1"
       :select-data="selectData"
+      :select-ids="selectIds"
       @close="closeHandle"
     />
     <AffirmDialogs
       v-if="affirmDialogVisibles"
       :title="dialogTitle1"
       :select-data="selectData"
+      :select-ids="selectIds"
       @close="closeHandle"
     />
     <GlAttachment
@@ -127,6 +129,7 @@ export default {
   },
   data() {
     return {
+      selectIds: [],
       userInfo: {},
       billguid: '',
       showGlAttachmentDialog: false,
@@ -354,62 +357,88 @@ export default {
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
       console.log(obj.code)
+      const selection = this.$refs.mainTableRef.selection
       switch (obj.code) {
         // 整改意见
         case 'rectify_ask':
-          var selectionRow1 = this.$refs.mainTableRef.selection
-          if (selectionRow1.length !== 1) {
+          if (selection.length !== 1) {
             this.$message.warning('请选择一条数据')
             return
           }
-          this.selectData = selectionRow1[0]
-          this.updateRectifyAsk()
+          this.selectData = selection[0]
+          this.updateRectifyAsk(0)
+          break
+        case 'batch_rectify_ask':
+          if (selection.length === 0) {
+            this.$message.warning('请至少选择一条数据')
+            return
+          }
+          this.selectData = selection[0]
+          this.selectIds = selection.map(function(item, index, array) {
+            return item.diBillId
+          })
+          this.updateRectifyAsk(1)
           break
         // 整改意见
         case 'rectify_ask_update':
-          var selectionRow2 = this.$refs.mainTableRef.selection
-          if (selectionRow2.length !== 1) {
+          if (selection.length !== 1) {
             this.$message.warning('请选择一条数据')
             return
           }
-          this.selectData = selectionRow2[0]
+          this.selectData = selection[0]
           this.updateRectifyAskup()
           break
         // 人工认定
         case 'peo_set':
-          var selectionRow = this.$refs.mainTableRef.selection
-          if (selectionRow.length !== 1) {
+          if (selection.length !== 1) {
             this.$message.warning('请选择一条数据')
             return
           }
-          this.selectData = selectionRow[0]
-          this.affirm()
+          let title = '认定处理单'
+          this.selectData = selection[0]
+          this.affirm(title)
           break
         // 人工认定
         case 'peo_set_update':
-          var selectionRow4 = this.$refs.mainTableRef.selection
-          if (selectionRow4.length !== 1) {
+          if (selection.length !== 1) {
             this.$message.warning('请选择一条数据')
             return
           }
-          this.selectData = selectionRow4[0]
+          this.selectData = selection[0]
           this.affirmUpdate()
+          break
+        // 批量认定
+        case 'batch_set':
+          if (selection.length < 1) {
+            this.$message.warning('请至少选择一条数据')
+            return
+          }
+          let stitle = '批量认定处理单'
+          this.selectData = selection[0]
+          this.selectIds = selection.map((item, index, array) => {
+            return item.diBillId
+          })
+          this.affirm(stitle)
           break
         default:
           break
       }
     },
-    updateRectifyAsk() {
+    updateRectifyAsk(type = 0) {
+      let prefixStr = ''
+      if (type === 1) {
+        prefixStr = '批量'
+      }
       this.dialogVisibles = true
-      this.dialogTitle1 = '整改处理单'
+      this.dialogTitle1 = `${prefixStr}整改处理单`
     },
     updateRectifyAskup() {
       this.dialogVisibles = true
       this.dialogTitle1 = '修改整改处理单'
     },
-    affirm() {
+    affirm(title) {
       this.affirmDialogVisibles = true
-      this.dialogTitle1 = '认定处理单'
+      this.dialogTitle1 = title
     },
     affirmUpdate() {
       this.affirmDialogVisibles = true

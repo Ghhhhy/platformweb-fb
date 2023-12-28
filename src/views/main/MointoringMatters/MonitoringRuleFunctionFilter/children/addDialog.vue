@@ -139,10 +139,20 @@ export default {
         this.attachmentId = this.$ToolFn.utilFn.getUuid()
         return
       }
-      this.filterName = this.modifyData.filterName
-      this.regulationName = this.modifyData.regulationName
-      this.regulationCode = this.modifyData.regulationCode
-      this.typeName = this.modifyData.typeName
+      if (!this.$store.getters.isSx) {
+        this.filterName = this.modifyData.filterName
+        this.regulationName = this.modifyData.regulationName
+        this.regulationCode = this.modifyData.regulationCode
+        this.typeName = this.modifyData.typeName
+      } else {
+        this.filterName = this.modifyData.fliterName
+        let splitRegulationArr = this.modifyData.rule.split('-')
+        this.regulationName = splitRegulationArr[1]
+        this.regulationCode = splitRegulationArr[0]
+        let splitRuleArr = this.modifyData.name.split('-')
+        this.typeName = splitRuleArr[1]
+        this.dataId = this.modifyData.id
+      }
     },
     // 选择业务系统
     changeSysCode(val) {

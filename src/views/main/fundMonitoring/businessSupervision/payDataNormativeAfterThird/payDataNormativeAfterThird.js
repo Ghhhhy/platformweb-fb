@@ -22,6 +22,7 @@ export let proconf = {
     {
       title: '业务年度',
       field: 'fiscalYear',
+      visible: false,
       width: '8',
       align: 'left',
       formula: '',

@@ -32,10 +32,11 @@ export let proconf = {
     {
       title: '业务年度',
       field: 'fiscalYear',
+      visible: false,
       width: '8',
       align: 'left',
       formula: '',
-      visible: !store.getters.isFuJian,
+      // visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         // options: [
@@ -101,6 +102,7 @@ export let proconf = {
       align: 'left',
       formula: '',
       name: '$vxeSelect',
+      visible: !store.getters.isSx,
       itemRender: {
         name: '$vxeSelect',
         options: [

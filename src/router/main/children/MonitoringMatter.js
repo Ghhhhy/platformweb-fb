@@ -1630,6 +1630,15 @@ export default [
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
   },
   {
+    path: '/StatisticalFormsByRankBgt',
+    name: 'StatisticalFormsByRankBgt',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
+  },
+  {
     path: '/SXStatisticalFormsByRankBgt',
     name: 'SXStatisticalFormsByRankBgt',
     meta: {

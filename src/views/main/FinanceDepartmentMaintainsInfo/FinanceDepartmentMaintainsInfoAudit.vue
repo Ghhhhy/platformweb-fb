@@ -794,7 +794,7 @@ export default {
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
-    this.isLastInst = this.$store.state.curNavModule.param5
+    this.isLastInst = this.transJson(this.$store.state?.curNavModule?.param5 || '')?.isLastInst
   },
   methods: {
     closeModal() {

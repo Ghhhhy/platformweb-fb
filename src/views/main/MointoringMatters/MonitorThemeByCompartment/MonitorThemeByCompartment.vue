@@ -379,7 +379,7 @@ export default {
         agencyCodeList: this.agencyCodeList,
         mofDivCodeList: this.mofDivCodeList,
         // regulationClass: this.regulationClassQuery || '0106',
-        fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
+        fiscalYear: this.$store.state.userInfo.year,
         'regulationClassList': this.regulationClassQuery,
         jurisdiction: this.$store.getters.getIsJurisdiction,
         startTime: this.startTime,

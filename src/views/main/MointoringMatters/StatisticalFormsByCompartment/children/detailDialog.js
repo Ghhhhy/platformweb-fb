@@ -52,8 +52,9 @@ export let proconf = {
     },
     {
       title: '业务年度',
-      visible: store.getters.isSx,
+      // visible: store.getters.isSx,
       field: 'fiscalYear',
+      visible: false,
       'width': 180,
       align: 'left',
       formula: '',
