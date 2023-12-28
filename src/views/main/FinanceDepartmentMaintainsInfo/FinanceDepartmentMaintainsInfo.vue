@@ -271,6 +271,11 @@ export default {
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
         },
         {
+          code: '5',
+          tid: '436FEE6C7CB5474C822D91546240423D',
+          qid: '315DDFED8D444D678B5C65E6DB5087E3'
+        },
+        {
           code: '0',
           tid: '436FEE6C7CB5474C822D91546240423D',
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
@@ -307,6 +312,14 @@ export default {
             label: '已办事项',
             code: '2',
             curValue: '2'
+          }, {
+            type: 'button',
+            iconName: 'base-yiban.png',
+            iconNameActive: 'base-yiban-active.png',
+            iconUrl: '',
+            label: '已作废',
+            code: '5',
+            curValue: '5'
           }
         ],
         curButton: {
