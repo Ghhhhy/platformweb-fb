@@ -786,8 +786,10 @@ export default {
       this.setItemsDisable(this.formItemsConfigForth, false, disabled)
       this.setItemsDisable(this.contactInformationFormConfig, false, disabled)
       this.setItemsDisable(this.modalTblColumnsConfigSx, true, disabled)
+      if (!disabled) this.tableToolbarConfigAttach.buttons = []
       this.tableToolbarConfigAttach.buttons.forEach(btn => {
         btn.disabled = disabled
+        btn.visible = !disabled
       })
     },
     setItemsDisable(itemConfigs, isTable, disabled) {
