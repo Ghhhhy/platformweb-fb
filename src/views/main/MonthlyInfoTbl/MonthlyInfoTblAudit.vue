@@ -2108,8 +2108,6 @@ export default {
     },
     initFormItems(disabled) {
       this.setItemsDisable(this.formItemsConfigBtm, false, disabled)
-      this.setItemsDisable(this.modalTblColumnsConfig, true, disabled)
-      this.setItemsDisable(this.modalTblColumnsConfigSx, true, disabled)
     },
     setItemsDisable(itemConfigs, isTable, disabled) {
       if (isTable) {
