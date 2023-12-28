@@ -88,10 +88,78 @@ export default {
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }
-      }
+      },
+      searchDataList: {}
+    }
+  },
+  watch: {
+    highQueryConfig() {
+      this.getSearchDataList()
     }
   },
   methods: {
+    // 初始化高级查询data
+    getSearchDataList() {
+      // 下拉树
+      let searchDataObj = {}
+      this.highQueryConfig.forEach((item) => {
+        if (
+          item.itemRender.name === '$formTreeInput' ||
+          item.itemRender.name === '$vxeTree'
+        ) {
+          if (item.field) {
+            searchDataObj[item.field + 'code'] = ''
+          }
+        } else {
+          if (item.field) {
+            searchDataObj[item.field] = ''
+          }
+        }
+      })
+      this.searchDataList = searchDataObj
+    },
+    search(val) {
+      this.searchDataList = val
+      console.log(val)
+      let condition = this.getConditionList()
+      for (let key in condition) {
+        if (
+          (this.searchDataList[key] !== undefined) &
+          (this.searchDataList[key] !== null)
+        ) {
+          if (Array.isArray(this.searchDataList[key])) {
+            condition[key] = this.searchDataList[key]
+          } else if (typeof this.searchDataList[key] === 'string') {
+            if (this.searchDataList[key].trim() !== '') {
+              this.searchDataList[key].split(',').forEach((item) => {
+                condition[key].push(item)
+              })
+            }
+          }
+        }
+      }
+      this.condition = condition
+      this.getTableData(this.detailType, this.code)
+    },
+    // 初始化高级查询参数condition
+    getConditionList() {
+      let condition = {}
+      this.highQueryConfig.forEach((item) => {
+        if (
+          item.itemRender.name === '$formTreeInput' ||
+          item.itemRender.name === '$vxeTree'
+        ) {
+          if (item.field) {
+            condition[item.field + 'code'] = []
+          }
+        } else {
+          if (item.field) {
+            condition[item.field] = []
+          }
+        }
+      })
+      return condition
+    },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
         case 'refresh':
@@ -144,6 +212,7 @@ export default {
       this.refresh()
     },
     async loadConfig() {
+      let self = this
       let current = this.$parent.tableColumnsIdConfig.find(item => this.toolBarStatusSelect.curValue === item.code)
       let params = {
         tableId: {
@@ -158,7 +227,10 @@ export default {
       this.tableColumnsConfig = tableConfig.itemsConfig
       params.tableId.id = current?.qid
       let queryConfig = await this.loadBsConfig(params)
-      this.highQueryConfig = queryConfig.itemsConfig
+      this.highQueryConfig = queryConfig.itemsConfig || []
+      this.highQueryConfig.forEach(item => {
+        self.$set(this.searchDataList, item.field, '')
+      })
     },
     getTableDataCount() {
       if (this.$parent.tableCountUrl) {
@@ -220,9 +292,6 @@ export default {
         }
       })
     }
-  },
-  watch: {
-
   },
   created() {
     if (this.$parent.pageTblColumns && this.$parent.pageTblColumns.length) {

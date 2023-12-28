@@ -177,7 +177,11 @@ export default {
         buttonsInfo: {
           1: firstBtn,
           2: [],
-          3: [{ label: '整改详情', code: 'show_detail', status: 'primary' }],
+          3: (() => {
+            if (!this.$store.getters.isXm) {
+              return [{ label: '整改详情', code: 'show_detail', status: 'primary' }]
+            }
+          })(),
           4: []
         }
       }

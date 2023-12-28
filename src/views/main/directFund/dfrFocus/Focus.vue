@@ -636,7 +636,7 @@ export default {
         // payAcctName: this.payAcctName,
         // xpayDate: this.xpayDate,
         // payeeAcctName: this.payeeAcctName,
-        fiscalYear: this.$refs.queryFrom.getFormData().year,
+        fiscalYear: this.isSx ? this.$store.state.userInfo.year : this.$refs.queryFrom.getFormData().year,
         // setModeName: this.setModeName,
         agencyCode: this.agencyCode,
         mofDivCodeList: this.codeList,

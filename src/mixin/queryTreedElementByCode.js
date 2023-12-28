@@ -90,7 +90,7 @@ export default {
           this.businessFunctionCode = []
           this.businessFunctionName = []
         }
-        this.refleshKey = Date.now()
+        // this.refleshKey = Date.now()
       },
       immediate: true
     }
