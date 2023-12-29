@@ -194,7 +194,7 @@ export default {
     getSelectionRcd() {
       return this.$refs.tableRef.getSelectionData()
     },
-    onStatusTabClick(obj) {
+    async onStatusTabClick(obj) {
       if (!obj.type) {
         this.operationToolbarButtonClickEvent(obj)
         return
@@ -207,7 +207,7 @@ export default {
         this.tableApi = this.$parent.tableUrl
       }
       this.toolBarStatusSelect = obj
-      this.loadConfig()
+      await this.loadConfig()
       this.$refs.queryFrom.onSearchResetClick()
       this.condition = {}
       this.pagerConfig.currentPage = 1
@@ -284,6 +284,7 @@ export default {
       this.$http.post(this.tableApi, apiparams).then(res => {
         this.showLoading = false
         if (res && res.rscode === '200') {
+          this.formatTargetField(res.data.list, this.tableColumnsConfig)
           this.tableData = res.data.list
           this.pagerConfig.total = res.data.total
           this.tableFooterConfig.totalObj = res.data.sums

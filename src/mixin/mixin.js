@@ -75,6 +75,36 @@ export default {
     }
   },
   methods: {
+    isEmptyObject(o) {
+      for (var p in o) {
+        if (o.hasOwnProperty(p)) return false
+      }
+      return true
+    },
+    formatTargetField(array, columnList) {
+      if (!Array.isArray(array) || !Array.isArray(columnList)) return
+      const regR = new RegExp('({[a-zA-Z0-9_]*})', 'ig')
+      const replaceKeyReg = (key) => new RegExp('({' + key + '})', 'ig')
+      const getKeySet = (formatString, row) => {
+        let copyString = formatString
+        const keySet = copyString.match(regR).map((key, keyIndex) => {
+          return key.replace(/{|}/gi, '')
+        })
+        keySet.forEach((key, index) => {
+          copyString = copyString.replace(replaceKeyReg(key), row[key] || '')
+        })
+        return copyString
+      }
+      array.forEach(item => {
+        columnList.forEach(col => {
+          if (col.format && typeof col.format === 'string') {
+            let copyString = col.format
+            item[col.field] = getKeySet(copyString, item)
+          }
+        })
+      })
+      console.log('formatter处理完毕', array)
+    },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.pagerConfig.currentPage = currentPage
       this.pagerConfig.pageSize = pageSize
@@ -129,12 +159,6 @@ export default {
     },
     roleguid() {
       return this.curNavModule.roleguid
-    },
-    isEmptyObject(o) {
-      for (var p in o) {
-        if (o.hasOwnProperty(p)) return false
-      }
-      return true
     }
   },
   watch: {
