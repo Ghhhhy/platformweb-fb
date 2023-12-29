@@ -39,6 +39,6 @@ export default {
     return post('/dfr-monitor-service/dfr/pmProjectInfoDetail/action/discard', params)
   },
   insertDataRecord(params) {
-    return post('/dfr-monitor-service/dfr/pmProjectInfoDetail/action/insert')
+    return post('/dfr-monitor-service/dfr/pmProjectInfoDetail/action/insert', params)
   }
 }
