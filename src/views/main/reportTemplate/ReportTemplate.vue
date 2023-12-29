@@ -327,11 +327,13 @@ export default {
     },
     handleDetail(mofDivCode, column, row) {
       let configParams = utils.getPenetrateParams(row, column)
+      let queryParams = utils.getQueryParams(this.cacheParam, this.queryConfig)
       let params = {
         column: column.property,
         reportCode: this.penetrateTableId,
         ...this.tableDataParams.condition,
-        ...configParams
+        ...configParams,
+        ...queryParams
       }
       this.detailQueryParam = params
       this.detailVisible = true
