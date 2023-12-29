@@ -20,7 +20,7 @@
               :form-data-list="formDataListBtm"
             />
           </el-tab-pane>
-          <el-tab-pane label="累计可用资金" name="2">
+          <el-tab-pane label="项目资金情况" name="2">
             <vxe-form
               ref="formRef"
               title-width="0"
@@ -42,14 +42,16 @@
                   </tr>
                   <tr>
                     <td rowspan="8" style="width: 150px;">其中</td>
-                    <td colspan="2">增发国债基金</td>
+                    <td colspan="2">增发国债资金</td>
                     <td>
                       <vxe-form-item title="" field="name" style="width: 100%">
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccAddnb"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -59,6 +61,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreAddnb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -75,8 +78,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccCff"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -86,6 +91,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreCff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -102,8 +108,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccCfo"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -113,6 +121,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreCfo"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -129,8 +138,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccLff"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -140,6 +151,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreLff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -156,8 +168,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccEf"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -167,6 +181,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreEf"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -183,8 +198,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccLb"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -194,6 +211,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreLb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -210,8 +228,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccBankl"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -221,6 +241,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreBankl"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -237,8 +258,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccOth"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -248,6 +271,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreOth"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -259,7 +283,7 @@
                   </tr>
                   <!-- 详细 -->
                   <tr>
-                    <td colspan="3">累计可用资金（合计）</td>
+                    <td colspan="3">累计最终支出金额</td>
                     <td>{{ proGiFinalAcc }}</td>
                     <td>{{ proGiFinalPre }}</td>
                   </tr>
@@ -273,8 +297,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccAddnb"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -284,6 +310,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreAddnb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -300,8 +327,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccAddnb"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -311,6 +340,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreAddnb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -327,8 +357,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccAddnb"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -338,6 +370,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreAddnb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -354,8 +387,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccAddnb"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -365,6 +400,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreAddnb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -383,8 +419,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccCff"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -394,6 +432,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreCff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -410,8 +449,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccCff"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -421,6 +462,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreCff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -437,8 +479,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccCff"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -448,6 +492,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreCff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -464,8 +509,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccCff"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -475,6 +522,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreCff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -493,8 +541,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccCfo"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -504,6 +554,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreCfo"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -520,8 +571,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccCfo"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -531,6 +584,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreCfo"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -547,8 +601,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccCfo"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -558,6 +614,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreCfo"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -574,8 +631,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccCfo"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -585,6 +644,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreCfo"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -603,8 +663,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccLff"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -614,6 +676,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreLff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -630,8 +693,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccLff"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -641,6 +706,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreLff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -657,8 +723,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccLff"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -668,6 +736,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreLff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -684,8 +753,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccLff"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -695,6 +766,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreLff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -713,8 +785,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccEf"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -724,6 +798,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreEf"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -740,8 +815,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccEf"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -751,6 +828,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreEf"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -767,8 +845,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccEf"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -778,6 +858,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreEf"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -794,8 +875,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccEf"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -805,6 +888,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreEf"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -823,8 +907,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccLb"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -834,6 +920,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreLb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -850,8 +937,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccLb"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -861,6 +950,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreLb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -877,8 +967,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccLb"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -888,6 +980,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreLb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -904,8 +997,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccLb"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -915,6 +1010,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreLb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -933,8 +1029,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccBankl"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -944,6 +1042,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreBankl"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -960,8 +1059,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccBankl"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -971,6 +1072,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreBankl"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -987,8 +1089,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccBankl"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -998,6 +1102,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreBankl"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1014,8 +1119,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccBankl"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1025,6 +1132,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreBankl"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1043,8 +1151,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccOth"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1054,6 +1164,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreOth"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1070,8 +1181,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccOth"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1081,6 +1194,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreOth"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1097,8 +1211,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccOth"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1108,6 +1224,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreOth"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1124,8 +1241,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccOth"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1135,6 +1254,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreOth"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1152,8 +1272,10 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiCompAcc"
+                            type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1163,6 +1285,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiCompPre"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1178,6 +1301,12 @@
             </vxe-form>
           </el-tab-pane>
           <el-tab-pane label="绩效目标完成情况" name="3">
+            <el-row>
+              <el-col span="5">总体绩效目标完成情况说明</el-col>
+              <el-col span="19">
+                <vxe-textarea v-model="formDataListBtm.proPerfAll" :disabled="btnClickType === 'pay-checkDetails'" resize="vertical" />
+              </el-col>
+            </el-row>
             <BsTable
               ref="perfGoalDetMonRef"
               height="530"
@@ -1201,7 +1330,7 @@
               :http-request="handelUploadDebugfile"
             >
               <!-- <div class="fn-inline"> -->
-              <div class="fn-inline" style="float:left; visibility: hidden">
+              <div class="fn-inline" style="float:left;display:none;">
                 <div class="footer-btn" style="margin-left: 10px; padding-left: 10px;">
                   <el-row
                     style="display: inline-block;height: 42px;"
@@ -1212,8 +1341,8 @@
                   </el-row>
                 </div>
               </div>
-              <div slot="tip" class="fn-inline upload-my-css" style="margin-left: 0">
-                <div class="fn-inline" style="height:33px;float:left;">
+              <div v-if="showModalFooter" slot="tip" class="fn-inline upload-my-css" style="float:unset;">
+                <div class="fn-inline" style="height:33px;">
                   <span class="sp-my-two">支持png/jpg/pdf等，不超过20M</span>
                 </div>
               </div>
@@ -1229,6 +1358,7 @@
             >
               <template v-slot:toolbarSlots>
                 <div v-if="showModalFooter" class="table-toolbar-left">
+                  <vxe-button status="primary" style="float: left" @click="deleteAttachment">删除附件</vxe-button>
                   <vxe-button status="primary" style="float: left" @click="handleUpload">上传附件</vxe-button>
                 </div>
               </template>
@@ -1271,19 +1401,11 @@
 <script>
 import HttpModule from '@/api/frame/main/MonthlyInfoTbl/MonthlyInfoTbl.js'
 
-const execProgCodeList = [
-  {
-    label: '进度1',
-    value: '1'
-  },
-  {
-    label: '进度2',
-    value: '2'
-  }
-]
 export default {
   data() {
     return {
+      btnClickType: '',
+      readonly: ['proAgencyName', 'mofDiv_', 'budgetLevel_', 'speProCode', 'proDept_', 'proGi'],
       formData: {
         // 累计可用资金合计
         proGiIpAcc: '',
@@ -1397,8 +1519,8 @@ export default {
         proGiOtpayPreOth: ''
       },
       formRule: {},
-      filetype: '01',
-      filetypeName: '项目审批（核准、备案）资料',
+      filetype: '11',
+      filetypeName: '资金支出佐证资料',
       showTypeModal: false,
       menuId: '',
       modalTitle: '',
@@ -1413,11 +1535,6 @@ export default {
       fileDataBakDel: [],
       fileData: [],
       fileTypeOptions: [
-        { value: '01', label: '项目审批（核准、备案）资料' },
-        { value: '02', label: '项目用地审批、环评审批、施工许可资料' },
-        { value: '03', label: '项目招投标和政府采购资料' },
-        { value: '04', label: '项目主要合同资料' },
-        { value: '05', label: '项目评审报告' },
         { value: '11', label: '资金支出佐证资料' },
         { value: '12', label: '财务会计资料' },
         { value: '13', label: '工程资料' },
@@ -1975,6 +2092,14 @@ export default {
         this.formItemsConfigBtm = configQueryData.itemsConfig
       }
     },
+    deleteAttachment() {
+      let selections = this.$refs.fileDataRef.getSelectionData()
+      if (selections.length === 0) {
+        this.$message.warning('请选择要删除的附件')
+        return
+      }
+      this.$refs.fileDataRef.$refs.xGrid.removeCheckboxRow()
+    },
     handleSureType() {
       let proAttchKindName = this.fileTypeOptions.find((item) => {
         return item.value === this.filetype
@@ -2071,23 +2196,38 @@ export default {
         level3: ''
       })
     },
-    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      console.log(row, column)
+    objectSpanMethod({ row, column, rowIndex, columnIndex, visibleData }) {
       if (columnIndex === 2) {
-        if (rowIndex % 2 === 0) {
-          return {
-            rowspan: 2,
-            colspan: 1
-          }
+        const cellValue = row['lv1PerfIndCode']
+        const prevRow = visibleData[rowIndex - 1]
+        let nextRow = visibleData[rowIndex + 1]
+        if (prevRow && prevRow['lv1PerfIndCode'] === cellValue) {
+          return { rowspan: 0, colspan: 0 }
         } else {
-          return {
-            rowspan: 0,
-            colspan: 0
+          let countRowspan = 1
+          while (nextRow && nextRow['lv1PerfIndCode'] === cellValue) {
+            nextRow = visibleData[++countRowspan + rowIndex]
+          }
+          if (countRowspan > 1) {
+            return { rowspan: countRowspan, colspan: 1 }
           }
         }
       }
       if (columnIndex === 3) {
-
+        const cellValue = row['lv2PerfIndCode']
+        const prevRow = visibleData[rowIndex - 1]
+        let nextRow = visibleData[rowIndex + 1]
+        if (prevRow && prevRow['lv2PerfIndCode'] === cellValue) {
+          return { rowspan: 0, colspan: 0 }
+        } else {
+          let countRowspan = 1
+          while (nextRow && nextRow['lv2PerfIndCode'] === cellValue) {
+            nextRow = visibleData[++countRowspan + rowIndex]
+          }
+          if (countRowspan > 1) {
+            return { rowspan: countRowspan, colspan: 1 }
+          }
+        }
       }
     },
     handleSure() {
@@ -2119,7 +2259,7 @@ export default {
         actionType: '1',
         actionName: '录入',
         advice: '',
-        proDetMonInfo: proDetMonInfo,
+        proDetMonInfo: { ...proDetMonInfo, proPerfAll: this.formDataListBtm.proPerfAll },
         // 累计可用金额
         fundUsage: fundUsage,
         // 绩效
@@ -2128,16 +2268,18 @@ export default {
       }
       console.log(params)
 
-      let execProgCode = proDetMonInfo.execProgCode
-      let execProgName = ''
-      if (execProgCode !== '') {
-        execProgName = execProgCodeList.find((item) => {
-          return item.value === execProgCode
-        }).label
-      }
-
       params.proDetMonInfo.proDetId = localThis.proDetId
-      params.proDetMonInfo.execProgName = execProgName
+      params.proDetMonInfo.execProgCode = proDetMonInfo.execProg_code
+      params.proDetMonInfo.execProgName = proDetMonInfo.execProg_name
+
+      for (let key in params.proDetMonInfo) {
+        if (key.endsWith('_code')) {
+          params.proDetMonInfo[key.replace('_code', 'Code')] = params.proDetMonInfo[key]
+        }
+        if (key.endsWith('_name')) {
+          params.proDetMonInfo[key.replace('_name', 'Name')] = params.proDetMonInfo[key]
+        }
+      }
 
       if (localThis.proDetMonId === '') {
         // 新增
@@ -2172,23 +2314,69 @@ export default {
     },
     onBtnClick(obj) {
       let localThis = this
+      this.btnClickType = obj.code
       if (obj.code === 'pay-add') {
+        this.initFormItems(false)
         localThis.addRecord()
       }
       if (obj.code === 'pay-edit') {
+        this.initFormItems(false)
         localThis.editRecord()
       }
       if (obj.code === 'pay-discard') {
+        this.initFormItems(false)
         localThis.discardRecord()
       }
       if (obj.code === 'pay-audit') {
+        this.initFormItems(false)
         localThis.auditRecord(2)
       }
       if (obj.code === 'pay-checkDetails') {
+        this.initFormItems(true)
         localThis.viewDetail()
       }
       if (obj.code === 'pay-unAudit') {
         localThis.auditRecord(3)
+      }
+    },
+    initFormItems(disabled) {
+      this.setItemsDisable(this.formItemsConfigBtm, false, disabled)
+      this.setItemsDisable(this.modalTblColumnsConfig, true, disabled)
+      this.setItemsDisable(this.modalTblColumnsConfigSx, true, disabled)
+    },
+    setItemsDisable(itemConfigs, isTable, disabled) {
+      if (isTable) {
+        itemConfigs.forEach(column => {
+          if (disabled) {
+            // 只读
+            let render = column.editRender
+            if (render) {
+              column.render = render
+              delete column.editRender
+            }
+          } else {
+            let render = column.cellRender || column.render
+            if (render) {
+              column.editRender = render
+              delete column.cellRender
+              delete column.render
+            }
+          }
+        })
+      } else {
+        itemConfigs.forEach(item => {
+          if (this.readonly.indexOf(item.field) === -1) {
+            if (item.itemRender) {
+              if (item.itemRender.props) {
+                item.itemRender.props.disabled = disabled
+              } else {
+                item.itemRender.props = { disabled: disabled }
+              }
+            }
+          } else {
+            item.itemRender.props.disabled = true
+          }
+        })
       }
     },
     addRecord() {
@@ -2250,6 +2438,15 @@ export default {
           // 基本情况
           let proDetMonInfo = res.data.proDetMonInfo
           localThis.formDataListBtm = proDetMonInfo
+
+          for (let key in proDetMonInfo) {
+            if (key.endsWith('Code')) {
+              localThis.formDataListBtm[key.replace('Code', '_code')] = proDetMonInfo[key]
+            }
+            if (key.endsWith('Name')) {
+              localThis.formDataListBtm[key.replace('Name', '_name')] = proDetMonInfo[key]
+            }
+          }
           // 累计金额
           let fundUsage = res.data.fundUsage
           localThis.formData = fundUsage
@@ -2340,6 +2537,7 @@ export default {
       }
       HttpModule.detailDataRecord(params).then((res) => {
         if (res.rscode === '200') {
+          this.isFirst = true
           // 基本情况
           let proDetMonInfo = res.data.proDetMonInfo
           localThis.formDataListBtm = proDetMonInfo

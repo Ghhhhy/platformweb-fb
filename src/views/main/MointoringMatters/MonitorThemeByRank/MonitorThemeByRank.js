@@ -19,25 +19,26 @@ export let proconf = {
     ]
   },
   highQueryConfig: [
-    // {
-    //   title: '业务年度',
-    //   field: 'fiscalYear',
-    //   'width': 180,
-    //   align: 'left',
-    //   formula: '',
-    //   name: '$vxeSelect',
-    //   itemRender: {
-    //     name: '$vxeSelect',
-    //     options: [
-    //       { value: '2021', label: '2021' },
-    //       { value: '2022', label: '2022' },
-    //       { value: '2023', label: '2023' }
-    //     ],
-    //     props: {
-    //       placeholder: '业务年度'
-    //     }
-    //   }
-    // },
+    {
+      title: '业务年度',
+      field: 'fiscalYear',
+      visible: false,
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '2021', label: '2021' },
+          { value: '2022', label: '2022' },
+          { value: '2023', label: '2023' }
+        ],
+        props: {
+          placeholder: '业务年度'
+        }
+      }
+    },
     {
       title: '区划',
       field: 'mofDivCodeList',
@@ -325,25 +326,25 @@ export let proconf = {
       children: [
         {
           title: '累计问询单',
-          field: 'correctedCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '涉及金额',
-          field: 'correctedAmount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已处理',
           field: 'orderCorrectionCount',
           width: '150',
           align: 'center'
         },
         {
-          title: '已处理涉及金额',
+          title: '涉及金额',
           field: 'orderCorrectionAmount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理',
+          field: 'correctedCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理涉及金额',
+          field: 'correctedAmount',
           width: '150',
           align: 'center'
         }
@@ -528,25 +529,25 @@ export let proconf = {
       children: [
         {
           title: '累计问询单',
-          field: 'correctedCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '涉及金额',
-          field: 'correctedAmount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已处理',
           field: 'orderCorrectionCount',
           width: '150',
           align: 'center'
         },
         {
-          title: '已处理涉及金额',
+          title: '涉及金额',
           field: 'orderCorrectionAmount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理',
+          field: 'correctedCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理涉及金额',
+          field: 'correctedAmount',
           width: '150',
           align: 'center'
         }
