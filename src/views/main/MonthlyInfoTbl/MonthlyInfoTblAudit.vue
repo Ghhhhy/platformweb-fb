@@ -2161,6 +2161,7 @@ export default {
         actionType: type,
         actionName: type === 2 ? '送审' : '撤销送审'
       }
+      localThis.$refs.tmp.showLoading = true
       HttpModule.auditDataRecords(params).then((res) => {
         if (res.rscode === '200') {
           localThis.$message.success('操作成功')
@@ -2168,6 +2169,8 @@ export default {
         } else {
           localThis.$message.warning('操作失败' + res.errorMessage)
         }
+      }).finally(() => {
+        localThis.$refs.tmp.showLoading = false
       })
     },
     viewDetail() {
