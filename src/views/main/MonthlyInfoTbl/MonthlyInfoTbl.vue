@@ -290,7 +290,7 @@
 
                   <tr>
                     <td rowspan="32" style="width: 150px;">其中</td>
-                    <td rowspan="4">增发国债基金</td>
+                    <td rowspan="4">增发国债资金</td>
                     <td>建筑安装工程投资支出</td>
                     <td>
                       <vxe-form-item title="" field="name" style="width: 100%">
@@ -2405,7 +2405,6 @@ export default {
           localThis.formDataListBtm.proAgencyName = proDetMonInfo.proAgencyCode + '-' + proDetMonInfo.proAgencyName
           localThis.tableData = perfGoalDetMonList
           localThis.formData = fundUsage
-
           localThis.isFirst = isFirst
           localThis.isClearable = isFirst
           localThis.showModal = true
