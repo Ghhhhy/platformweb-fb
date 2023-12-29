@@ -251,8 +251,8 @@ export default {
         zoom: true, // 缩放
         custom: false, // 选配展示列
         buttons: [
-          { code: 'delete-attachment', name: '删除', status: 'primary', callback: this.deleteAttachment },
-          { code: 'upload-attachment', name: '上传附件', status: 'primary', callback: this.handleUpload }
+          { code: 'upload-attachment', name: '上传附件', status: 'primary', callback: this.handleUpload },
+          { code: 'delete-attachment', name: '删除', status: 'primary', callback: this.deleteAttachment }
         ]
       },
       tableData: [],
@@ -1282,5 +1282,8 @@ export default {
 
 .app-main .boss-main .el-tab-pane {
   height: auto !important;
+}
+/deep/.Titans-table .vxe-grid--toolbar-wrapper .vxe-button--wrapper{
+  text-align: left!important;
 }
 </style>
