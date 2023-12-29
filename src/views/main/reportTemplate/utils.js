@@ -205,7 +205,19 @@ export default {
       }
     }
     return configParams
+  },
+  getQueryParams(param, column) {
+    let configParams = {}
+    column.forEach((item) => {
+      let penetrateField = item?.penetrateField
+      let dbField = item.itemRender?.dbField
+      if (!dbField) {
+        dbField = item?.field
+      }
+      if (penetrateField) {
+        configParams[penetrateField] = param[item.field]
+      }
+    })
+    return configParams
   }
 }
-
-// const toUnderline = (str) => str.replace(/([A-Z])/g, '_$1').toLowerCase()
