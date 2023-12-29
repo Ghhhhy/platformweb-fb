@@ -1637,7 +1637,8 @@ export default {
         }
       ],
       addModal: false,
-      hideTree: true,
+      hideTree: false,
+      isCheckbox: true,
       tableColumnsIdConfig: [
         {
           code: '1',
