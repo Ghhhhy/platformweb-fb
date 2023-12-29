@@ -203,7 +203,7 @@ export default {
       formDataListThirdRequired: config().formDataListThirdRequired,
       formItemsConfigThird: config().formItemsConfigThird,
       activeNameTop: '1',
-      readonly: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi'],
+      readonly: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi', 'trackProCode'],
       formItemsConfigBtm: config().formItemsConfigBtm,
       formDataListBtmRequired: config().formDataListBtmRequired,
       formDataListBtm: config().formDataListBtm,
@@ -571,16 +571,14 @@ export default {
         this.formDataListBtm[property + 'code'] = data[property + 'code']
         this.formDataListBtm[property + 'id'] = data[property + 'id']
       }
-      if (this.isAdd) {
-        if (property === 'trackPro_') {
-          this.formDataListBtmAdd.trackProCode = data.trackPro_code
-          data.trackProCode = data.trackPro_code
-          data.fundInvestArea_ = ''
-          data.fundInvestArea_code = ''
-          data.fundInvestArea_id = ''
-          data.fundInvestArea_name = ''
-          this.fundInvestArea(data.trackPro_id)
-        }
+      if (property === 'trackPro_') {
+        this.formDataListBtmAdd.trackProCode = data.trackPro_code
+        data.trackProCode = data.trackPro_code
+        data.fundInvestArea_ = ''
+        data.fundInvestArea_code = ''
+        data.fundInvestArea_id = ''
+        data.fundInvestArea_name = ''
+        this.fundInvestArea(data.trackPro_id)
       }
     },
     // 获取指标级次
@@ -599,7 +597,13 @@ export default {
     getFundInvestArea() {
       this.$http.post('/dfr-monitor-service/dfr/common/elementtree', { elementCode: 'PROFUNDINVESTAREA' }).then((res) => {
         if (res.rscode === '200') {
-          this.formItemsConfigBtmAdd.forEach(item => {
+          let configs = []
+          if (this.isAdd) {
+            configs = this.formItemsConfigBtmAdd
+          } else {
+            configs = this.formItemsConfigBtm
+          }
+          configs.forEach(item => {
             if (item.field === 'fundInvestArea_') {
               this.fundInvestAreaOptions = res.data
               item.itemRender.options = res.data
@@ -636,13 +640,23 @@ export default {
           break
         }
       }
-      this.formItemsConfigBtmAdd.forEach(item => {
+      let configs = []
+      if (this.isAdd) {
+        configs = this.formItemsConfigBtmAdd
+      } else {
+        configs = this.formItemsConfigBtm
+      }
+      configs.forEach(item => {
         if (item.field === 'fundInvestArea_') {
           item.itemRender.options = currentFundInvest
         }
       })
-      this.formItemsConfigBtmAdd = [...this.formItemsConfigBtmAdd]
-      console.log(this.formItemsConfigBtmAdd)
+      if (this.isAdd) {
+        this.formItemsConfigBtmAdd = [...configs]
+      } else {
+        this.formItemsConfigBtm = [...configs]
+      }
+      console.log(configs)
     },
     insertItemChange({ $form, property, itemValue, data }, bsform) {
       let sum = 0
@@ -789,109 +803,111 @@ export default {
       this.showTypeModal = false
     },
     handleSure() {
-      this.$refs.addForm.formOptionsFn().validate().then(() => {
-        this.$refs.addFormthrid.formOptionsFn().validate().then(() => {
-          this.$refs.addFormForth.formOptionsFn().validate().then(() => {
-            this.$refs.contactInformationForm.formOptionsFn().validate().then(() => {
-              let localThis = this
-              console.log()
-              localThis.$refs.tmp.showLoading = true
-              let fileList = []
-              let fileDataList = localThis.$refs.fileDataRef.getTableData().fullData
-              if (fileDataList && fileDataList.length > 0) {
-                fileDataList.forEach((item) => {
-                  fileList.push({
-                    fileName: item.fileName,
-                    kpiRemark: item.kpiRemark,
-                    proAttchKindCode: item.proAttchKindCode,
-                    proAttchKindName: item.proAttchKindCode__viewSort,
-                    proAttchId: item.proAttchId
-                  })
-                })
-              }
-              let btmFormData = localThis.$refs.addForm.getFormData()
-              for (let key in btmFormData) {
-                if (this.treeProps.indexOf(key) > -1) {
-                  let p = key.substr(0, key.length - 1)
-                  let value = (btmFormData[key] || '').split('##')
-                  if (value[0].indexOf('initId') > -1) {
-                    btmFormData[p + 'Name'] = value[1] + '##' + value[2]
-                  } else {
-                    btmFormData[p + 'Name'] = btmFormData[key]
-                  }
-                  delete btmFormData[key]
-                  delete btmFormData[key + 'id']
-                  delete btmFormData[key + 'code']
-                  delete btmFormData[key + 'name']
-                }
-                if (key === 'proAgencyName') {
-                  btmFormData['proAgencyName'] = btmFormData['proAgencyName'].replace(btmFormData['proAgencyCode'] + '-', '')
-                }
-                if (key === 'proStaDate' || key === 'proEndDate' || key === 'proRealStaDate' || key === 'proRealEndDate') {
-                  btmFormData[key] = btmFormData[key].replaceAll('-', '')
-                }
-              }
-              let params = {
-                projectInfo: btmFormData,
-                // projectInfo: localThis.formDataListBtm,
-                perfIndica: localThis.$refs.bgtTblRef.getTableData().tableData,
-                proGiSource: localThis.$refs.addFormthrid.getFormData(),
-                // 项目总投资
-                approvalDoc: localThis.$refs.addFormForth.getFormData(),
-                // 联系方式
-                depInfo: localThis.$refs.contactInformationForm.getFormData(),
-                attchs: fileList
-              }
-              console.log(params)
-              if (localThis.proDetId === '') {
-                // 新增---待修改
-                params.proDetId = localThis.proDetId
-                params.projectInfo.proDetId = localThis.proDetId
-                HttpModule.editDataRecord(params).then((res) => {
-                  if (res.rscode === '200') {
-                    this.showModal = false
-                    localThis.$message.success('操作成功')
-                    localThis.$refs.tmp.refresh()
-                  } else {
-                    if (res.message) {
-                      localThis.$message.error('数据保存询失败:' + res.message)
-                    } else {
-                      localThis.$message.error('数据保存询失败')
-                    }
-                  }
-                  localThis.$refs.tmp.showLoading = false
-                })
-              } else {
-                // 修改
-                params.proDetId = localThis.proDetId
-                params.projectInfo.proDetId = localThis.proDetId
-                HttpModule.editDataRecord(params).then((res) => {
-                  if (res.rscode === '200') {
-                    this.showModal = false
-                    localThis.$message.success('操作成功')
-                    localThis.$refs.tmp.refresh()
-                  } else {
-                    if (res.message) {
-                      localThis.$message.error('数据编辑保存询失败:' + res.message)
-                    } else {
-                      localThis.$message.error('数据编辑保存询失败')
-                    }
-                  }
-                  localThis.$refs.tmp.showLoading = false
-                })
-              }
-            }).catch(() => {
-              this.$message.error('表单信息未填写完整，请检查')
-            })
-          }).catch(() => {
-            this.$message.error('表单信息未填写完整，请检查')
+      // this.$refs.addForm.formOptionsFn().validate().then(() => {
+      //   this.$refs.addFormthrid.formOptionsFn().validate().then(() => {
+      //     this.$refs.addFormForth.formOptionsFn().validate().then(() => {
+      //       this.$refs.contactInformationForm.formOptionsFn().validate().then(() => {
+      let localThis = this
+      console.log()
+      localThis.$refs.tmp.showLoading = true
+      let fileList = []
+      let fileDataList = localThis.$refs.fileDataRef.getTableData().fullData
+      if (fileDataList && fileDataList.length > 0) {
+        fileDataList.forEach((item) => {
+          fileList.push({
+            fileName: item.fileName,
+            kpiRemark: item.kpiRemark,
+            proAttchKindCode: item.proAttchKindCode,
+            proAttchKindName: item.proAttchKindCode__viewSort,
+            proAttchId: item.proAttchId
           })
-        }).catch(() => {
-          this.$message.error('表单信息未填写完整，请检查')
         })
-      }).catch(() => {
-        this.$message.error('表单信息未填写完整，请检查')
-      })
+      }
+      // 保存时去掉树id##code##name
+      let btmFormData = localThis.$refs.addForm.getFormData()
+      for (let key in btmFormData) {
+        if (this.treeProps.indexOf(key) > -1) {
+          let p = key.substr(0, key.length - 1)
+          let value = (btmFormData[key] || '').split('##')
+          if (value[0].indexOf('initId') > -1) {
+            btmFormData[p + 'Name'] = value[1] + '##' + value[2]
+          } else {
+            btmFormData[p + 'Name'] = btmFormData[key + 'name']
+          }
+          btmFormData[p + 'Code'] = btmFormData[key + 'code']
+          delete btmFormData[key]
+          delete btmFormData[key + 'id']
+          delete btmFormData[key + 'code']
+          delete btmFormData[key + 'name']
+        }
+        if (key === 'proAgencyName') {
+          btmFormData['proAgencyName'] = btmFormData['proAgencyName'].replace(btmFormData['proAgencyCode'] + '-', '')
+        }
+        if (key === 'proStaDate' || key === 'proEndDate' || key === 'proRealStaDate' || key === 'proRealEndDate') {
+          btmFormData[key] = btmFormData[key].replaceAll('-', '')
+        }
+      }
+      let params = {
+        projectInfo: btmFormData,
+        // projectInfo: localThis.formDataListBtm,
+        perfIndica: localThis.$refs.bgtTblRef.getTableData().tableData,
+        proGiSource: localThis.$refs.addFormthrid.getFormData(),
+        // 项目总投资
+        approvalDoc: localThis.$refs.addFormForth.getFormData(),
+        // 联系方式
+        depInfo: localThis.$refs.contactInformationForm.getFormData(),
+        attchs: fileList
+      }
+      console.log(params)
+      if (localThis.proDetId === '') {
+        // 新增---待修改
+        params.proDetId = localThis.proDetId
+        params.projectInfo.proDetId = localThis.proDetId
+        HttpModule.editDataRecord(params).then((res) => {
+          if (res.rscode === '200') {
+            this.showModal = false
+            localThis.$message.success('操作成功')
+            localThis.$refs.tmp.refresh()
+          } else {
+            if (res.message) {
+              localThis.$message.error('数据保存询失败:' + res.message)
+            } else {
+              localThis.$message.error('数据保存询失败')
+            }
+          }
+          localThis.$refs.tmp.showLoading = false
+        })
+      } else {
+        // 修改
+        params.proDetId = localThis.proDetId
+        params.projectInfo.proDetId = localThis.proDetId
+        HttpModule.editDataRecord(params).then((res) => {
+          if (res.rscode === '200') {
+            this.showModal = false
+            localThis.$message.success('操作成功')
+            localThis.$refs.tmp.refresh()
+          } else {
+            if (res.message) {
+              localThis.$message.error('数据编辑保存询失败:' + res.message)
+            } else {
+              localThis.$message.error('数据编辑保存询失败')
+            }
+          }
+          localThis.$refs.tmp.showLoading = false
+        })
+      }
+      //       }).catch(() => {
+      //         this.$message.error('表单信息未填写完整，请检查')
+      //       })
+      //     }).catch(() => {
+      //       this.$message.error('表单信息未填写完整，请检查')
+      //     })
+      //   }).catch(() => {
+      //     this.$message.error('表单信息未填写完整，请检查')
+      //   })
+      // }).catch(() => {
+      //   this.$message.error('表单信息未填写完整，请检查')
+      // })
     },
     // 根据二级指标获取一级指标并填充值
     addFormChange({ $form, property, itemValue, data, renderOpts, node, nodes, treeData }) {
@@ -954,6 +970,7 @@ export default {
         this.showModal = true
         this.isAdd = true
         this.modalTitle = '新增'
+        this.formDataListBtmAdd.trackProCode = ''
         this.tableToolbarConfigInmodal.buttons = [
           { code: 'code-add', name: '新增行', status: 'primary', callback: this.addLine },
           { code: 'code-delete', name: '删除', status: 'primary', callback: this.deleteLine }
