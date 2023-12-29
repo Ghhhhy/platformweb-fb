@@ -877,7 +877,7 @@ export default {
                   if (key === 'proStaDate' || key === 'proEndDate' || key === 'proRealStaDate' || key === 'proRealEndDate') {
                     btmFormData[key] = btmFormData[key].replaceAll('-', '')
                   }
-                } let kpiTarget = localThis.$refs.addFormthrid.getFormData().KPIForm
+                } let kpiTarget = localThis.$refs.KPIForm.getFormData().kpiTarget
                 let params = {
                   projectInfo: { ...btmFormData, kpiTarget: kpiTarget },
                   // projectInfo: localThis.formDataListBtm,
