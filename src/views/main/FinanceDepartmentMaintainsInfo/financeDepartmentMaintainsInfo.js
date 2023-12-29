@@ -515,7 +515,7 @@ export let config = () => {
         span: 12,
         titleWidth: '240',
         itemRender: {
-          name: '$formTreeInput',
+          name: '$vxeTree',
           required: true,
           options: [
             { code: '100001234512345123451', id: '01', name: '灾后恢复重建和提升防灾减灾能力补助资金', label: '100001234512345123451-灾后恢复重建和提升防灾减灾能力补助资金' },
@@ -529,7 +529,16 @@ export let config = () => {
           ],
           props: {
             disabled: false,
-            placeholder: '请输入增发国债资金中央转移支付项目名称'
+            placeholder: '请输入增发国债资金中央转移支付项目名称',
+            showFilter: false,
+            config: {
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'id',
+                label: 'label',
+                children: 'children'
+              }
+            }
           }
         }
       },
@@ -546,16 +555,28 @@ export let config = () => {
         span: 12,
         titleWidth: '240',
         itemRender: {
-          name: '$formTreeInput',
-          required: true,
+          name: '$vxeTree',
           props: {
+            isleaf: true,
             disabled: false,
-            placeholder: '请选择项目主管部门',
-            isServer: true,
-            serverUri: '/dfr-monitor-service/dfr/common/elementtree',
             elecode: 'dept',
             queryparams: {
               elementCode: 'dept'
+            },
+            config: {
+              isleaf: true,
+              showFilter: false,
+              placeholder: '请选择项目主管部门',
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'id',
+                label: 'label',
+                children: 'children'
+              },
+              axiosConfig: {
+                method: 'post',
+                url: '/dfr-monitor-service/dfr/common/elementtree'
+              }
             }
           }
         }
@@ -566,19 +587,21 @@ export let config = () => {
         span: 12,
         titleWidth: '240',
         itemRender: {
-          name: '$formTreeInput',
+          name: '$vxeTree',
           required: true,
           options: [],
           props: {
             isleaf: true,
             disabled: false,
-            placeholder: '请输入项目所属投向领域'
-            // isServer: true
-            // serverUri: '/dfr-monitor-service/dfr/common/elementtree',
-            // elecode: 'PROFUNDINVESTAREA',
-            // queryparams: {
-            //   elementCode: 'PROFUNDINVESTAREA'
-            // }
+            placeholder: '请输入项目所属投向领域',
+            config: {
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'id',
+                label: 'label',
+                children: 'children'
+              }
+            }
           }
         }
       },
@@ -668,6 +691,7 @@ export let config = () => {
     ],
     formDataListBtmRequired: {
       proAgencyCode: [ { required: true, message: '请输入项目单位编码', trigger: 'change' } ],
+      trackPro_: [ { required: true, message: '请输入增发国债资金中央转移支付项目名称', trigger: 'change' } ],
       proAgencyName: [{ required: true, message: '请输入项目单位名称', trigger: 'change' }],
       mofDivCode: [{ required: true, message: '请输入区划编码', trigger: 'change' }],
       mofDivName: [{ required: true, message: '请输入区划名称', trigger: 'change' }],
@@ -744,17 +768,28 @@ export let config = () => {
         span: 12,
         titleWidth: '255',
         itemRender: {
-          name: '$formTreeInput',
-          required: true,
+          name: '$vxeTree',
           props: {
             isleaf: true,
             disabled: false,
-            placeholder: '请输入项目单位',
-            isServer: true,
-            serverUri: '/dfr-monitor-service/dfr/common/elementtree',
             elecode: 'agency',
             queryparams: {
               elementCode: 'agency'
+            },
+            config: {
+              isleaf: true,
+              showFilter: false,
+              placeholder: '请输入项目单位',
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'id',
+                label: 'label',
+                children: 'children'
+              },
+              axiosConfig: {
+                method: 'post',
+                url: '/dfr-monitor-service/dfr/common/elementtree'
+              }
             }
           }
         }
@@ -807,16 +842,28 @@ export let config = () => {
         span: 12,
         titleWidth: '255',
         itemRender: {
-          name: '$formTreeInput',
-          required: true,
+          name: '$vxeTree',
           props: {
+            isleaf: true,
             disabled: false,
-            placeholder: '请选择项目主管部门',
-            isServer: true,
-            serverUri: '/dfr-monitor-service/dfr/common/elementtree',
             elecode: 'dept',
             queryparams: {
               elementCode: 'dept'
+            },
+            config: {
+              isleaf: true,
+              showFilter: false,
+              placeholder: '请选择项目主管部门',
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'id',
+                label: 'label',
+                children: 'children'
+              },
+              axiosConfig: {
+                method: 'post',
+                url: '/dfr-monitor-service/dfr/common/elementtree'
+              }
             }
           }
         }
@@ -841,7 +888,7 @@ export let config = () => {
         span: 12,
         titleWidth: '255',
         itemRender: {
-          name: '$formTreeInput',
+          name: '$vxeTree',
           required: true,
           options: [
             { code: '100001234512345123451', id: '01', name: '灾后恢复重建和提升防灾减灾能力补助资金', label: '100001234512345123451-灾后恢复重建和提升防灾减灾能力补助资金' },
@@ -855,7 +902,15 @@ export let config = () => {
           ],
           props: {
             disabled: false,
-            placeholder: '请输入增发国债资金中央转移支付项目名称'
+            placeholder: '请输入增发国债资金中央转移支付项目名称',
+            config: {
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'id',
+                label: 'label',
+                children: 'children'
+              }
+            }
           }
         }
       },
@@ -900,18 +955,20 @@ export let config = () => {
         span: 12,
         titleWidth: '255',
         itemRender: {
-          name: '$formTreeInput',
+          name: '$vxeTree',
           required: true,
           props: {
             isleaf: true,
             disabled: false,
-            placeholder: '请输入项目所属投向领域'
-            // isServer: true,
-            // serverUri: '/dfr-monitor-service/dfr/common/elementtree',
-            // elecode: 'PROFUNDINVESTAREA',
-            // queryparams: {
-            //   elementCode: 'PROFUNDINVESTAREA'
-            // }
+            placeholder: '请输入项目所属投向领域',
+            config: {
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'id',
+                label: 'label',
+                children: 'children'
+              }
+            }
           }
         }
       },
@@ -969,7 +1026,7 @@ export let config = () => {
       isUseMultiTrackPro: [ { required: true, message: '请输入是否使用多项中央转移支付资金', trigger: 'change' } ],
       isEnd: [{ required: true, message: '请输入项目是否终结', trigger: 'change' }],
       kpiTarget: [{ required: true, message: '请输入项目整体绩效目标', trigger: 'change' }],
-      trackProName: [{ required: true, message: '增发国债资金中央转移支付项目名称', trigger: 'change' }],
+      trackPro_: [{ required: true, message: '增发国债资金中央转移支付项目名称', trigger: 'change' }],
       trackProCode: [{ required: true, message: '增发国债资金中央转移支付项目代码', trigger: 'change' }]
     },
     formDataListBtmAdd: {

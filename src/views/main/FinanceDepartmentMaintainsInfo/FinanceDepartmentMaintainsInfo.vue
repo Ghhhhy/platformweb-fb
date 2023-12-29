@@ -933,6 +933,19 @@ export default {
       this.showAddLineModal = true
       this.addBudgetFormData.lv1PerfIndName = ''
     },
+    clearFormDatas() {
+      this.clearData(this.formDataListBtmAdd)
+      this.clearData(this.formDataListThird)
+      this.clearData(this.formDataListForth)
+      this.clearData(this.contactInformationFormData)
+    },
+    clearData(items) {
+      for (let key in items) {
+        if (key !== 'mofDivName' && key !== 'budgetLevelName') {
+          items[key] = ''
+        }
+      }
+    },
     confirm() {
       let self = this
       let levelTableDatas = []
@@ -970,6 +983,7 @@ export default {
         this.showModal = true
         this.isAdd = true
         this.modalTitle = '新增'
+        this.clearFormDatas()
         this.formDataListBtmAdd.trackProCode = ''
         this.tableToolbarConfigInmodal.buttons = [
           { code: 'code-add', name: '新增行', status: 'primary', callback: this.addLine },
