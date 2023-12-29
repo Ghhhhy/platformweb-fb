@@ -176,10 +176,10 @@ export default {
         }
       },
       pagerConfig: {
-        autoHidden: true,
+        // autoHidden: true,
         total: 1,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       tableToolbarConfig: {
         // table工具栏配置
@@ -417,8 +417,8 @@ export default {
             this.reportTime = res.data.reportTime || ''
             this.caliberDeclareContent = res.data.description || ''
             if (this.settingPageConfig.usePage) {
-              this.pagerConfig.currentPage = res.data.pageNo
-              this.pagerConfig.currentPage = res.data.pageSize
+              // this.pagerConfig.currentPage = res.data.pageNo
+              // this.pagerConfig.currentPage = res.data.pageSize
               this.pagerConfig.total = res.data.totalCount
             }
           }
