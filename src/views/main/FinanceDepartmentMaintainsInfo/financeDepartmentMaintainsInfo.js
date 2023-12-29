@@ -1039,6 +1039,7 @@ export let config = () => {
       proAgencyName: '',
       mofDivName: '',
       budgetLevelName: '',
+      budgetLevelCode: '',
       speProName: '',
       speProCode: '',
       proDept_: '',

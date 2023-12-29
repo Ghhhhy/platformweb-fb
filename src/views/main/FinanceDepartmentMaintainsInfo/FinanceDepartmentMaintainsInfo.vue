@@ -386,6 +386,7 @@ export default {
     this.getFundInvestArea()
     this.getBudgetElement()
     this.formDataListBtmAdd.mofDivName = this.$store.state.userInfo.province
+    this.formDataListBtmAdd.budgetLevelCode = this.$store.state.userInfo.budgetlevelcode
     this.formDataListBtmAdd.budgetLevelName = this.$store.state.userInfo.budgetlevelname
     this.formDataListBtm.budgetLevelName = this.$store.state.userInfo.budgetlevelname
   },
@@ -983,7 +984,7 @@ export default {
     },
     clearData(items) {
       for (let key in items) {
-        if (key !== 'mofDivName' && key !== 'budgetLevelName') {
+        if (key !== 'mofDivName' && key !== 'budgetLevelName' && key !== 'budgetLevelCode') {
           items[key] = ''
         }
       }
