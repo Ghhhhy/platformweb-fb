@@ -1444,8 +1444,27 @@ export default {
           field: 'proAttchKindCode'
         },
         {
-          title: '附件代码',
-          field: 'proAttchKindName'
+          title: '附件分类',
+          field: 'proAttchKindName',
+          editRender: {
+            name: '$vxeSelect',
+            options: [
+              { value: '01', label: '项目审批（核准、备案）资料' },
+              { value: '02', label: '项目用地审批、环评审批、施工许可资料' },
+              { value: '03', label: '项目招投标和政府采购资料' },
+              { value: '04', label: '项目主要合同资料' },
+              { value: '05', label: '项目评审报告' },
+              { value: '11', label: '资金支出佐证资料' },
+              { value: '12', label: '财务会计资料' },
+              { value: '13', label: '工程资料' },
+              { value: '14', label: '项目形象进度照片' },
+              { value: '15', label: '竣工验收资料' },
+              { value: '99', label: '其他' }
+            ],
+            props: {
+              placeholder: '请选择附件分类'
+            }
+          }
         },
         {
           title: '附件说明',
