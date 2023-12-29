@@ -43,6 +43,7 @@
               :pager-config="false"
               :footer-config="footerConfigs"
               :toolbar-config="tableToolbarConfigInmodal"
+              @editClosed="budgetEditClose"
             />
           </el-tab-pane>
           <el-tab-pane label="项目总投资" name="3">
@@ -662,6 +663,18 @@ export default {
       }
       console.log(configs)
     },
+    // 新增绩效table编辑完
+    budgetEditClose(obj, grid) {
+      let row = obj.row
+      let property = obj.column.property
+      let rows = this.levelTableMap[row.lv1PerfIndCode][row.lv2PerfIndCode]
+      rows.forEach(r => {
+        if (r.rowId === row.rowId) {
+          r[property] = row[property]
+        }
+      })
+      console.log(this.levelTableMap)
+    },
     insertItemChange({ $form, property, itemValue, data }, bsform) {
       let sum = 0
       this.formDataListThird[property] = data[property]
@@ -913,11 +926,41 @@ export default {
         this.$message.error('表单信息未填写完整，请检查')
       })
     },
+    // ID随机生成
+    getUuid(hexDigits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz') { // 获取mapid
+      let s = []
+      for (let i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
+      }
+      s[14] = '4'
+      s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1)
+      s[8] = s[13] = s[18] = s[23] = ''
+      let uuid = s.join('')
+      return uuid
+    },
     // 根据二级指标获取一级指标并填充值
     addFormChange({ $form, property, itemValue, data, renderOpts, node, nodes, treeData }) {
-      console.log(data, node, nodes)
       this.formDataListBtm['lv1PerfIndName'] = data[property + 'name']
-      this.selectLevels = nodes
+      let levelTableMap = { ...(this.levelTableMap || {}) }
+      nodes.forEach(level => {
+        if (!levelTableMap[level.p.code]) {
+          levelTableMap[level.p.code] = {}
+        }
+        if (!levelTableMap[level.p.code][level.code]) {
+          levelTableMap[level.p.code][level.code] = []
+        }
+        levelTableMap[level.p.code][level.code].push({
+          rowId: this.getUuid(),
+          lv1PerfIndCode: level.p.code,
+          lv1PerfIndName: level.p.name,
+          lv2PerfIndCode: level.code,
+          lv2PerfIndName: level.name,
+          lv3PerfIndName: '',
+          kpiVal: ''
+        })
+      })
+      this.levelTableMap = levelTableMap
+      console.log(levelTableMap)
       let firstLevel = this.getFirstLevel(nodes, treeData)
       let firstlevelStr = ''
       for (let key in firstLevel) {
@@ -955,18 +998,27 @@ export default {
     confirm() {
       let self = this
       let levelTableDatas = []
-      self.selectLevels.forEach(level => {
-        levelTableDatas.push({
-          lv1PerfIndName: level.p.name,
-          lv2PerfIndName: level.name,
-          lv3PerfIndName: '',
-          kpiVal: ''
+      Object.keys(self.levelTableMap).forEach(firstLevelKey => {
+        let firstLevelObj = self.levelTableMap[firstLevelKey]
+        Object.keys(firstLevelObj).forEach(secondLevelKey => {
+          let levels = firstLevelObj[secondLevelKey]
+          levels.forEach(level => {
+            levelTableDatas.push({
+              rowId: level.rowId,
+              lv1PerfIndCode: level.lv1PerfIndCode,
+              lv1PerfIndName: level.lv1PerfIndName,
+              lv2PerfIndCode: level.lv2PerfIndCode,
+              lv2PerfIndName: level.lv2PerfIndName,
+              lv3PerfIndName: level.lv3PerfIndName,
+              kpiVal: level.kpiVal
+            })
+          })
         })
       })
       console.log(levelTableDatas)
       self.$refs.addBudget.formOptionsFn().validate().then(() => {
         self.showAddLineModal = false
-        self.$refs.bgtTblRef.$refs.xGrid.insert(levelTableDatas)
+        self.$refs.bgtTblRef.$refs.xGrid.reloadData(levelTableDatas)
       })
     },
     deleteLine() {
