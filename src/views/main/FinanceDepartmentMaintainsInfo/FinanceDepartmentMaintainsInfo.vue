@@ -289,7 +289,7 @@ export default {
       hideZero: true,
       tableCountUrl: '/dfr-monitor-service/dfr/pmProjectInfoDetail/count',
       tableCountParams: {
-        statusCodeArr: ['1', '2'],
+        statusCodeArr: ['1', '2', '5'],
         appId: 'pm_project_info_detail'
       },
       toolBarStatusBtnConfig: {
