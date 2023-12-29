@@ -759,6 +759,13 @@ export let config = () => {
         }
       },
       {
+        title: '三级指标编码',
+        field: 'lv3PerfIndCode',
+        editRender: {
+          name: '$input'
+        }
+      },
+      {
         title: '指标值',
         field: 'kpiVal',
         editRender: {
