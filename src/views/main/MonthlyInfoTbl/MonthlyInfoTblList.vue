@@ -1656,7 +1656,7 @@ export default {
       tableColumnsIdConfig: [
         {
           code: '1',
-          tid: 'C9FBBBAB7C254172AD54674B0BC75BD2',
+          tid: 'C9FBBBAB7C254172AD54674B0BC75BD3',
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
         }
       ],
