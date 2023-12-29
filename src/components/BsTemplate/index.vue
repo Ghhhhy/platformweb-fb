@@ -35,7 +35,6 @@
           open-loading
           style="overflow: hidden"
           :defaultexpandedkeys="['0']"
-          :is-server="true"
           :is-checkbox="$parent.isCheckbox || false"
           :ajax-type="treeAjaxType"
           :server-uri="treeServerUri"
@@ -93,7 +92,6 @@ export default {
       searchDataList: {},
       treeServerUri: '/dfr-monitor-service/dfr/common/elementtree',
       treeAjaxType: 'post',
-      treeData: [],
       treeQueryparams: {
         'elementCode': 'agency'
       },
@@ -103,7 +101,8 @@ export default {
       tableDataParams: {
         condition: {}
       },
-      tableConfig: {}
+      tableConfig: {},
+      treeData: []
     }
   },
   watch: {
@@ -354,9 +353,18 @@ export default {
           }
         }
       })
+    },
+    getLeftTree() {
+      this.$http.post(this.treeServerUri, this.treeQueryparams).then(res => {
+        console.log(res)
+        if (res && res.rscode === '200') {
+          this.treeData = res.data
+        }
+      })
     }
   },
   created() {
+    this.getLeftTree()
     if (this.$parent.pageTblColumns && this.$parent.pageTblColumns.length) {
       this.tableColumnsConfig = this.$parent.pageTblColumns
     }
