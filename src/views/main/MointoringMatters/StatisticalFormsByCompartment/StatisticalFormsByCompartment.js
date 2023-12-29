@@ -57,7 +57,7 @@ export let proconf = {
               'children': 'children'
             },
             'placeholder': '区划',
-            'multiple': false,
+            'multiple': true,
             'readonly': true,
             'isleaf': false
           }

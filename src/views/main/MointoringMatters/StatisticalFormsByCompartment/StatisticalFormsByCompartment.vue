@@ -183,7 +183,6 @@ export default {
       treeQueryparams: this.$store.getters.treeQueryparamsCom,
       fiscalYear: '',
       mofDivCodeList: [],
-      tempMofDivCodeList: [],
       agencyCodeList: []
     }
   },
@@ -191,8 +190,10 @@ export default {
   },
   methods: {
     FormItemChange(obj, row) {
+      if (this.$store.getters.isSx) {
+        return
+      }
       if (obj.property === 'mofDivCodeList' && obj.node.code) {
-        this.tempMofDivCodeList = [obj.node.code]
         this.getAgency(obj.node.code || this.$store.getters.getuserInfo.province)
       }
     },
@@ -304,7 +305,7 @@ export default {
       let fiscalYear = this.condition.fiscalYear[0]
       this.fiscalYear = fiscalYear
       this.agencyCodeList = val.agencyCodeList_code__multiple
-      this.mofDivCodeList = this.tempMofDivCodeList
+      this.mofDivCodeList = val.mofDivCodeList_code__multiple
       this.queryTableDatas(fiscalYear)
     },
     // 切换操作按钮
