@@ -1666,7 +1666,7 @@ export default {
         appId: 'pm_project_info_det_month'
       },
       hideZero: true,
-      tableCountUrl: '/dfr-monitor-service/dfr/pmProjectInfoDetMon/count',
+      tableCountUrl: '/dfr-monitor-service/dfr/pmProjectInfoDetMon/countAll',
       tableCountParams: {
         statusCodeArr: ['1', '2', '0'],
         appId: 'pm_project_info_det_month'
