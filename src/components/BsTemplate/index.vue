@@ -83,6 +83,7 @@ export default {
     return {
       isCustomApi: false,
       tableApi: '',
+      tableConfig: {},
       toolBarStatusBtnConfig: {
         changeBtns: true,
         methods: {
