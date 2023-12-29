@@ -35,13 +35,13 @@
           open-loading
           style="overflow: hidden"
           :defaultexpandedkeys="['0']"
-          :is-server="true"
+          :is-checkbox="$parent.isCheckbox || false"
           :ajax-type="treeAjaxType"
           :server-uri="treeServerUri"
           :datas="treeData"
           :queryparams="treeQueryparams"
           :global-config="treeGlobalConfig"
-          :clickmethod="handleNodeClick"
+          :nodecheckmethod="nodecheckmethod"
         />
       </template>
       <template v-slot:mainForm>
@@ -91,44 +91,76 @@ export default {
           bsToolbarClickEvent: this.onStatusTabClick
         }
       },
-      searchDataList: {}
+      searchDataList: {},
+      treeServerUri: '/dfr-monitor-service/dfr/common/elementtree',
+      treeAjaxType: 'post',
+      treeQueryparams: {
+        'elementCode': 'agency'
+      },
+      treeGlobalConfig: {
+        inputVal: ''
+      },
+      tableDataParams: {
+        condition: {}
+      },
+      tableConfig: {},
+      treeData: []
     }
   },
   watch: {
-    highQueryConfig() {
-      this.getSearchDataList()
+    highQueryConfig(newVal) {
+      if (newVal && newVal.length) {
+        this.searchDataList = this.initHightSearch(newVal)
+      }
     }
   },
   methods: {
-    // 初始化高级查询data
-    getSearchDataList() {
+    // 初始化高级查询参数
+    initHightSearch(hightQueryConfig) {
       // 下拉树
       let searchDataObj = {}
-      this.highQueryConfig.forEach((item) => {
-        if (
-          item.itemRender.name === '$formTreeInput' ||
-          item.itemRender.name === '$vxeTree'
-        ) {
-          if (item.field) {
-            searchDataObj[item.field + 'code'] = ''
+      hightQueryConfig.forEach(item => {
+        let field = item.field
+        if (item.itemRender) {
+          let renderName = item.itemRender.name
+          if (renderName === '$formTreeInput' || renderName === '$vxeTree') {
+            if (!field.endsWith('_')) {
+              field = field + '_'
+            }
+            searchDataObj[field + 'code'] = ''
+          } else if (renderName === '$vxeInput' && item.itemRender.props.readonly) {
+            if (field) {
+              searchDataObj[field + 'code'] = ''
+            }
+          } else {
+            if (field) {
+              searchDataObj[field] = ''
+            }
           }
         } else {
-          if (item.field) {
-            searchDataObj[item.field] = ''
+          if (field) {
+            searchDataObj[field] = ''
           }
         }
       })
-      this.searchDataList = searchDataObj
+      return searchDataObj
     },
-    search(val) {
-      this.searchDataList = val
-      console.log(val)
-      let condition = this.getConditionList()
+    highSearch() {
+      let condition = {}
+      this.highQueryConfig.forEach(item => {
+        // 下拉树
+        if (item.itemRender && (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree')) {
+          if (item.field) {
+            condition[item.field + 'code'] = []
+          }
+        } else {
+          if (item.field) {
+            condition[item.field] = ''
+          }
+        }
+      })
       for (let key in condition) {
-        if (
-          (this.searchDataList[key] !== undefined) &
-          (this.searchDataList[key] !== null)
-        ) {
+        if ((this.searchDataList[key] !== undefined) & (this.searchDataList[key] !== null)) {
           if (Array.isArray(this.searchDataList[key])) {
             condition[key] = this.searchDataList[key]
           } else if (typeof this.searchDataList[key] === 'string') {
@@ -140,27 +172,16 @@ export default {
           }
         }
       }
-      this.condition = condition
-      this.getTableData(this.detailType, this.code)
-    },
-    // 初始化高级查询参数condition
-    getConditionList() {
-      let condition = {}
-      this.highQueryConfig.forEach((item) => {
-        if (
-          item.itemRender.name === '$formTreeInput' ||
-          item.itemRender.name === '$vxeTree'
-        ) {
-          if (item.field) {
-            condition[item.field + 'code'] = []
-          }
-        } else {
-          if (item.field) {
-            condition[item.field] = []
-          }
-        }
-      })
       return condition
+    },
+    search(val) {
+      this.searchDataList = Object.assign(this.searchDataList, val)
+      const condition = this.mergeCondition()
+      if (this.searchDataList.create_date && this.searchDataList.create_date.trim() !== '') {
+        condition.create_date = this.searchDataList.create_date.replace(/-/g, '')
+      }
+      this.tableDataParams.condition = condition
+      this.getTableData()
     },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
@@ -231,7 +252,22 @@ export default {
       this.tableToolbarConfig = this.isEmptyObject(tableConfig.tableToolbarConfig) ? this.tableToolbarConfig : tableConfig.tableToolbarConfig
       params.tableId.id = current?.qid
       let queryConfig = await this.loadBsConfig(params)
-      this.highQueryConfig = queryConfig.itemsConfig || []
+      this.highQueryConfig = queryConfig.itemsConfig || [{
+        title: '预算单位',
+        field: 'pro_agency_',
+        itemRender: {
+          name: '$formTreeInput',
+          props: {
+            reloaddata: true,
+            isServer: true,
+            ajaxType: 'post',
+            serverUri: '/dfr-monitor-service/dfr/common/elementtree',
+            queryparams: {
+              'elementCode': 'agency'
+            }
+          }
+        }
+      }]
       this.highQueryConfig.forEach(item => {
         self.$set(this.searchDataList, item.field, '')
       })
@@ -241,7 +277,7 @@ export default {
         let param = {
           menuId: this.menuId,
           roleId: this.$store.state.curNavModule.roleguid,
-          condition: this.condition
+          condition: this.tableDataParams.condition
         }
         let apiparams = Object.assign(param, this.$parent.tableCountParams)
         this.$http.post(this.$parent.tableCountUrl, apiparams).then(res => {
@@ -257,6 +293,32 @@ export default {
         })
       }
     },
+    // 左侧树
+    nodecheckmethod(obj, isChecked, ischildChecked) {
+      const arr = isChecked.checkedNodes.map(item => item.code)
+      const key = 'pro_agency_code'
+      this.condition = { [key]: arr }
+      this.pagerConfig.pageNum = 1
+      this.mergeCondition(() => {
+        this.getTableData()
+      })
+    },
+    // agencyCode取左侧树和高级搜素并集
+    mergeCondition(cb) {
+      const keyCode = 'pro_agency_code'
+      const isEmptyCondition = () => !Object.keys(this.highSearch(this.highQueryConfig, this.searchDataList)).length
+      let code
+      if (!isEmptyCondition()) {
+        const [toolbarCode = [], treeCode = []] = [this.highSearch(this.highQueryConfig, this.searchDataList)[keyCode], this.condition[keyCode]]
+        code = Array.from(new Set([...toolbarCode, ...treeCode]))
+      } else {
+        code = this.condition[keyCode]
+      }
+      const condition = { ...this.highSearch(this.highQueryConfig, this.searchDataList), [keyCode]: code }
+      this.tableDataParams.condition = condition
+      cb && cb()
+      return condition
+    },
     getTableData() {
       this.showLoading = true
       let param = {
@@ -271,13 +333,13 @@ export default {
         // sumFieldArr: ['aviamt', 'useamt', 'canuseamt'],
         // scopeColumnArr: ['aviamt', 'plan_amt', 'create_time'],
         // sort: 'create_time desc',
-        condition: this.condition
+        condition: this.tableDataParams.condition
       }
       let apiparams = this.$parent.usePageParams ? {
         pageNum: this.pagerConfig.currentPage,
         pageSize: this.pagerConfig.pageSize
       } : this.isCustomApi ? Object.assign(param, this.$parent.tableParamsCustom) : Object.assign(param, this.$parent.tableParams)
-      Object.assign(apiparams.condition, this.condition)
+      Object.assign(apiparams.condition, this.tableDataParams.condition)
       if (this.$parent.isNoStatusCode) {
         delete apiparams.statusCode
       }
@@ -296,9 +358,18 @@ export default {
           }
         }
       })
+    },
+    getLeftTree() {
+      this.$http.post(this.treeServerUri, this.treeQueryparams).then(res => {
+        console.log(res)
+        if (res && res.rscode === '200') {
+          this.treeData = res.data
+        }
+      })
     }
   },
   created() {
+    this.getLeftTree()
     if (this.$parent.pageTblColumns && this.$parent.pageTblColumns.length) {
       this.tableColumnsConfig = this.$parent.pageTblColumns
     }
