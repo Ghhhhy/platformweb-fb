@@ -2225,6 +2225,7 @@ export default {
           let fundUsage = res.data.fundUsage
           let isFirst = res.data.isFirst
           localThis.formDataListBtm = proDetMonInfo
+          localThis.formDataListBtm.proAgencyName = proDetMonInfo.proAgencyCode + '-' + proDetMonInfo.proAgencyName
           localThis.tableData = perfGoalDetMonList
           localThis.formData = fundUsage
 
@@ -2287,7 +2288,7 @@ export default {
           localThis.proDetId = proDetMonInfo.proDetId
           localThis.genMonthId = proDetMonInfo.genMonthId
           localThis.proDetMonId = proDetMonInfo.proDetMonId
-
+          localThis.formDataListBtm.proAgencyName = proDetMonInfo.proAgencyCode + '-' + proDetMonInfo.proAgencyName
           this.showModal = true
           this.modalTitle = '编辑'
           localThis.showModalFooter = true
