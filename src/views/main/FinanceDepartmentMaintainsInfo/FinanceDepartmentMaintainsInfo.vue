@@ -32,19 +32,6 @@
               @itemChange="BtminsertItemChange"
             />
           </el-tab-pane>
-          <el-tab-pane label="绩效目标" name="2">
-            <BsTable
-              ref="bgtTblRef"
-              height="530"
-              :table-columns-config="modalTblColumnsConfig"
-              :span-method="objectSpanMethod"
-              :table-data="tableData"
-              :high-config="{ scrollY: { enabled: false } }"
-              :pager-config="false"
-              :footer-config="footerConfigs"
-              :toolbar-config="tableToolbarConfigInmodal"
-            />
-          </el-tab-pane>
           <el-tab-pane label="项目总投资" name="3">
             <BsForm
               ref="addFormthrid"
@@ -68,6 +55,26 @@
               :form-items-config="contactInformationFormConfig"
               :form-data-list="contactInformationFormData"
               :form-validation-config="contactInformationFormDataRequired"
+            />
+          </el-tab-pane>
+          <el-tab-pane label="绩效目标" name="2">
+            <BsForm
+              ref="KPIForm"
+              :form-items-config="KPIFormConfig"
+              :form-data-list="KPIFormData"
+              :form-validation-config="KPIFormDataRequired"
+            />
+            <BsTable
+              ref="bgtTblRef"
+              height="530"
+              :table-columns-config="modalTblColumnsConfig"
+              :span-method="objectSpanMethod"
+              :table-data="tableData"
+              :high-config="{ scrollY: { enabled: false } }"
+              :pager-config="false"
+              :footer-config="footerConfigs"
+              :toolbar-config="tableToolbarConfigInmodal"
+              @editClosed="budgetEditClose"
             />
           </el-tab-pane>
           <el-tab-pane label="项目附件" name="6">
@@ -106,7 +113,16 @@
               :footer-config="{ showFooter: false }"
               :toolbar-config="tableToolbarConfigAttach"
               @editClosed="editClosed"
-            />
+            >
+              <template v-slot:pagerLeftSlots>
+                <div class="table-toolbar-left">
+                  <div class="table-toolbar-left-title">
+                    <span class="fn-inline"><span>支持png/jpg/pdf等，不超过20M</span></span>
+                    <i class="fn-inline"></i>
+                  </div>
+                </div>
+              </template>
+            </BsTable>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -159,13 +175,11 @@
         <vxe-button status="primary" @click="confirm">确定</vxe-button>
       </div>
     </vxe-modal>
-
   </div>
 </template>
 <script>
 import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfo.js'
 import { config } from './financeDepartmentMaintainsInfo'
-// import { DownLoadToFile } from '@/api/http'
 
 export default {
   data() {
@@ -192,6 +206,9 @@ export default {
           name: 1
         }
       ],
+      KPIFormConfig: config().KPIFormConfig,
+      KPIFormData: config().KPIFormData,
+      KPIFormDataRequired: config().KPIFormDataRequired,
       contactInformationFormDataRequired: config().contactInformationFormDataRequired,
       contactInformationFormConfig: config().contactInformationFormConfig,
       contactInformationFormData: config().contactInformationFormData,
@@ -258,7 +275,8 @@ export default {
       tableData: [],
       modalTblColumnsConfig: config().modalTblColumnsConfig,
       addModal: false,
-      hideTree: true,
+      hideTree: false,
+      isCheckbox: false,
       tableColumnsIdConfig: [
         {
           code: '1',
@@ -391,6 +409,7 @@ export default {
     this.getFundInvestArea()
     this.getBudgetElement()
     this.formDataListBtmAdd.mofDivName = this.$store.state.userInfo.province
+    this.formDataListBtmAdd.budgetLevelCode = this.$store.state.userInfo.budgetlevelcode
     this.formDataListBtmAdd.budgetLevelName = this.$store.state.userInfo.budgetlevelname
     this.formDataListBtm.budgetLevelName = this.$store.state.userInfo.budgetlevelname
   },
@@ -666,7 +685,17 @@ export default {
       } else {
         this.formItemsConfigBtm = [...configs]
       }
-      console.log(configs)
+    },
+    // 新增绩效table编辑完
+    budgetEditClose(obj, grid) {
+      let row = obj.row
+      let property = obj.column.property
+      let rows = this.levelTableMap[row.lv1PerfIndCode][row.lv2PerfIndCode]
+      rows.forEach(r => {
+        if (r.rowId === row.rowId) {
+          r[property] = row[property]
+        }
+      })
     },
     insertItemChange({ $form, property, itemValue, data }, bsform) {
       let sum = 0
@@ -749,9 +778,6 @@ export default {
       })
     },
     objectSpanMethod({ row, column, rowIndex, columnIndex, visibleData }) {
-      if (this.isAdd) {
-        return { rowspan: 1, colspan: 1 }
-      }
       if (columnIndex === 2) {
         const cellValue = row['lv1PerfIndCode']
         const prevRow = visibleData[rowIndex - 1]
@@ -816,96 +842,105 @@ export default {
       this.$refs.addForm.formOptionsFn().validate().then(() => {
         this.$refs.addFormthrid.formOptionsFn().validate().then(() => {
           this.$refs.addFormForth.formOptionsFn().validate().then(() => {
-            this.$refs.contactInformationForm.formOptionsFn().validate().then(() => {
-              let localThis = this
-              console.log()
-              localThis.$refs.tmp.showLoading = true
-              let fileList = []
-              let fileDataList = localThis.$refs.fileDataRef.getTableData().fullData
-              if (fileDataList && fileDataList.length > 0) {
-                fileDataList.forEach((item) => {
-                  fileList.push({
-                    fileName: item.fileName,
-                    kpiRemark: item.kpiRemark,
-                    proAttchKindCode: item.proAttchKindCode,
-                    proAttchKindName: item.proAttchKindCode__viewSort,
-                    proAttchId: item.proAttchId
+            this.$refs.KPIForm.formOptionsFn().validate().then(() => {
+              this.$refs.contactInformationForm.formOptionsFn().validate().then(() => {
+                let localThis = this
+                console.log()
+                localThis.$refs.tmp.showLoading = true
+                let fileList = []
+                let fileDataList = localThis.$refs.fileDataRef.getTableData().fullData
+                if (fileDataList && fileDataList.length > 0) {
+                  fileDataList.forEach((item) => {
+                    fileList.push({
+                      fileName: item.fileName,
+                      kpiRemark: item.kpiRemark,
+                      proAttchKindCode: item.proAttchKindCode,
+                      proAttchKindName: item.proAttchKindCode__viewSort,
+                      proAttchId: item.proAttchId
+                    })
                   })
-                })
-              }
-              // 保存时去掉树id##code##name
-              let btmFormData = localThis.$refs.addForm.getFormData()
-              for (let key in btmFormData) {
-                if (this.treeProps.indexOf(key) > -1) {
-                  let p = key.substr(0, key.length - 1)
-                  let value = (btmFormData[key] || '').split('##')
-                  if (value[0].indexOf('initId') > -1) {
-                    btmFormData[p + 'Name'] = value[1] + '##' + value[2]
-                  } else {
-                    btmFormData[p + 'Name'] = btmFormData[key + 'name']
-                  }
-                  btmFormData[p + 'Code'] = btmFormData[key + 'code']
-                  delete btmFormData[key]
-                  delete btmFormData[key + 'id']
-                  delete btmFormData[key + 'code']
-                  delete btmFormData[key + 'name']
                 }
-                if (key === 'proAgencyName') {
-                  btmFormData['proAgencyName'] = btmFormData['proAgencyName'].replace(btmFormData['proAgencyCode'] + '-', '')
-                }
-                if (key === 'proStaDate' || key === 'proEndDate' || key === 'proRealStaDate' || key === 'proRealEndDate') {
-                  btmFormData[key] = btmFormData[key].replaceAll('-', '')
-                }
-              }
-              let params = {
-                projectInfo: btmFormData,
-                // projectInfo: localThis.formDataListBtm,
-                perfIndica: localThis.$refs.bgtTblRef.getTableData().tableData,
-                proGiSource: localThis.$refs.addFormthrid.getFormData(),
-                // 项目总投资
-                approvalDoc: localThis.$refs.addFormForth.getFormData(),
-                // 联系方式
-                depInfo: localThis.$refs.contactInformationForm.getFormData(),
-                attchs: fileList
-              }
-              console.log(params)
-              if (localThis.proDetId === '') {
-                // 新增---待修改
-                params.proDetId = localThis.proDetId
-                params.projectInfo.proDetId = localThis.proDetId
-                HttpModule.editDataRecord(params).then((res) => {
-                  if (res.rscode === '200') {
-                    this.showModal = false
-                    localThis.$message.success('操作成功')
-                    localThis.$refs.tmp.refresh()
-                  } else {
-                    if (res.message) {
-                      localThis.$message.error('数据保存询失败:' + res.message)
+                // 保存时去掉树id##code##name
+                let btmFormData = localThis.$refs.addForm.getFormData()
+                for (let key in btmFormData) {
+                  if (this.treeProps.indexOf(key) > -1) {
+                    let p = key.substr(0, key.length - 1)
+                    let value = (btmFormData[key] || '').split('##')
+                    if (value[0].indexOf('initId') > -1) {
+                      btmFormData[p + 'Name'] = value[1] + '##' + value[2]
                     } else {
-                      localThis.$message.error('数据保存询失败')
+                      btmFormData[p + 'Name'] = btmFormData[key + 'name']
                     }
+                    btmFormData[p + 'Code'] = btmFormData[key + 'code']
+                    delete btmFormData[key]
+                    delete btmFormData[key + 'id']
+                    delete btmFormData[key + 'code']
+                    delete btmFormData[key + 'name']
                   }
-                  localThis.$refs.tmp.showLoading = false
-                })
-              } else {
-                // 修改
-                params.proDetId = localThis.proDetId
-                params.projectInfo.proDetId = localThis.proDetId
-                HttpModule.editDataRecord(params).then((res) => {
-                  if (res.rscode === '200') {
-                    this.showModal = false
-                    localThis.$message.success('操作成功')
-                    localThis.$refs.tmp.refresh()
-                  } else {
-                    if (res.message) {
-                      localThis.$message.error('数据编辑保存询失败:' + res.message)
+                  if (key === 'proAgencyName') {
+                    btmFormData['proAgencyName'] = btmFormData['proAgencyName'].replace(btmFormData['proAgencyCode'] + '-', '')
+                  }
+                  if (key === 'proStaDate' || key === 'proEndDate' || key === 'proRealStaDate' || key === 'proRealEndDate') {
+                    btmFormData[key] = btmFormData[key].replaceAll('-', '')
+                  }
+                } let kpiTarget = localThis.$refs.KPIForm.getFormData().kpiTarget
+                let params = {
+                  projectInfo: { ...btmFormData, kpiTarget: kpiTarget },
+                  // projectInfo: localThis.formDataListBtm,
+                  perfIndica: localThis.$refs.bgtTblRef.getTableData().tableData,
+                  proGiSource: localThis.$refs.addFormthrid.getFormData(),
+                  // 项目总投资
+                  approvalDoc: localThis.$refs.addFormForth.getFormData(),
+                  // 联系方式
+                  depInfo: localThis.$refs.contactInformationForm.getFormData(),
+                  attchs: fileList
+                }
+                console.log(params)
+                if (localThis.proDetId === '') {
+                  // 新增---待修改
+                  params.proDetId = localThis.proDetId
+                  params.projectInfo.proDetId = localThis.proDetId
+                  params.appId = 'pm_project_info_detail'
+                  params.menuId = this.menuId
+                  params.actionType = 1
+                  params.actionName = '录入'
+                  params.advice = ''
+                  HttpModule.insertDataRecord(params).then((res) => {
+                    if (res.rscode === '200') {
+                      this.showModal = false
+                      localThis.$message.success('操作成功')
+                      localThis.$refs.tmp.refresh()
                     } else {
-                      localThis.$message.error('数据编辑保存询失败')
+                      if (res.message) {
+                        localThis.$message.error('数据保存询失败:' + res.message)
+                      } else {
+                        localThis.$message.error('数据保存询失败')
+                      }
                     }
-                  }
-                  localThis.$refs.tmp.showLoading = false
-                })
-              }
+                    localThis.$refs.tmp.showLoading = false
+                  })
+                } else {
+                  // 修改
+                  params.proDetId = localThis.proDetId
+                  params.projectInfo.proDetId = localThis.proDetId
+                  HttpModule.editDataRecord(params).then((res) => {
+                    if (res.rscode === '200') {
+                      this.showModal = false
+                      localThis.$message.success('操作成功')
+                      localThis.$refs.tmp.refresh()
+                    } else {
+                      if (res.message) {
+                        localThis.$message.error('数据编辑保存询失败:' + res.message)
+                      } else {
+                        localThis.$message.error('数据编辑保存询失败')
+                      }
+                    }
+                    localThis.$refs.tmp.showLoading = false
+                  })
+                }
+              }).catch(() => {
+                this.$message.error('表单信息未填写完整，请检查')
+              })
             }).catch(() => {
               this.$message.error('表单信息未填写完整，请检查')
             })
@@ -919,11 +954,41 @@ export default {
         this.$message.error('表单信息未填写完整，请检查')
       })
     },
+    // ID随机生成
+    getUuid(hexDigits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz') { // 获取mapid
+      let s = []
+      for (let i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
+      }
+      s[14] = '4'
+      s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1)
+      s[8] = s[13] = s[18] = s[23] = ''
+      let uuid = s.join('')
+      return uuid
+    },
     // 根据二级指标获取一级指标并填充值
     addFormChange({ $form, property, itemValue, data, renderOpts, node, nodes, treeData }) {
-      console.log(data, node, nodes)
       this.formDataListBtm['lv1PerfIndName'] = data[property + 'name']
-      this.selectLevels = nodes
+      let levelTableMap = { ...(this.levelTableMap || {}) }
+      nodes.forEach(level => {
+        if (!levelTableMap[level.p.code]) {
+          levelTableMap[level.p.code] = {}
+        }
+        if (!levelTableMap[level.p.code][level.code]) {
+          levelTableMap[level.p.code][level.code] = []
+        }
+        levelTableMap[level.p.code][level.code].push({
+          rowId: this.getUuid(),
+          lv1PerfIndCode: level.p.code,
+          lv1PerfIndName: level.p.name,
+          lv2PerfIndCode: level.code,
+          lv2PerfIndName: level.name,
+          lv3PerfIndName: '',
+          lv3PerfIndCode: '',
+          kpiVal: ''
+        })
+      })
+      this.levelTableMap = levelTableMap
       let firstLevel = this.getFirstLevel(nodes, treeData)
       let firstlevelStr = ''
       for (let key in firstLevel) {
@@ -931,7 +996,6 @@ export default {
       }
       this.addBudgetFormData.lv1PerfIndName = firstlevelStr.substr(0, firstlevelStr.length - 1)
       data.lv1PerfIndName = firstlevelStr.substr(0, firstlevelStr.length - 1)
-      console.log(this.addBudgetFormData)
     },
     getFirstLevel(nodes, treeData, pnodes = {}) {
       nodes.forEach(node => {
@@ -953,7 +1017,7 @@ export default {
     },
     clearData(items) {
       for (let key in items) {
-        if (key !== 'mofDivName' && key !== 'budgetLevelName') {
+        if (key !== 'mofDivName' && key !== 'budgetLevelName' && key !== 'budgetLevelCode') {
           items[key] = ''
         }
       }
@@ -961,18 +1025,27 @@ export default {
     confirm() {
       let self = this
       let levelTableDatas = []
-      self.selectLevels.forEach(level => {
-        levelTableDatas.push({
-          lv1PerfIndName: level.p.name,
-          lv2PerfIndName: level.name,
-          lv3PerfIndName: '',
-          kpiVal: ''
+      Object.keys(self.levelTableMap).forEach(firstLevelKey => {
+        let firstLevelObj = self.levelTableMap[firstLevelKey]
+        Object.keys(firstLevelObj).forEach(secondLevelKey => {
+          let levels = firstLevelObj[secondLevelKey]
+          levels.forEach(level => {
+            levelTableDatas.push({
+              rowId: level.rowId,
+              lv1PerfIndCode: level.lv1PerfIndCode,
+              lv1PerfIndName: level.lv1PerfIndName,
+              lv2PerfIndCode: level.lv2PerfIndCode,
+              lv2PerfIndName: level.lv2PerfIndName,
+              lv3PerfIndName: level.lv3PerfIndName,
+              lv3PerfIndCode: level.lv3PerfIndCode,
+              kpiVal: level.kpiVal
+            })
+          })
         })
       })
-      console.log(levelTableDatas)
       self.$refs.addBudget.formOptionsFn().validate().then(() => {
         self.showAddLineModal = false
-        self.$refs.bgtTblRef.$refs.xGrid.insert(levelTableDatas)
+        self.$refs.bgtTblRef.$refs.xGrid.reloadData(levelTableDatas)
       })
     },
     deleteLine() {
@@ -998,7 +1071,7 @@ export default {
         this.clearFormDatas()
         this.formDataListBtmAdd.trackProCode = ''
         this.tableToolbarConfigInmodal.buttons = [
-          { code: 'code-add', name: '新增行', status: 'primary', callback: this.addLine },
+          { code: 'code-add', name: '新增', status: 'primary', callback: this.addLine },
           { code: 'code-delete', name: '删除', status: 'primary', callback: this.deleteLine }
         ]
         delete this.tableToolbarConfigInmodal.slots
@@ -1248,6 +1321,7 @@ export default {
       localThis.formDataListBtm.proRealEndDate = this.stringToDate(projectInfo.proRealEndDate)
       localThis.formDataListBtm.proNotStaRea = projectInfo.proNotStaRea
       localThis.formDataListBtm.kpiTarget = projectInfo.kpiTarget
+      localThis.KPIFormData.kpiTarget = projectInfo.kpiTarget
       localThis.formDataListBtm.isUseMultiTrackPro = projectInfo.isUseMultiTrackPro
       localThis.formDataListBtm.fundInvestAreaDesc = projectInfo.fundInvestAreaDesc
       localThis.formDataListBtm.isEnd = projectInfo.isEnd
