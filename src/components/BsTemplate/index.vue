@@ -91,8 +91,7 @@ export default {
           bsToolbarClickEvent: this.onStatusTabClick
         }
       },
-      searchDataList: {},
-      tableFooterConfig: {}
+      searchDataList: {}
     }
   },
   watch: {
