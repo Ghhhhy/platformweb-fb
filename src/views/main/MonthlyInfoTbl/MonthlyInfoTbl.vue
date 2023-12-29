@@ -1910,7 +1910,7 @@ export default {
           title: '指标完成情况',
           field: 'kpiComp',
           editRender: {
-            name: '$vxeMoney'
+            name: '$vxeInput'
           }
         }
       ],
