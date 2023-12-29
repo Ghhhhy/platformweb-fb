@@ -283,14 +283,14 @@
                   </tr>
                   <!-- 详细 -->
                   <tr>
-                    <td colspan="3">累计最终支出金额</td>
+                    <td colspan="3">累计最终支付资金（合计）</td>
                     <td>{{ proGiFinalAcc }}</td>
                     <td>{{ proGiFinalPre }}</td>
                   </tr>
 
                   <tr>
                     <td rowspan="32" style="width: 150px;">其中</td>
-                    <td rowspan="4">增发国债基金</td>
+                    <td rowspan="4">增发国债资金</td>
                     <td>建筑安装工程投资支出</td>
                     <td>
                       <vxe-form-item title="" field="name" style="width: 100%">
@@ -1556,8 +1556,27 @@ export default {
           field: 'proAttchKindCode'
         },
         {
-          title: '附件代码',
-          field: 'proAttchKindName'
+          title: '附件分类',
+          field: 'proAttchKindName',
+          editRender: {
+            name: '$vxeSelect',
+            options: [
+              { value: '01', label: '项目审批（核准、备案）资料' },
+              { value: '02', label: '项目用地审批、环评审批、施工许可资料' },
+              { value: '03', label: '项目招投标和政府采购资料' },
+              { value: '04', label: '项目主要合同资料' },
+              { value: '05', label: '项目评审报告' },
+              { value: '11', label: '资金支出佐证资料' },
+              { value: '12', label: '财务会计资料' },
+              { value: '13', label: '工程资料' },
+              { value: '14', label: '项目形象进度照片' },
+              { value: '15', label: '竣工验收资料' },
+              { value: '99', label: '其他' }
+            ],
+            props: {
+              placeholder: '请选择附件分类'
+            }
+          }
         },
         {
           title: '附件说明',
@@ -1910,7 +1929,7 @@ export default {
           title: '指标完成情况',
           field: 'kpiComp',
           editRender: {
-            name: '$vxeMoney'
+            name: '$vxeInput'
           }
         }
       ],
@@ -2405,7 +2424,6 @@ export default {
           localThis.formDataListBtm.proAgencyName = proDetMonInfo.proAgencyCode + '-' + proDetMonInfo.proAgencyName
           localThis.tableData = perfGoalDetMonList
           localThis.formData = fundUsage
-
           localThis.isFirst = isFirst
           localThis.isClearable = isFirst
           localThis.showModal = true
