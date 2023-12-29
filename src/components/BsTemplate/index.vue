@@ -53,6 +53,7 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :table-config="tableConfig"
+          :show-zero="true"
           @ajaxData="ajaxTableData"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
@@ -90,7 +91,12 @@ export default {
           bsToolbarClickEvent: this.onStatusTabClick
         }
       },
-      searchDataList: {}
+      searchDataList: {},
+      tableFooterConfig: {
+        showFooter: true,
+        totalObj: {},
+        combinedType: ['total', 'switchTotal']
+      }
     }
   },
   watch: {
