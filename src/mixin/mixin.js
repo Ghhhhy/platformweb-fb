@@ -8,6 +8,20 @@ export default {
         pageSize: 20,
         currentPage: 0
       },
+      tableConfig: {
+        renderers: {
+          $gloableOptionReport: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="" placement="" effect="light">
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.viewOprationLog({ row, column })}>查看</span>
+                </el-tooltip>
+              ]
+            }
+          }
+        }
+      },
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
@@ -139,6 +153,28 @@ export default {
     },
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen
+    },
+    // 操作日志
+    viewOprationLog(row) {
+      // HttpModule.getLogs(row.dealNo).then(res => {
+      //   if (res.code === '000000') {
+      //     let tempData = res.data?.map(item => {
+      //       return {
+      //         logid: item['operationTypeCode'],
+      //         nodeName: item['operationTypeName'],
+      //         actionUser: item['operationUser'],
+      //         actionName: item['operationTypeName'],
+      //         actionTime: item['createdTime'] == null ? '' : item['createdTime'],
+      //         message: item['operationComment']
+      //       }
+      //     })
+      //     this.logData = tempData
+      //     console.log(this.logData)
+      //     this.showLogView = true
+      //   } else {
+      //     this.$message.error(res.message)
+      //   }
+      // })
     }
   },
   computed: {

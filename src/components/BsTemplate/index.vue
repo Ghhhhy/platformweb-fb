@@ -73,6 +73,7 @@
         </BsTable>
       </template>
     </BsMainFormListLayout>
+    <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
   </div>
 </template>
 <script>
@@ -84,7 +85,6 @@ export default {
     return {
       isCustomApi: false,
       tableApi: '',
-      tableConfig: {},
       toolBarStatusBtnConfig: {
         changeBtns: true,
         methods: {
