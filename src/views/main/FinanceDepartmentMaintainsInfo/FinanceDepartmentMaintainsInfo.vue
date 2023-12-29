@@ -369,6 +369,12 @@ export default {
               code: 'pay-checkDetails',
               label: '查看详情'
             }
+          ],
+          '5': [
+            {
+              code: 'pay-checkDetails',
+              label: '查看详情'
+            }
           ]
         }
       },
