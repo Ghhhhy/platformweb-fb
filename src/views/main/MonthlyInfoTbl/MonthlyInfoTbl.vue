@@ -1924,17 +1924,17 @@ export default {
         },
         {
           code: '1',
-          tid: 'C9FBBBAB7C254172AD54674B0BC75BD2',
+          tid: 'C9FBBBAB7C254172AD54674B0BC75BD3',
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
         },
         {
           code: '2',
-          tid: 'C9FBBBAB7C254172AD54674B0BC75BD2',
+          tid: 'C9FBBBAB7C254172AD54674B0BC75BD3',
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
         },
         {
           code: '0',
-          tid: 'C9FBBBAB7C254172AD54674B0BC75BD2',
+          tid: 'C9FBBBAB7C254172AD54674B0BC75BD3',
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
         }
       ],
@@ -2402,6 +2402,7 @@ export default {
           let fundUsage = res.data.fundUsage
           let isFirst = res.data.isFirst
           localThis.formDataListBtm = proDetMonInfo
+          localThis.formDataListBtm.proAgencyName = proDetMonInfo.proAgencyCode + '-' + proDetMonInfo.proAgencyName
           localThis.tableData = perfGoalDetMonList
           localThis.formData = fundUsage
 
@@ -2464,7 +2465,7 @@ export default {
           localThis.proDetId = proDetMonInfo.proDetId
           localThis.genMonthId = proDetMonInfo.genMonthId
           localThis.proDetMonId = proDetMonInfo.proDetMonId
-
+          localThis.formDataListBtm.proAgencyName = proDetMonInfo.proAgencyCode + '-' + proDetMonInfo.proAgencyName
           this.showModal = true
           this.modalTitle = '编辑'
           localThis.showModalFooter = true
