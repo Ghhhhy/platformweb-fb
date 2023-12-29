@@ -1823,7 +1823,7 @@ export default {
       ],
       addModal: false,
       hideTree: false,
-      isCheckbox: true,
+      isCheckbox: false,
       tableColumnsIdConfig: [
         {
           code: '1',

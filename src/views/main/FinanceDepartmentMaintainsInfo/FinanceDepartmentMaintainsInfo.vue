@@ -276,7 +276,7 @@ export default {
       modalTblColumnsConfig: config().modalTblColumnsConfig,
       addModal: false,
       hideTree: false,
-      isCheckbox: true,
+      isCheckbox: false,
       tableColumnsIdConfig: [
         {
           code: '1',
