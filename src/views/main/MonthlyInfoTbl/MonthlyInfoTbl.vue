@@ -1302,7 +1302,9 @@
           </el-tab-pane>
           <el-tab-pane label="绩效目标完成情况" name="3">
             <div class="fsc">
-              <div style="text-align:right;padding-right:10px;min-width:180px;align-self: flex-start;">总体绩效目标完成情况说明</div>
+              <div style="text-align:right;padding-right:10px;min-width:180px;align-self: flex-start;">
+                <span v-if="btnClickType !== 'pay-checkDetails'" style="color:red;">*</span>总体绩效目标完成情况说明
+              </div>
               <div style="flex:1;">
                 <vxe-textarea v-model="formDataListBtm.proPerfAll" :disabled="btnClickType === 'pay-checkDetails'" resize="vertical" />
               </div>
@@ -2250,6 +2252,10 @@ export default {
       }
     },
     handleSure() {
+      if (this.btnClickType !== 'pay-checkDetails' && !this.formDataListBtm.proPerfAll) {
+        this.$message.warning('请填写总体绩效目标完成情况说明')
+        return
+      }
       let localThis = this
       let fileList = []
       let fileDataList = localThis.$refs.fileDataRef.getTableData().fullData
