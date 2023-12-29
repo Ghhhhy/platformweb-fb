@@ -661,7 +661,6 @@ export default {
       } else {
         this.formItemsConfigBtm = [...configs]
       }
-      console.log(configs)
     },
     // 新增绩效table编辑完
     budgetEditClose(obj, grid) {
@@ -673,7 +672,6 @@ export default {
           r[property] = row[property]
         }
       })
-      console.log(this.levelTableMap)
     },
     insertItemChange({ $form, property, itemValue, data }, bsform) {
       let sum = 0
@@ -756,9 +754,6 @@ export default {
       })
     },
     objectSpanMethod({ row, column, rowIndex, columnIndex, visibleData }) {
-      if (this.isAdd) {
-        return { rowspan: 1, colspan: 1 }
-      }
       if (columnIndex === 2) {
         const cellValue = row['lv1PerfIndCode']
         const prevRow = visibleData[rowIndex - 1]
@@ -960,7 +955,6 @@ export default {
         })
       })
       this.levelTableMap = levelTableMap
-      console.log(levelTableMap)
       let firstLevel = this.getFirstLevel(nodes, treeData)
       let firstlevelStr = ''
       for (let key in firstLevel) {
@@ -968,7 +962,6 @@ export default {
       }
       this.addBudgetFormData.lv1PerfIndName = firstlevelStr.substr(0, firstlevelStr.length - 1)
       data.lv1PerfIndName = firstlevelStr.substr(0, firstlevelStr.length - 1)
-      console.log(this.addBudgetFormData)
     },
     getFirstLevel(nodes, treeData, pnodes = {}) {
       nodes.forEach(node => {
@@ -1015,7 +1008,6 @@ export default {
           })
         })
       })
-      console.log(levelTableDatas)
       self.$refs.addBudget.formOptionsFn().validate().then(() => {
         self.showAddLineModal = false
         self.$refs.bgtTblRef.$refs.xGrid.reloadData(levelTableDatas)
