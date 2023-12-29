@@ -1301,12 +1301,12 @@
             </vxe-form>
           </el-tab-pane>
           <el-tab-pane label="绩效目标完成情况" name="3">
-            <el-row>
-              <el-col span="5">总体绩效目标完成情况说明</el-col>
-              <el-col span="19">
+            <div class="fsc">
+              <div style="text-align:right;padding-right:10px;min-width:180px;align-self: flex-start;">总体绩效目标完成情况说明</div>
+              <div style="flex:1;">
                 <vxe-textarea v-model="formDataListBtm.proPerfAll" :disabled="btnClickType === 'pay-checkDetails'" resize="vertical" />
-              </el-col>
-            </el-row>
+              </div>
+            </div>
             <BsTable
               ref="perfGoalDetMonRef"
               height="530"
