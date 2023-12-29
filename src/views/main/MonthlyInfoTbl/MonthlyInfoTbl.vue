@@ -1952,6 +1952,11 @@ export default {
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
         },
         {
+          code: '5',
+          tid: 'C9FBBBAB7C254172AD54674B0BC75BD3',
+          qid: '315DDFED8D444D678B5C65E6DB5087E3'
+        },
+        {
           code: '0',
           tid: 'C9FBBBAB7C254172AD54674B0BC75BD3',
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
@@ -1965,7 +1970,7 @@ export default {
       hideZero: true,
       tableCountUrl: '/dfr-monitor-service/dfr/pmProjectInfoDetMon/count',
       tableCountParams: {
-        statusCodeArr: ['1', '2', '9'],
+        statusCodeArr: ['1', '2', '5', '9'],
         appId: 'pm_project_info_det_month'
       },
       toolBarStatusBtnConfig: {
@@ -1997,6 +2002,15 @@ export default {
             label: '已办事项',
             code: '2',
             curValue: '2'
+          },
+          {
+            type: 'button',
+            iconName: 'base-yiban.png',
+            iconNameActive: 'base-yiban-active.png',
+            iconUrl: '',
+            label: '已作废',
+            code: '5',
+            curValue: '5'
           }
         ],
         curButton: {
