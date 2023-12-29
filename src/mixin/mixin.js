@@ -129,6 +129,12 @@ export default {
     },
     roleguid() {
       return this.curNavModule.roleguid
+    },
+    isEmptyObject(o) {
+      for (var p in o) {
+        if (o.hasOwnProperty(p)) return false
+      }
+      return true
     }
   },
   watch: {

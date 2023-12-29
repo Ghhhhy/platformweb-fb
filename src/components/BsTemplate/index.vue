@@ -92,11 +92,7 @@ export default {
         }
       },
       searchDataList: {},
-      tableFooterConfig: {
-        showFooter: true,
-        totalObj: {},
-        combinedType: ['total', 'switchTotal']
-      }
+      tableFooterConfig: {}
     }
   },
   watch: {
@@ -232,6 +228,8 @@ export default {
       params.tableId.id = current?.tid
       let tableConfig = await this.loadBsConfig(params)
       this.tableColumnsConfig = tableConfig.itemsConfig
+      this.tableFooterConfig = this.isEmptyObject(tableConfig.footerConfig) ? this.tableFooterConfig : tableConfig.footerConfig
+      this.tableToolbarConfig = this.isEmptyObject(tableConfig.tableToolbarConfig) ? this.tableToolbarConfig : tableConfig.tableToolbarConfig
       params.tableId.id = current?.qid
       let queryConfig = await this.loadBsConfig(params)
       this.highQueryConfig = queryConfig.itemsConfig || []
