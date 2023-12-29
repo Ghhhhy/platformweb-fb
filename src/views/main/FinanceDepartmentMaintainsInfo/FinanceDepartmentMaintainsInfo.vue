@@ -502,7 +502,8 @@ export default {
               proLessorMtel: item['__EMPTY_14'],
               kpiTarget: item['*总体绩效目标'],
               isEnd: item['*项目是否终结'] === '是' ? '1' : '2',
-              budgetlevelname: this.$store.state.userInfo.budgetlevelname
+              budgetLevelCode: self.$store.state.userInfo.budgetlevelcode,
+              budgetLevelName: self.$store.state.userInfo.budgetlevelname
             }
           })
           console.log(basicInfoRes)
