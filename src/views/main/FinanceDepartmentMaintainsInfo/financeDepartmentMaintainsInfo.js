@@ -679,7 +679,7 @@ export let config = () => {
         title: '项目所属投向领域说明',
         span: 24,
         titleWidth: '240',
-        itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', placeholder: '请输入项目所属投向领域说明', maxlength: 2000 } }
+        itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', placeholder: '当存在多个项目所属投向领域时，请填写多个项目所属投向领域的代码和名称，否则为空', maxlength: 2000 } }
       },
       {
         field: 'proNotStaRea',
@@ -1006,7 +1006,7 @@ export let config = () => {
         title: '项目所属投向领域说明',
         span: 24,
         titleWidth: '255',
-        itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', placeholder: '请输入项目所属投向领域说明', maxlength: 2000 } }
+        itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', placeholder: '当存在多个项目所属投向领域时，请填写多个项目所属投向领域的代码和名称，否则为空', maxlength: 2000 } }
       }
 
     ],

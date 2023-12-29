@@ -385,6 +385,8 @@ export default {
     this.getFundInvestArea()
     this.getBudgetElement()
     this.formDataListBtmAdd.mofDivName = this.$store.state.userInfo.province
+    this.formDataListBtmAdd.budgetLevelName = this.$store.state.userInfo.budgetlevelname
+    this.formDataListBtm.budgetLevelName = this.$store.state.userInfo.budgetlevelname
   },
   methods: {
     stringToDate(str) {
@@ -499,7 +501,8 @@ export default {
               proLessorOtel: item['__EMPTY_13'],
               proLessorMtel: item['__EMPTY_14'],
               kpiTarget: item['*总体绩效目标'],
-              isEnd: item['*项目是否终结'] === '是' ? '1' : '2'
+              isEnd: item['*项目是否终结'] === '是' ? '1' : '2',
+              budgetlevelname: this.$store.state.userInfo.budgetlevelname
             }
           })
           console.log(basicInfoRes)
