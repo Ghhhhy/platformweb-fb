@@ -695,8 +695,8 @@ export let config = () => {
       proAgencyName: [{ required: true, message: '请输入项目单位名称', trigger: 'change' }],
       mofDivCode: [{ required: true, message: '请输入区划编码', trigger: 'change' }],
       mofDivName: [{ required: true, message: '请输入区划名称', trigger: 'change' }],
-      bugdetLevelCode: [{ required: true, message: '请输入预算级次编码', trigger: 'change' }],
-      bugdetLevelName: [{ required: true, message: '请输入预算级次名称', trigger: 'change' }],
+      budgetLevelCode: [{ required: true, message: '请输入预算级次编码', trigger: 'change' }],
+      budgetLevelName: [{ required: true, message: '请输入预算级次名称', trigger: 'change' }],
       speProCode: [ { required: true, message: '请输入项目代码', trigger: 'change' } ],
       speProName: [{ required: true, message: '请输入项目名称', trigger: 'change' }],
       proDeptCode: [{ required: true, message: '请输入项目主管部门代码', trigger: 'change' }],
@@ -708,7 +708,9 @@ export let config = () => {
       proEndDate: [ { required: true, message: '请输入预计完工时间', trigger: 'change' } ],
       isUseMultiTrackPro: [ { required: true, message: '请输入是否使用多项中央转移支付资金', trigger: 'change' } ],
       isEnd: [{ required: true, message: '请输入项目是否终结', trigger: 'change' }],
-      kpiTarget: [{ required: true, message: '请输入项目整体绩效目标', trigger: 'change' }]
+      kpiTarget: [{ required: true, message: '请输入项目整体绩效目标', trigger: 'change' }],
+      proDept_: [{ required: true, message: '请输入项目主管部门', trigger: 'change' }]
+
     },
     formDataListBtm: {
       proAgencyCode: '',
