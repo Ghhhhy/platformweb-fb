@@ -940,7 +940,6 @@ export let config = () => {
 
     ],
     formDataListBtmRequiredAdd: {
-      proAgencyCode: [ { required: true, message: '请输入项目单位编码', trigger: 'change' } ],
       proAgency_: [{ required: true, message: '请输入项目单位名称', trigger: 'change' }],
       mofDivCode: [{ required: true, message: '请输入区划编码', trigger: 'change' }],
       mofDivName: [{ required: true, message: '请输入区划名称', trigger: 'change' }],
@@ -962,9 +961,6 @@ export let config = () => {
       trackProCode: [{ required: true, message: '增发国债资金中央转移支付项目代码', trigger: 'change' }]
     },
     formDataListBtmAdd: {
-      proAgencyCode: '',
-      mofDiv_: '',
-      budgetLevel_: '',
       proDeptName: '',
       fundInvestAreaName: '',
       kpiTarget: '',
