@@ -934,6 +934,8 @@ export default {
       this.addBudgetFormData.lv1PerfIndName = ''
     },
     clearFormDatas() {
+      this.tableData = []
+      this.tableDataSx = []
       this.clearData(this.formDataListBtmAdd)
       this.clearData(this.formDataListThird)
       this.clearData(this.formDataListForth)
