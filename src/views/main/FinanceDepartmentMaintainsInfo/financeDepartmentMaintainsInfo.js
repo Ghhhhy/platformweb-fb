@@ -975,6 +975,19 @@ export let config = () => {
         }
       },
       {
+        field: 'isUseMultiTrackPro',
+        title: '是否使用多项中央转移支付资金',
+        span: 12,
+        titleWidth: '255',
+        itemRender: {
+          name: '$vxeSelect',
+          defaultValue: '前端',
+          options: [
+            { value: 1, label: '是' },
+            { value: 2, label: '否' }
+          ] }
+      },
+      {
         field: 'isEnd',
         title: '项目是否终结',
         span: 12,
