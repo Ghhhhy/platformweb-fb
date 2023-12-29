@@ -176,7 +176,7 @@ export default {
         }
       },
       pagerConfig: {
-        autoHidden: true,
+        // autoHidden: true,
         total: 1,
         currentPage: 1,
         pageSize: 20
