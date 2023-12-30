@@ -83,6 +83,7 @@
               ref="fileUpload"
               action="#"
               multiple
+              style="display: none;"
               :show-file-list="false"
               :data="uploadDFileParams"
               :on-remove="handleRemove"
@@ -115,12 +116,11 @@
               :toolbar-config="tableToolbarConfigAttach"
               @editClosed="editClosed"
             >
-              <template v-slot:pagerLeftSlots>
-                <div class="table-toolbar-left">
-                  <div class="table-toolbar-left-title">
-                    <span class="fn-inline"><span>支持png/jpg/pdf等，不超过20M</span></span>
-                    <i class="fn-inline"></i>
-                  </div>
+              <template v-if="btnClickType !== 'pay-checkDetails'" v-slot:toolbarSlots>
+                <vxe-button v-deClick status="primary" @click="handleUpload">上传附件</vxe-button>
+                <vxe-button v-deClick status="primary" @click="deleteAttachment">删除</vxe-button>
+                <div class="table-toolbar-left fn-inline">
+                  支持png/jpg/pdf等，不超过20M
                 </div>
               </template>
             </BsTable>
@@ -186,6 +186,7 @@ import { config } from './financeDepartmentMaintainsInfo'
 export default {
   data() {
     return {
+      btnClickType: '',
       menuId: '',
       modalTitle: '',
       modalForm: '',
@@ -269,10 +270,10 @@ export default {
         print: false, // 打印
         zoom: true, // 缩放
         custom: false, // 选配展示列
-        buttons: [
-          { code: 'upload-attachment', name: '上传附件', status: 'primary', callback: this.handleUpload },
-          { code: 'delete-attachment', name: '删除', status: 'primary', callback: this.deleteAttachment }
-        ]
+        slots: {
+          tools: 'toolbarTools',
+          buttons: 'toolbarSlots'
+        }
       },
       tableData: [],
       modalTblColumnsConfig: config().modalTblColumnsConfig,
@@ -429,6 +430,7 @@ export default {
     },
     closeModal() {
       this.showModal = false
+      this.activeNameBtm = '1'
     },
     formatDate(numb) {
       if (!numb) return numb
@@ -1068,6 +1070,7 @@ export default {
         tools: 'toolbarTools',
         buttons: 'toolbarSlots'
       }
+      this.btnClickType = obj.code
       if (obj.code === 'pay-add') {
         this.showModal = true
         this.isAdd = true
@@ -1118,10 +1121,6 @@ export default {
       this.setItemsDisable(this.formItemsConfigForth, false, disabled)
       this.setItemsDisable(this.contactInformationFormConfig, false, disabled)
       this.setItemsDisable(this.modalTblColumnsConfigSx, true, disabled)
-      this.tableToolbarConfigAttach.buttons.forEach(btn => {
-        btn.disabled = disabled
-        btn.visible = !disabled
-      })
       console.log('this.formItemsConfigBtm', this.formItemsConfigBtm)
     },
     setItemsDisable(itemConfigs, isTable, disabled) {
