@@ -524,7 +524,7 @@ export let config = () => {
                 elementCode: 'dept'
               },
               config: {
-                disabled: false,
+                disabled: true,
                 isleaf: true,
                 showFilter: false,
                 placeholder: '请选择项目主管部门',
@@ -762,6 +762,20 @@ export let config = () => {
       {
         title: '三级指标编码',
         field: 'lv3PerfIndCode',
+        editRender: {
+          name: '$input'
+        }
+      },
+      {
+        title: '评（扣）分标准',
+        field: 'kpiEvalstd',
+        editRender: {
+          name: '$input'
+        }
+      },
+      {
+        title: '绩效指标说明',
+        field: 'kpiContent',
         editRender: {
           name: '$input'
         }

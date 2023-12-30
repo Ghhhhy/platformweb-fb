@@ -884,7 +884,10 @@ export default {
           lv1PerfIndName: level.p.name,
           lv2PerfIndCode: level.code,
           lv2PerfIndName: level.name,
+          lv3PerfIndCode: '',
           lv3PerfIndName: '',
+          kpiEvalstd: '',
+          kpiContent: '',
           kpiVal: ''
         })
       })
@@ -937,6 +940,9 @@ export default {
               lv2PerfIndCode: level.lv2PerfIndCode,
               lv2PerfIndName: level.lv2PerfIndName,
               lv3PerfIndName: level.lv3PerfIndName,
+              lv3PerfIndCode: level.lv3PerfIndCode,
+              kpiEvalstd: level.kpiEvalstd,
+              kpiContent: level.kpiContent,
               kpiVal: level.kpiVal
             })
           })
