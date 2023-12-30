@@ -606,10 +606,10 @@ export let config = () => {
             required: true,
             options: [],
             props: {
-              isleaf: true,
               placeholder: '请输入项目所属投向领域',
               config: {
                 disabled: false,
+                isleaf: true,
                 treeProps: {
                   labelFormat: '{code}-{name}',
                   nodeKey: 'id',
@@ -974,15 +974,22 @@ export let config = () => {
           name: '$vxeTree',
           required: true,
           props: {
-            isleaf: true,
             placeholder: '请输入项目所属投向领域',
+            queryparams: {
+              elementCode: 'PROFUNDINVESTAREA'
+            },
             config: {
               disabled: false,
+              isleaf: true,
               treeProps: {
                 labelFormat: '{code}-{name}',
                 nodeKey: 'id',
                 label: 'label',
                 children: 'children'
+              },
+              axiosConfig: {
+                method: 'post',
+                url: '/dfr-monitor-service/dfr/common/elementtree'
               }
             }
           }
