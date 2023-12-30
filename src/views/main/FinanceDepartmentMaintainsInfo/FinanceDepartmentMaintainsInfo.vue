@@ -871,12 +871,6 @@ export default {
       this.$refs.uploadref.click()
       this.showTypeModal = false
     },
-    // 日期比较
-    compareDate(date1, date2) {
-      let d1 = new Date(date1).getTime()
-      let d2 = new Date(date2).getTime()
-      console.log(d1, d2)
-    },
     handleSure() {
       this.$refs.addForm.formOptionsFn().validate().then(() => {
         this.$refs.addFormthrid.formOptionsFn().validate().then(() => {
@@ -901,9 +895,6 @@ export default {
                 }
                 // 保存时去掉树id##code##name
                 let btmFormData = localThis.$refs.addForm.getFormData()
-                // 校验时间
-                // this.compareDate(btmFormData.proStaDate, btmFormData.proEndDate)
-
                 for (let key in btmFormData) {
                   if (this.treeProps.indexOf(key) > -1) {
                     let p = key.substr(0, key.length - 1)
