@@ -84,6 +84,9 @@ export default {
   mixins: [ mixin ],
   data() {
     return {
+      treeTypeConfig: {
+        radioGroup: false
+      },
       isCustomApi: false,
       tableApi: '',
       logData: [],
@@ -328,21 +331,21 @@ export default {
         this.getTableData()
       })
     },
+    handleNodeClick(node) {
+      if (node.id !== '0') {
+        const key = 'pro_agency_code'
+        this.condition = { [key]: node.code }
+      }
+      this.mergeCondition(() => {
+        this.getTableData()
+      })
+    },
     // agencyCode取左侧树和高级搜素并集
     mergeCondition(cb) {
-      const keyCode = 'pro_agency_code'
-      const isEmptyCondition = () => !Object.keys(this.highSearch(this.highQueryConfig, this.searchDataList)).length
-      let code
-      if (!isEmptyCondition()) {
-        const [toolbarCode = [], treeCode = []] = [this.highSearch(this.highQueryConfig, this.searchDataList)[keyCode], this.condition[keyCode]]
-        code = Array.from(new Set([...toolbarCode, ...treeCode]))
-      } else {
-        code = this.condition[keyCode]
-      }
-      const condition = { ...this.highSearch(this.highQueryConfig, this.searchDataList), [keyCode]: code }
-      this.tableDataParams.condition = condition
+      let highQuery = this.highSearch(this.highQueryConfig, this.searchDataList) || {}
+      this.tableDataParams.condition = { ...highQuery, ...this.condition }
       cb && cb()
-      return condition
+      return this.tableDataParams.condition
     },
     getTableData() {
       this.showLoading = true

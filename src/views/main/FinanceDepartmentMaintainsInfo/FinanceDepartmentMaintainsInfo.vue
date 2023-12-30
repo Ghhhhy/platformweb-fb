@@ -223,7 +223,7 @@ export default {
       formDataListThirdRequired: config().formDataListThirdRequired,
       formItemsConfigThird: config().formItemsConfigThird,
       activeNameTop: '1',
-      readonly: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi', 'trackProCode'],
+      readonly: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi', 'trackProCode', 'proDept_'],
       formItemsConfigBtm: config().formItemsConfigBtm,
       formDataListBtmRequired: config().formDataListBtmRequired,
       formDataListBtm: config().formDataListBtm,
@@ -592,19 +592,46 @@ export default {
       console.log(property, itemValue, data)
       if (this.treeProps.indexOf(property) > -1) {
         let p = property.substr(0, property.length - 1)
-        this.formDataListBtm[p + 'Name'] = data[property + 'name']
-        this.formDataListBtm[property + 'name'] = data[property + 'name']
-        this.formDataListBtm[property] = itemValue
-        this.formDataListBtm[property + 'code'] = data[property + 'code']
-        this.formDataListBtm[property + 'id'] = data[property + 'id']
+        if (this.isAdd) {
+          this.formDataListBtmAdd[p + 'Name'] = data[property + 'name']
+          this.formDataListBtmAdd[property + 'name'] = data[property + 'name']
+          this.formDataListBtmAdd[property] = itemValue
+          this.formDataListBtmAdd[property + 'code'] = data[property + 'code']
+          this.formDataListBtmAdd[property + 'id'] = data[property + 'id']
+        } else {
+          this.formDataListBtm[p + 'Name'] = data[property + 'name']
+          this.formDataListBtm[property + 'name'] = data[property + 'name']
+          this.formDataListBtm[property] = itemValue
+          this.formDataListBtm[property + 'code'] = data[property + 'code']
+          this.formDataListBtm[property + 'id'] = data[property + 'id']
+        }
       }
       if (property === 'trackPro_') {
-        this.formDataListBtmAdd.trackProCode = data.trackPro_code
         data.trackProCode = data.trackPro_code
+        data.fundInvestAreaName = ''
         data.fundInvestArea_ = ''
         data.fundInvestArea_code = ''
         data.fundInvestArea_id = ''
         data.fundInvestArea_name = ''
+        if (this.isAdd) {
+          this.formDataListBtmAdd.trackProCode = data.trackPro_code
+          this.formDataListBtmAdd.fundInvestAreaName = ''
+          this.formDataListBtmAdd.fundInvestArea_ = ''
+          this.formDataListBtmAdd.fundInvestArea_code = ''
+          this.formDataListBtmAdd.fundInvestArea_id = ''
+          this.formDataListBtmAdd.fundInvestArea_name = ''
+          this.formDataListBtmAdd = { ...this.formDataListBtmAdd }
+          console.log(this.formDataListBtmAdd)
+        } else {
+          this.formDataListBtm.trackProCode = data.trackPro_code
+          this.formDataListBtm.fundInvestArea_ = ''
+          this.formDataListBtm.fundInvestAreaName = ''
+          this.formDataListBtm.fundInvestArea_code = ''
+          this.formDataListBtm.fundInvestArea_id = ''
+          this.formDataListBtm.fundInvestArea_name = ''
+          this.formDataListBtm = { ...this.formDataListBtm }
+          console.log(this.formDataListBtm)
+        }
         this.fundInvestArea(data.trackPro_id)
       }
     },
@@ -844,6 +871,12 @@ export default {
       this.$refs.uploadref.click()
       this.showTypeModal = false
     },
+    // 日期比较
+    compareDate(date1, date2) {
+      let d1 = new Date(date1).getTime()
+      let d2 = new Date(date2).getTime()
+      console.log(d1, d2)
+    },
     handleSure() {
       this.$refs.addForm.formOptionsFn().validate().then(() => {
         this.$refs.addFormthrid.formOptionsFn().validate().then(() => {
@@ -868,6 +901,9 @@ export default {
                 }
                 // 保存时去掉树id##code##name
                 let btmFormData = localThis.$refs.addForm.getFormData()
+                // 校验时间
+                // this.compareDate(btmFormData.proStaDate, btmFormData.proEndDate)
+
                 for (let key in btmFormData) {
                   if (this.treeProps.indexOf(key) > -1) {
                     let p = key.substr(0, key.length - 1)
@@ -991,6 +1027,8 @@ export default {
           lv2PerfIndName: level.name,
           lv3PerfIndName: '',
           lv3PerfIndCode: '',
+          kpiEvalstd: '',
+          kpiContent: '',
           kpiVal: ''
         })
       })
@@ -1044,6 +1082,8 @@ export default {
               lv2PerfIndName: level.lv2PerfIndName,
               lv3PerfIndName: level.lv3PerfIndName,
               lv3PerfIndCode: level.lv3PerfIndCode,
+              kpiEvalstd: level.kpiEvalstd,
+              kpiContent: level.kpiContent,
               kpiVal: level.kpiVal
             })
           })
@@ -1092,6 +1132,11 @@ export default {
           this.$message.warning('请选择一条数据进行查看')
           return false
         }
+        this.tableToolbarConfigInmodal.buttons = [
+          { code: 'code-add', name: '新增', status: 'primary', callback: this.addLine },
+          { code: 'code-delete', name: '删除', status: 'primary', callback: this.deleteLine }
+        ]
+        delete this.tableToolbarConfigInmodal.slots
         this.initFormItems(false)
         this.editRecord()
       }
@@ -1104,7 +1149,6 @@ export default {
           this.$message.warning('请选择一条数据进行查看')
           return false
         }
-        this.initFormItems(true)
         this.viewDetail()
       }
       if (obj.code === 'pay-audit') {
@@ -1153,10 +1197,6 @@ export default {
               }
             }
           } else {
-            if (item.itemRender.name === '$vxeTree') {
-              item.itemRender.props.config.disabled = disabled
-              return
-            }
             item.itemRender.props.disabled = true
           }
         })
@@ -1286,7 +1326,7 @@ export default {
       let infos = value.split('##')
       if (!(infos[1] || '').trim() || !(infos[2] || '').trim()) {
         let p = property.substr(0, property.length - 1)
-        formData[property] = '##' + projectInfo[p + 'Code'] + infos[0]
+        formData[property] = '##' + projectInfo[p + 'Code'] + '##' + infos[0]
         formData[property + 'code'] = (infos[1] || '').trim() || projectInfo[p + 'Code']
         formData[property + 'name'] = (infos[2] || '').trim() || infos[0]
       } else {
