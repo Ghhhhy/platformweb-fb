@@ -114,14 +114,17 @@
               :pager-config="false"
               :footer-config="{ showFooter: false }"
               :toolbar-config="tableToolbarConfigAttach"
+              :table-config="fileTableConfig"
               @editClosed="editClosed"
             >
-              <template v-if="btnClickType !== 'pay-checkDetails'" v-slot:toolbarSlots>
-                <vxe-button v-deClick status="primary" @click="handleUpload">上传附件</vxe-button>
-                <vxe-button v-deClick status="primary" @click="deleteAttachment">删除</vxe-button>
-                <div class="table-toolbar-left fn-inline">
-                  支持png/jpg/pdf等，不超过20M
-                </div>
+              <template v-slot:toolbarSlots>
+                <template v-if="btnClickType !== 'pay-checkDetails'">
+                  <vxe-button v-deClick status="primary" @click="handleUpload">上传附件</vxe-button>
+                  <vxe-button v-deClick status="primary" @click="deleteAttachment">删除</vxe-button>
+                  <div class="table-toolbar-left fn-inline">
+                    支持png/jpg/pdf等，不超过20M
+                  </div>
+                </template>
               </template>
             </BsTable>
           </el-tab-pane>
@@ -176,16 +179,39 @@
         <vxe-button status="primary" @click="confirm">确定</vxe-button>
       </div>
     </vxe-modal>
+    <!-- 附件预览 -->
+    <FilePreview
+      v-if="filePreviewDialogVisible"
+      :visible.sync="filePreviewDialogVisible"
+      :file-guid="fileGuid"
+      :app-id="appId"
+    />
+    <!-- 下载方法调用实例 -->
+    <BsUpload
+      ref="attachmentUpload"
+      :downloadparams="downloadParams"
+      uniqe-name="attachmentUpload"
+    />
   </div>
 </template>
 <script>
 import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfo.js'
+import FilePreview from '@/views/main/fundMonitoring/violationHandle/warningCreate/children/common/filePreview.vue'
 import moment from 'moment'
 import { config } from './financeDepartmentMaintainsInfo'
 
 export default {
+  components: {
+    FilePreview
+  },
   data() {
     return {
+      appId: this.$store.getters.getLoginAuthentication.appguid,
+      fileGuid: '',
+      filePreviewDialogVisible: false,
+      downloadParams: {
+        fileguid: ''
+      },
       btnClickType: '',
       menuId: '',
       modalTitle: '',
@@ -235,6 +261,25 @@ export default {
       addBudgetFormDataRequired: config().addBudgetFormDataRequired,
       showModal: false,
       showModalFooter: true,
+      fileTableConfig: {
+        renderers: {
+          $fileTableOperation: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row } = params
+              return [
+                <div class="gloableOptionRow fcc">
+                  <el-tooltip content="预览" placement="top" effect="light">
+                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-view" onClick={() => this.preview(row)}>预览</div>
+                  </el-tooltip>
+                  <el-tooltip content="下载" placement="top" effect="light">
+                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-download" onClick={() => this.downloadAttachment(row)}>下载</div>
+                  </el-tooltip>
+                </div>
+              ]
+            }
+          }
+        }
+      },
       tableToolbarConfigInmodal: {
         // table工具栏配置
         disabledMoneyConversion: false,
@@ -417,6 +462,16 @@ export default {
     this.formDataListBtm.budgetLevelName = this.$store.state.userInfo.budgetlevelname
   },
   methods: {
+    // 下载附件
+    downloadAttachment(row) {
+      this.downloadParams.fileguid = row.fileguid
+      this.$refs.attachmentUpload.downloadFileFile()
+    },
+    // 预览文件
+    preview(row) {
+      this.fileGuid = row.billguid
+      this.filePreviewDialogVisible = true
+    },
     stringToDate(str) {
       return (str || '').substr(0, 4) + '-' + (str || '').substr(4, 2) + '-' + (str || '').substr(6)
     },
@@ -726,16 +781,17 @@ export default {
     handelUploadDebugfile(e) {
       const form = new FormData()
       const temp = []
+      const tempUUID = this.$ToolFn.utilFn.getUuid()
       // 文件对象
       form.append('file', e.file)
       form.append('filename', e.file.name)
-      form.append('appid', 'pay_plan_voucher')
+      form.append('appid', 'pay_voucher')
       temp.push(e.file.name)
       form.append('doctype', '')
       form.append('year', this.$store.state.userInfo.year)
       form.append('province', this.$store.state.userInfo.province)
       form.append('userguid', this.$store.state.userInfo.guid)
-      form.append('billguid', this.$ToolFn.utilFn.getUuid())
+      form.append('billguid', tempUUID)
       this.addLoading = true
       this.fileUpload(form).then(res => {
         this.addLoading = false
@@ -755,10 +811,10 @@ export default {
           data['proAttchId'] = resultData
           data['filepath'] = e.file.webkitRelativePath
           data['province'] = this.$store.state.userInfo.province
-          data['appid'] = 'pay_plan_voucher'
+          data['appid'] = 'pay_voucher'
           data['creater'] = e.file.uid
           data['guid'] = this.$store.state.userInfo.guid
-          data['billguid'] = this.$ToolFn.utilFn.getUuid()
+          data['billguid'] = tempUUID
           data['importuser'] = this.$store.state.userInfo.name
           data['createTime'] = new Date().toLocaleDateString()
           data.proAttchKindCode = this.filetype
@@ -1301,9 +1357,13 @@ export default {
       // 基本情况
       localThis.formDataListBtm.proAgencyName = projectInfo.proAgencyCode + '-' + projectInfo.proAgencyName
       localThis.formDataListBtm.proAgencyCode = projectInfo.proAgencyCode
+      localThis.formDataListBtm.ndrcProCode = projectInfo.ndrcProCode
+      localThis.formDataListBtm.ndrcProName = projectInfo.ndrcProName
       // 财政区划
       let mofDiv = projectInfo.mofDivName
       this.initTreeInfo(localThis.formDataListBtm, 'mofDiv_', mofDiv, projectInfo)
+      let trackProName = projectInfo.trackProName
+      this.initTreeInfo(localThis.formDataListBtm, 'trackPro_', trackProName, projectInfo)
       localThis.formDataListBtm.mofDivName = projectInfo.mofDivName
       // localThis.formDataListBtm.mofDivNameId = projectInfo.mofDivName
       // 预算级次
@@ -1312,8 +1372,8 @@ export default {
       this.initTreeInfo(localThis.formDataListBtm, 'budgetLevel_', budgetLevel, projectInfo)
       localThis.formDataListBtm.speProName = projectInfo.speProName
       localThis.formDataListBtm.speProCode = projectInfo.speProCode
-      localThis.formDataListBtm.trackProName = projectInfo.trackProName
-      localThis.formDataListBtm.trackProCode = projectInfo.trackProCode
+      // localThis.formDataListBtm.trackProName = projectInfo.trackProName
+      // localThis.formDataListBtm.trackProCode = projectInfo.trackProCode
       // 项目主管部门
       let proDeptName = projectInfo.proDeptName
       localThis.formDataListBtm.proDeptName = projectInfo.proDeptName

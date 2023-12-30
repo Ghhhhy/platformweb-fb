@@ -184,6 +184,7 @@ import { config } from './financeDepartmentMaintainsInfo'
 export default {
   data() {
     return {
+      btnClickType: '',
       // readonly: ['proAgencyName', 'mofDiv_', 'budgetLevel_', 'speProCode', 'proDept_', 'proGi'],
       menuId: '',
       isLastInst: '',
@@ -880,6 +881,7 @@ export default {
       this.$refs.bgtTblRef.$refs.xGrid.removeCheckboxRow()
     },
     onBtnClick(obj) {
+      this.btnClickType = obj.code
       this.isView = false
       if (obj.code === 'pay-checkDetails') {
         this.isView = true

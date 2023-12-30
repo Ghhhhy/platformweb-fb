@@ -38,6 +38,15 @@ export let config = () => {
         editRender: {
           name: '$vxeInput'
         }
+      },
+      {
+        title: '操作',
+        field: '$fileTableOperation',
+        filter: false,
+        visible: true,
+        cellRender: {
+          name: '$fileTableOperation'
+        }
       }
     ],
     contactInformationFormConfig: [
