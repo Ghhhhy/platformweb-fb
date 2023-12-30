@@ -1026,27 +1026,31 @@ export default {
         localThis.$message.warning('请至少选择一条数据进行操作')
         return false
       }
-      let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
-        return item.proDetId
-      })
-      let params = {
-        ids: ids,
-        appId: 'pm_project_info_detail',
-        menuId: localThis.menuId,
-        isLastInst: localThis.isLastInst,
-        actionType: type,
-        actionName: type === 2 ? '送审' : '撤销送审'
-      }
-      localThis.$refs.tmp.showLoading = true
-      HttpModule.auditDataRecords(params).then((res) => {
-        if (res.rscode === '200') {
-          localThis.$message.success('操作成功')
-          localThis.$refs.tmp.refresh()
-        } else {
-          localThis.$message.warning('操作失败' + res.errorMessage)
+      this.$XModal.confirm('请确认是否' + (type === 2 ? '送审?' : '撤销送审?')).then((status) => {
+        if (status === 'confirm') {
+          let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
+            return item.proDetId
+          })
+          let params = {
+            ids: ids,
+            appId: 'pm_project_info_detail',
+            menuId: localThis.menuId,
+            isLastInst: localThis.isLastInst,
+            actionType: type,
+            actionName: type === 2 ? '送审' : '撤销送审'
+          }
+          localThis.$refs.tmp.showLoading = true
+          HttpModule.auditDataRecords(params).then((res) => {
+            if (res.rscode === '200') {
+              localThis.$message.success('操作成功')
+              localThis.$refs.tmp.refresh()
+            } else {
+              localThis.$message.warning('操作失败' + res.errorMessage)
+            }
+          }).finally(() => {
+            localThis.$refs.tmp.showLoading = false
+          })
         }
-      }).finally(() => {
-        localThis.$refs.tmp.showLoading = false
       })
     },
     // 修改附件
