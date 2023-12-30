@@ -612,7 +612,7 @@ export default {
     },
     // 获取指标级次
     getBudgetElement() {
-      this.$http.post('http://223.223.190.114:12218/dfr/pmProjectInfoDetail/perfindtree').then((res) => {
+      this.$http.post('/dfr-monitor-service/dfr/pmProjectInfoDetail/perfindtree').then((res) => {
         if (res.rscode === '200') {
           this.addBudgetFormConfig.forEach(item => {
             if (item.field === 'lv2PerfInd_') {
