@@ -519,12 +519,12 @@ export let config = () => {
             name: '$vxeTree',
             props: {
               isleaf: true,
-              disabled: false,
               elecode: 'dept',
               queryparams: {
                 elementCode: 'dept'
               },
               config: {
+                disabled: false,
                 isleaf: true,
                 showFilter: false,
                 placeholder: '请选择项目主管部门',
@@ -575,10 +575,10 @@ export let config = () => {
               { code: '100001234512345123458', id: '08', name: '东北地区和京津冀受灾地区等高标准农田建设补助资金', label: '100001234512345123458-东北地区和京津冀受灾地区等高标准农田建设补助资金' }
             ],
             props: {
-              disabled: false,
               placeholder: '请输入增发国债资金中央转移支付项目名称',
               config: {
                 format: '{name}',
+                disabled: false,
                 treeProps: {
                   labelFormat: '{name}',
                   nodeKey: 'id',
@@ -607,9 +607,9 @@ export let config = () => {
             options: [],
             props: {
               isleaf: true,
-              disabled: false,
               placeholder: '请输入项目所属投向领域',
               config: {
+                disabled: false,
                 treeProps: {
                   labelFormat: '{code}-{name}',
                   nodeKey: 'id',
@@ -785,7 +785,6 @@ export let config = () => {
           name: '$vxeTree',
           props: {
             isleaf: true,
-            disabled: false,
             elecode: 'agency',
             queryparams: {
               elementCode: 'agency'
@@ -793,6 +792,7 @@ export let config = () => {
             config: {
               isleaf: true,
               showFilter: false,
+              disabled: false,
               placeholder: '请输入项目单位',
               treeProps: {
                 labelFormat: '{code}-{name}',
@@ -859,13 +859,13 @@ export let config = () => {
           name: '$vxeTree',
           props: {
             isleaf: true,
-            disabled: false,
             elecode: 'dept',
             queryparams: {
               elementCode: 'dept'
             },
             config: {
               isleaf: true,
+              disabled: false,
               showFilter: false,
               placeholder: '请选择项目主管部门',
               treeProps: {
@@ -919,6 +919,7 @@ export let config = () => {
             placeholder: '请输入增发国债资金中央转移支付项目名称',
             config: {
               format: '{name}',
+              disabled: false,
               treeProps: {
                 labelFormat: '{name}',
                 nodeKey: 'id',
@@ -974,9 +975,9 @@ export let config = () => {
           required: true,
           props: {
             isleaf: true,
-            disabled: false,
             placeholder: '请输入项目所属投向领域',
             config: {
+              disabled: false,
               treeProps: {
                 labelFormat: '{code}-{name}',
                 nodeKey: 'id',
@@ -1104,6 +1105,7 @@ export let config = () => {
           props: {
             config: {
               multiple: true,
+              disabled: false,
               isleaf: true,
               treeProps: {
                 // 树配置选项

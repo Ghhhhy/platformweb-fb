@@ -86,6 +86,7 @@
               :show-file-list="false"
               :data="uploadDFileParams"
               :on-remove="handleRemove"
+              :before-upload="beforeUploadProjectFile"
               :http-request="handelUploadDebugfile"
             >
               <!-- <div class="fn-inline"> -->
@@ -179,6 +180,7 @@
 </template>
 <script>
 import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfo.js'
+import moment from 'moment'
 import { config } from './financeDepartmentMaintainsInfo'
 
 export default {
@@ -429,15 +431,9 @@ export default {
       this.showModal = false
     },
     formatDate(numb) {
-      if (!numb) {
-        return ''
-      }
-      const time = new Date((numb - 1) * 24 * 3600000 + 1)
-      time.setYear(time.getFullYear() - 70)
-      const year = time.getFullYear() + ''
-      const month = time.getMonth() + 1 + ''
-      const date = time.getDate() - 1 + ''
-      return year + (month < 10 ? '0' + month : month) + (date < 10 ? '0' + date : date)
+      if (!numb) return numb
+      const startExcelDateSerialNumber = '1899-12-30'
+      return moment(startExcelDateSerialNumber).add(numb, 'days').format('YYYYMMDD')
     },
     dataURLtoBlob(base64Str) {
       var bstr = atob(base64Str)
@@ -608,6 +604,14 @@ export default {
         data.fundInvestArea_id = ''
         data.fundInvestArea_name = ''
         this.fundInvestArea(data.trackPro_id)
+      }
+    },
+    beforeUploadProjectFile(file) {
+      const { size } = file
+      if (size > 1024 * 1024 * 20) {
+        this.$message.error('文件大小超过20MB，请选择其他文件')
+        /* eslint-disable-next-line */
+        return Promise.reject()
       }
     },
     // 获取指标级次
@@ -1118,6 +1122,7 @@ export default {
         btn.disabled = disabled
         btn.visible = !disabled
       })
+      console.log('this.formItemsConfigBtm', this.formItemsConfigBtm)
     },
     setItemsDisable(itemConfigs, isTable, disabled) {
       if (isTable) {
@@ -1149,6 +1154,10 @@ export default {
               }
             }
           } else {
+            if (item.itemRender.name === '$vxeTree') {
+              item.itemRender.props.config.disabled = disabled
+              return
+            }
             item.itemRender.props.disabled = true
           }
         })

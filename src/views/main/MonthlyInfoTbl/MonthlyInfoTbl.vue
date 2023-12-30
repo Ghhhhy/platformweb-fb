@@ -2413,6 +2413,10 @@ export default {
               }
             }
           } else {
+            if (item.itemRender.name === '$vxeTree') {
+              item.itemRender.props.config.disabled = disabled
+              return
+            }
             item.itemRender.props.disabled = true
           }
         })
