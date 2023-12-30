@@ -459,7 +459,7 @@ export let config = () => {
           field: 'proAgencyName',
           title: '项目单位',
           span: 12,
-          titleWidth: '240',
+          titleWidth: '255',
           itemRender: {
             name: '$input',
             props: {
@@ -473,7 +473,7 @@ export let config = () => {
           field: 'mofDivName',
           title: '财政区划',
           span: 12,
-          titleWidth: '240',
+          titleWidth: '255',
           itemRender: {
             name: '$input',
             props: {
@@ -486,7 +486,7 @@ export let config = () => {
           field: 'budgetLevelName',
           title: '预算级次',
           span: 12,
-          titleWidth: '240',
+          titleWidth: '255',
           itemRender: {
             name: '$input',
             required: true,
@@ -507,7 +507,7 @@ export let config = () => {
           field: 'speProCode',
           title: '项目代码',
           span: 12,
-          titleWidth: '240',
+          titleWidth: '255',
           itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目代码', disabled: false } }
         },
         {
@@ -599,7 +599,7 @@ export let config = () => {
           field: 'fundInvestArea_',
           title: '项目所属投向领域',
           span: 12,
-          titleWidth: '240',
+          titleWidth: '255',
           itemRender: {
             name: '$vxeTree',
             required: true,
@@ -651,7 +651,7 @@ export let config = () => {
           field: 'isUseMultiTrackPro',
           title: '是否使用多项中央转移支付资金',
           span: 12,
-          titleWidth: '240',
+          titleWidth: '255',
           itemRender: {
             name: '$vxeSelect',
             defaultValue: '前端',
@@ -1053,7 +1053,8 @@ export let config = () => {
       isEnd: [{ required: true, message: '请输入项目是否终结', trigger: 'change' }],
       kpiTarget: [{ required: true, message: '请输入项目整体绩效目标', trigger: 'change' }],
       trackPro_: [{ required: true, message: '增发国债资金中央转移支付项目名称', trigger: 'change' }],
-      trackProCode: [{ required: true, message: '增发国债资金中央转移支付项目代码', trigger: 'change' }]
+      trackProCode: [{ required: true, message: '增发国债资金中央转移支付项目代码', trigger: 'change' }],
+      fundInvestArea_: [ { required: true, message: '请选择项目所属投向领域', trigger: 'change' } ]
     },
     formDataListBtmAdd: {
       proDeptName: '',
