@@ -37,8 +37,8 @@
                 <tbody>
                   <tr>
                     <td colspan="3">累计可用资金（合计）</td>
-                    <td>{{ proGiIpAcc }}</td>
-                    <td>{{ proGiIpPre }}</td>
+                    <td style="text-align: right;">{{ proGiIpAcc }}</td>
+                    <td style="text-align: right;">{{ proGiIpPre }}</td>
                   </tr>
                   <tr>
                     <td rowspan="8" style="width: 150px;">其中</td>
@@ -50,6 +50,7 @@
                             v-model="formData.proGiIpAccAddnb"
                             type="number"
                             style="width: 100%"
+                            align="right"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
                           />
@@ -62,7 +63,8 @@
                           <vxe-input
                             v-model="formData.proGiIpPreAddnb"
                             type="number"
-                            style="width: 100%"
+                            style="width: 100%;"
+                            align="right"
                             :clearable="isClearable"
                             :readonly="isFirst"
                             :disabled="isFirst"
@@ -79,6 +81,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccCff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -92,6 +95,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreCff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -109,6 +113,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccCfo"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -122,6 +127,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreCfo"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -139,6 +145,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccLff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -152,6 +159,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreLff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -169,6 +177,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccEf"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -182,6 +191,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreEf"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -199,6 +209,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccLb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -212,6 +223,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreLb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -229,6 +241,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccBankl"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -242,6 +255,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreBankl"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -259,6 +273,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccOth"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -272,6 +287,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreOth"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -284,8 +300,8 @@
                   <!-- 详细 -->
                   <tr>
                     <td colspan="3">累计最终支付资金（合计）</td>
-                    <td>{{ proGiFinalAcc }}</td>
-                    <td>{{ proGiFinalPre }}</td>
+                    <td style="text-align: right;">{{ proGiFinalAcc }}</td>
+                    <td style="text-align: right;">{{ proGiFinalPre }}</td>
                   </tr>
 
                   <tr>
@@ -298,6 +314,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccAddnb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -311,6 +328,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreAddnb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -328,6 +346,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccAddnb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -341,6 +360,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreAddnb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -358,6 +378,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccAddnb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -371,6 +392,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreAddnb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -388,6 +410,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccAddnb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -401,6 +424,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreAddnb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -420,6 +444,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccCff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -433,6 +458,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreCff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -450,6 +476,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccCff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -463,6 +490,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreCff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -480,6 +508,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccCff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -493,6 +522,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreCff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -510,6 +540,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccCff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -523,6 +554,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreCff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -542,6 +574,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccCfo"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -555,6 +588,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreCfo"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -572,6 +606,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccCfo"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -585,6 +620,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreCfo"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -602,6 +638,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccCfo"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -615,6 +652,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreCfo"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -632,6 +670,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccCfo"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -645,6 +684,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreCfo"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -664,6 +704,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccLff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -677,6 +718,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreLff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -694,6 +736,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccLff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -707,6 +750,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreLff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -724,6 +768,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccLff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -737,6 +782,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreLff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -754,6 +800,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccLff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -767,6 +814,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreLff"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -786,6 +834,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccEf"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -799,6 +848,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreEf"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -816,6 +866,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccEf"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -829,6 +880,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreEf"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -846,6 +898,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccEf"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -859,6 +912,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreEf"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -876,6 +930,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccEf"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -889,6 +944,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreEf"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -908,6 +964,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccLb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -921,6 +978,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreLb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -938,6 +996,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccLb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -951,6 +1010,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreLb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -968,6 +1028,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccLb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -981,6 +1042,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreLb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -998,6 +1060,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccLb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -1011,6 +1074,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreLb"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1030,6 +1094,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccBankl"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -1043,6 +1108,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreBankl"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1060,6 +1126,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccBankl"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -1073,6 +1140,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreBankl"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1090,6 +1158,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccBankl"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -1103,6 +1172,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreBankl"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1120,6 +1190,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccBankl"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -1133,6 +1204,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreBankl"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1152,6 +1224,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccOth"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -1165,6 +1238,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreOth"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1182,6 +1256,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccOth"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -1195,6 +1270,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreOth"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1212,6 +1288,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccOth"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -1225,6 +1302,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreOth"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1242,6 +1320,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccOth"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -1255,6 +1334,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreOth"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1273,6 +1353,7 @@
                           <vxe-input
                             v-model="formData.proGiCompAcc"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             clearable
                             :disabled="btnClickType === 'pay-checkDetails'"
@@ -1286,6 +1367,7 @@
                           <vxe-input
                             v-model="formData.proGiCompPre"
                             type="number"
+                            align="right"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
