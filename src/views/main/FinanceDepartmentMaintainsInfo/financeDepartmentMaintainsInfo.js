@@ -578,8 +578,9 @@ export let config = () => {
               disabled: false,
               placeholder: '请输入增发国债资金中央转移支付项目名称',
               config: {
+                format: '{name}',
                 treeProps: {
-                  labelFormat: '{code}-{name}',
+                  labelFormat: '{name}',
                   nodeKey: 'id',
                   label: 'label',
                   children: 'children'
