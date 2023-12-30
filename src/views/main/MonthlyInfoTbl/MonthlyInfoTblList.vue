@@ -37,8 +37,8 @@
                 <tbody>
                   <tr>
                     <td colspan="3">累计可用资金（合计）</td>
-                    <td>{{ proGiIpAcc }}</td>
-                    <td>{{ proGiIpPre }}</td>
+                    <td style="text-align:right">{{ proGiIpAcc }}</td>
+                    <td style="text-align:right">{{ proGiIpPre }}</td>
                   </tr>
                   <tr>
                     <td rowspan="8" style="width: 150px;">其中</td>
@@ -50,6 +50,7 @@
                             v-model="formData.proGiIpAccAddnb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -63,6 +64,7 @@
                             v-model="formData.proGiIpPreAddnb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -79,6 +81,7 @@
                             v-model="formData.proGiIpAccCff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -92,6 +95,7 @@
                             v-model="formData.proGiIpPreCff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -108,6 +112,7 @@
                             v-model="formData.proGiIpAccCfo"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -121,6 +126,7 @@
                             v-model="formData.proGiIpPreCfo"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -137,6 +143,7 @@
                             v-model="formData.proGiIpAccLff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -150,6 +157,7 @@
                             v-model="formData.proGiIpPreLff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -166,6 +174,7 @@
                             v-model="formData.proGiIpAccEf"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -179,6 +188,7 @@
                             v-model="formData.proGiIpPreEf"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -195,6 +205,7 @@
                             v-model="formData.proGiIpAccLb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -208,6 +219,7 @@
                             v-model="formData.proGiIpPreLb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -224,6 +236,7 @@
                             v-model="formData.proGiIpAccBankl"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -237,6 +250,7 @@
                             v-model="formData.proGiIpPreBankl"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -253,6 +267,7 @@
                             v-model="formData.proGiIpAccOth"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -266,6 +281,7 @@
                             v-model="formData.proGiIpPreOth"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -275,9 +291,9 @@
                   </tr>
                   <!-- 详细 -->
                   <tr>
-                    <td colspan="3">累计可用资金（合计）</td>
-                    <td>{{ proGiFinalAcc }}</td>
-                    <td>{{ proGiFinalPre }}</td>
+                    <td colspan="3">累计最终支付资金（合计）</td>
+                    <td style="text-align: right;">{{ proGiFinalAcc }}</td>
+                    <td style="text-align: right;">{{ proGiFinalPre }}</td>
                   </tr>
 
                   <tr>
@@ -291,6 +307,7 @@
                             v-model="formData.proGiBupayAccAddnb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -304,6 +321,7 @@
                             v-model="formData.proGiBupayPreAddnb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -320,6 +338,7 @@
                             v-model="formData.proGiDepayAccAddnb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -333,6 +352,7 @@
                             v-model="formData.proGiDepayPreAddnb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -349,6 +369,7 @@
                             v-model="formData.proGiPrpayAccAddnb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -362,6 +383,7 @@
                             v-model="formData.proGiPrpayPreAddnb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -378,6 +400,7 @@
                             v-model="formData.proGiOtpayAccAddnb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -391,6 +414,7 @@
                             v-model="formData.proGiOtpayPreAddnb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -409,6 +433,7 @@
                             v-model="formData.proGiBupayAccCff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -422,6 +447,7 @@
                             v-model="formData.proGiBupayPreCff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -438,6 +464,7 @@
                             v-model="formData.proGiDepayAccCff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -451,6 +478,7 @@
                             v-model="formData.proGiDepayPreCff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -467,6 +495,7 @@
                             v-model="formData.proGiPrpayAccCff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -480,6 +509,7 @@
                             v-model="formData.proGiPrpayPreCff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -496,6 +526,7 @@
                             v-model="formData.proGiOtpayAccCff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -509,6 +540,7 @@
                             v-model="formData.proGiOtpayPreCff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -527,6 +559,7 @@
                             v-model="formData.proGiBupayAccCfo"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -540,6 +573,7 @@
                             v-model="formData.proGiBupayPreCfo"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -556,6 +590,7 @@
                             v-model="formData.proGiDepayAccCfo"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -569,6 +604,7 @@
                             v-model="formData.proGiDepayPreCfo"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -585,6 +621,7 @@
                             v-model="formData.proGiPrpayAccCfo"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -598,6 +635,7 @@
                             v-model="formData.proGiPrpayPreCfo"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -614,6 +652,7 @@
                             v-model="formData.proGiOtpayAccCfo"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -627,6 +666,7 @@
                             v-model="formData.proGiOtpayPreCfo"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -645,6 +685,7 @@
                             v-model="formData.proGiBupayAccLff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -658,6 +699,7 @@
                             v-model="formData.proGiBupayPreLff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -674,6 +716,7 @@
                             v-model="formData.proGiDepayAccLff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -687,6 +730,7 @@
                             v-model="formData.proGiDepayPreLff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -703,6 +747,7 @@
                             v-model="formData.proGiPrpayAccLff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -716,6 +761,7 @@
                             v-model="formData.proGiPrpayPreLff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -732,6 +778,7 @@
                             v-model="formData.proGiOtpayAccLff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -745,6 +792,7 @@
                             v-model="formData.proGiOtpayPreLff"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -763,6 +811,7 @@
                             v-model="formData.proGiBupayAccEf"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -776,6 +825,7 @@
                             v-model="formData.proGiBupayPreEf"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -792,6 +842,7 @@
                             v-model="formData.proGiDepayAccEf"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -805,6 +856,7 @@
                             v-model="formData.proGiDepayPreEf"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -821,6 +873,7 @@
                             v-model="formData.proGiPrpayAccEf"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -834,6 +887,7 @@
                             v-model="formData.proGiPrpayPreEf"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -850,6 +904,7 @@
                             v-model="formData.proGiOtpayAccEf"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -863,6 +918,7 @@
                             v-model="formData.proGiOtpayPreEf"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -881,6 +937,7 @@
                             v-model="formData.proGiBupayAccLb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -894,6 +951,7 @@
                             v-model="formData.proGiBupayPreLb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -910,6 +968,7 @@
                             v-model="formData.proGiDepayAccLb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -923,6 +982,7 @@
                             v-model="formData.proGiDepayPreLb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -939,6 +999,7 @@
                             v-model="formData.proGiPrpayAccLb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -952,6 +1013,7 @@
                             v-model="formData.proGiPrpayPreLb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -968,6 +1030,7 @@
                             v-model="formData.proGiOtpayAccLb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -981,6 +1044,7 @@
                             v-model="formData.proGiOtpayPreLb"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -999,6 +1063,7 @@
                             v-model="formData.proGiBupayAccBankl"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1012,6 +1077,7 @@
                             v-model="formData.proGiBupayPreBankl"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1028,6 +1094,7 @@
                             v-model="formData.proGiDepayAccBankl"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1041,6 +1108,7 @@
                             v-model="formData.proGiDepayPreBankl"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1057,6 +1125,7 @@
                             v-model="formData.proGiPrpayAccBankl"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1070,6 +1139,7 @@
                             v-model="formData.proGiPrpayPreBankl"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1086,6 +1156,7 @@
                             v-model="formData.proGiOtpayAccBankl"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1099,6 +1170,7 @@
                             v-model="formData.proGiOtpayPreBankl"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1117,6 +1189,7 @@
                             v-model="formData.proGiBupayAccOth"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1130,6 +1203,7 @@
                             v-model="formData.proGiBupayPreOth"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1146,6 +1220,7 @@
                             v-model="formData.proGiDepayAccOth"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1159,6 +1234,7 @@
                             v-model="formData.proGiDepayPreOth"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1175,6 +1251,7 @@
                             v-model="formData.proGiPrpayAccOth"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1188,6 +1265,7 @@
                             v-model="formData.proGiPrpayPreOth"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1204,6 +1282,7 @@
                             v-model="formData.proGiOtpayAccOth"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1217,6 +1296,7 @@
                             v-model="formData.proGiOtpayPreOth"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1233,6 +1313,7 @@
                             v-model="formData.proGiCompAcc"
                             style="width: 100%"
                             clearable
+                            align="right"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
                           />
@@ -1245,6 +1326,7 @@
                           <vxe-input
                             v-model="formData.proGiCompPre"
                             style="width: 100%"
+                            align="right"
                             clearable="true"
                             :disabled="btnClickType === 'pay-checkDetails'"
                             type="number"
