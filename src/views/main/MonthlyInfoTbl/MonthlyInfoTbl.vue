@@ -1459,7 +1459,7 @@
               :table-data="tableDataBasic"
               :high-config="{ scrollY: { enabled: false } }"
               :pager-config="false"
-              :footer-config="footerConfigsBasic"
+              :footer-config="footerConfigs"
               :toolbar-config="tableToolbarConfigInmodalBasic"
             />
           </el-tab-pane>
@@ -1484,10 +1484,6 @@
             </BsTable>
           </el-tab-pane>
         </el-tabs>
-      </div>
-      <div slot="footer">
-        <vxe-button @click="showModalBasic = false">取消</vxe-button>
-        <vxe-button status="primary" @click="handleSureBasic">确认</vxe-button>
       </div>
     </vxe-modal>
   </div>
@@ -2166,6 +2162,13 @@ export default {
       proDetMonId: '',
       genMonthId: '',
       // 基本信息查看详情-------------------------start----------------
+      activeNameBtmBasic: '1',
+      footerConfigs: {
+        totalObj: {
+          aviamt: 0
+        },
+        showFooter: false
+      },
       modalTblColumnsConfigSxBasic: config().modalTblColumnsConfigSx,
       tableDataSxBasic: [],
       showTypeModalBasic: false,
@@ -2194,6 +2197,7 @@ export default {
       addBudgetFormDataBasic: config().addBudgetFormData,
       addBudgetFormDataRequiredBasic: config().addBudgetFormDataRequired,
       showModalBasic: false,
+      modalFormBasic: '',
       showModalFooterBasic: true,
       tableToolbarConfigInmodalBasic: {
         // table工具栏配置
@@ -2239,7 +2243,7 @@ export default {
       currentRowBasic: {},
       proDetIdBasic: '',
       isViewBasic: false,
-      treePropsBasic: ['mofDiv_', 'budgetLevel_', 'proDept_', 'fundInvestArea_', 'proAgency_', 'trackPro_', 'fundInvestArea_'],
+      treePropsBasic: ['mofDiv_', 'budgetLevel_', 'proDept_', 'fundInvestArea_', 'proAgency_', 'trackPro_', 'fundInvestArea_']
     }
   },
   created() {
@@ -2297,11 +2301,6 @@ export default {
     },
     closeModalBasic() {
       this.showModalBasic = false
-    },
-    formatDate(numb) {
-      if (!numb) return numb
-      const startExcelDateSerialNumber = '1899-12-30'
-      return moment(startExcelDateSerialNumber).add(numb, 'days').format('YYYYMMDD')
     },
     // 获取指标级次
     getBudgetElement() {
@@ -2366,8 +2365,7 @@ export default {
       })
       this.formItemsConfigBtmBasic = [...configs]
     },
-   
-    
+
     async loadConfig(id) {
       let params = {
         tableId: {
@@ -2669,7 +2667,20 @@ export default {
         localThis.$refs.tmp.showLoading = false
       })
     },
-    
+    initTreeInfoBasic(formData, property, value, projectInfo) {
+      let infos = value.split('##')
+      if (!(infos[1] || '').trim() || !(infos[2] || '').trim()) {
+        let p = property.substr(0, property.length - 1)
+        formData[property] = '##' + projectInfo[p + 'Code'] + infos[0]
+        formData[property + 'code'] = (infos[1] || '').trim() || projectInfo[p + 'Code']
+        formData[property + 'name'] = (infos[2] || '').trim() || infos[0]
+      } else {
+        formData[property] = value
+        formData[property + 'id'] = infos[0]
+        formData[property + 'code'] = (infos[1] || '').trim()
+        formData[property + 'name'] = (infos[2] || '').trim()
+      }
+    },
     initModalFormData(projectInfo) {
       let localThis = this
       // 基本情况
@@ -2677,13 +2688,13 @@ export default {
       localThis.formDataListBtmBasic.proAgencyCode = projectInfo.proAgencyCode
       // 财政区划
       let mofDiv = projectInfo.mofDivName
-      this.initTreeInfo(localThis.formDataListBtmBasic, 'mofDiv_', mofDiv, projectInfo)
+      this.initTreeInfoBasic(localThis.formDataListBtmBasic, 'mofDiv_', mofDiv, projectInfo)
       localThis.formDataListBtmBasic.mofDivName = projectInfo.mofDivName
       // localThis.formDataListBtmBasic.mofDivNameId = projectInfo.mofDivName
       // 预算级次
       localThis.formDataListBtmBasic.budgetLevelName = projectInfo.budgetLevelName
       let budgetLevel = projectInfo.budgetLevelName
-      this.initTreeInfo(localThis.formDataListBtmBasic, 'budgetLevel_', budgetLevel, projectInfo)
+      this.initTreeInfoBasic(localThis.formDataListBtmBasic, 'budgetLevel_', budgetLevel, projectInfo)
       localThis.formDataListBtmBasic.speProName = projectInfo.speProName
       localThis.formDataListBtmBasic.speProCode = projectInfo.speProCode
       localThis.formDataListBtmBasic.trackProName = projectInfo.trackProName
@@ -2691,11 +2702,11 @@ export default {
       // 项目主管部门
       let proDeptName = projectInfo.proDeptName
       localThis.formDataListBtm.proDeptName = projectInfo.proDeptName
-      this.initTreeInfo(localThis.formDataListBtm, 'proDept_', proDeptName, projectInfo)
+      this.initTreeInfoBasic(localThis.formDataListBtm, 'proDept_', proDeptName, projectInfo)
       // 项目所属投向领域
       let fundInvestInfo = projectInfo.fundInvestAreaName
       localThis.formDataListBtmBasic.fundInvestAreaName = projectInfo.fundInvestAreaName
-      this.initTreeInfo(localThis.formDataListBtmBasic, 'fundInvestArea_', fundInvestInfo, projectInfo)
+      this.initTreeInfoBasic(localThis.formDataListBtmBasic, 'fundInvestArea_', fundInvestInfo, projectInfo)
       localThis.formDataListBtmBasic.proContent = projectInfo.proContent
       localThis.formDataListBtmBasic.proStaDate = this.stringToDate(projectInfo.proStaDate)
       localThis.formDataListBtmBasic.proEndDate = this.stringToDate(projectInfo.proEndDate)
@@ -2740,17 +2751,12 @@ export default {
       localThis.contactInformationFormDataBasic.proLessorMtel = projectInfo.proLessorMtel
     },
     initFormItemsBasic(disabled) {
-      this.setItemsDisable(this.formItemsConfigBtm, false, disabled)
-      this.setItemsDisable(this.modalTblColumnsConfig, true, disabled)
-      this.setItemsDisable(this.formItemsConfigThird, false, disabled)
-      this.setItemsDisable(this.formItemsConfigForth, false, disabled)
-      this.setItemsDisable(this.contactInformationFormConfig, false, disabled)
-      this.setItemsDisable(this.modalTblColumnsConfigSx, true, disabled)
-      this.tableToolbarConfigAttach.buttons.forEach(btn => {
-        btn.disabled = disabled
-        btn.visible = !disabled
-      })
-      console.log('this.formItemsConfigBtm', this.formItemsConfigBtm)
+      this.setItemsDisable(this.formItemsConfigBtmBasic, false, disabled)
+      this.setItemsDisable(this.modalTblColumnsConfigBasic, true, disabled)
+      this.setItemsDisable(this.formItemsConfigThirdBasic, false, disabled)
+      this.setItemsDisable(this.formItemsConfigForthBasic, false, disabled)
+      this.setItemsDisable(this.contactInformationFormConfigBasic, false, disabled)
+      this.setItemsDisable(this.modalTblColumnsConfigSxBasic, true, disabled)
     },
     initFormItems(disabled) {
       this.setItemsDisable(this.formItemsConfigBtm, false, disabled)
