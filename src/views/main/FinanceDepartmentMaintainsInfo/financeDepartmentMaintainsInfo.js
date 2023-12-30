@@ -1147,7 +1147,7 @@ export let config = () => {
         title: '项目整体绩效目标',
         span: 24,
         titleWidth: '160',
-        itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目整体绩效目标' } }
+        itemRender: { name: '$textarea', props: { type: 'string', placeholder: '请输入项目整体绩效目标' } }
       }
     ],
     KPIFormData: {

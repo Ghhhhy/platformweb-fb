@@ -42,7 +42,7 @@
           :queryparams="treeQueryparams"
           :global-config="treeGlobalConfig"
           :nodecheckmethod="nodecheckmethod"
-          :clickmethod="handleNodeClick"
+          :clickmethod="clickmethod"
         />
       </template>
       <template v-slot:mainForm>
@@ -179,6 +179,28 @@ export default {
         }
       }
       return condition
+    },
+    clickmethod(cureentClickNode, node, context) {
+      const set = new Set([])
+      set.add(cureentClickNode.code)
+      if (Array.isArray(cureentClickNode.children) && cureentClickNode.children.length) {
+        const cursion = (arr) => {
+          arr.forEach(item => {
+            set.add(item.code)
+            if (Array.isArray(item.children) && item.children.length) {
+              cursion(item.children)
+            }
+          })
+        }
+        cursion(cureentClickNode.children)
+      }
+      const arr = Array.from(set)
+      const key = 'pro_agency_code'
+      this.condition = { [key]: arr }
+      this.pagerConfig.pageNum = 1
+      this.mergeCondition(() => {
+        this.getTableData()
+      })
     },
     search(val) {
       this.searchDataList = Object.assign(this.searchDataList, val)
