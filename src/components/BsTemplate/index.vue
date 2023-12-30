@@ -85,6 +85,8 @@ export default {
     return {
       isCustomApi: false,
       tableApi: '',
+      logData: [],
+      showLogView: false,
       toolBarStatusBtnConfig: {
         changeBtns: true,
         methods: {

@@ -14,8 +14,10 @@ export default {
             renderDefault: (h, cellRender, params, context) => {
               let { row, column } = params
               return [
-                <el-tooltip content="" placement="" effect="light">
-                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.viewOprationLog({ row, column })}>查看</span>
+                <el-tooltip content="查看附件" placement="top" effect="light">
+                  <div class="gloableOptionRow">
+                    <div style="width:20px;;height:20px;;text-align:center;" class="gloable-option-row-optionlog fn-inline" onClick={() => this.viewOprationLog({ row, column })}></div>
+                  </div>
                 </el-tooltip>
               ]
             }
