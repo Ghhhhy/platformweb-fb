@@ -533,7 +533,7 @@ export let config = () => {
                 elementCode: 'dept'
               },
               config: {
-                disabled: false,
+                disabled: true,
                 isleaf: true,
                 showFilter: false,
                 placeholder: '请选择项目主管部门',
@@ -615,10 +615,10 @@ export let config = () => {
             required: true,
             options: [],
             props: {
-              isleaf: true,
               placeholder: '请输入项目所属投向领域',
               config: {
                 disabled: false,
+                isleaf: true,
                 treeProps: {
                   labelFormat: '{code}-{name}',
                   nodeKey: 'id',
@@ -719,8 +719,49 @@ export let config = () => {
       fundInvestArea_: [ { required: true, message: '请输入项目所属投向领域代码', trigger: 'change' } ],
       fundInvestAreaName: [ { required: true, message: '请输入项目所属投向领域名称', trigger: 'change' } ],
       proContent: [ { required: true, message: '请输入项目主要建设内容', trigger: 'change' } ],
-      proStaDate: [ { required: true, message: '请输入开工或预计开工时间', trigger: 'change' } ],
-      proEndDate: [ { required: true, message: '请输入预计完工时间', trigger: 'change' } ],
+      proStaDate: [
+        {
+          required: true,
+          message: '请输入开工或预计开工时间',
+          trigger: 'change',
+          validator({ itemValue, rule, rules, data, property }) {
+            return new Promise((resolve, reject) => {
+              let d1 = new Date(data.proStaDate).getTime()
+              let d2 = new Date(data.proEndDate).getTime()
+              if (d1 <= d2) {
+                resolve(true)
+              } else {
+                reject(new Error(
+                  '开工或预计开工时间不得晚于预计完工时间'
+                ))
+              }
+            })
+          }
+        }
+      ],
+      proEndDate: [{ required: true, message: '请输入预计完工时间', trigger: 'change' }],
+      proRealStaDate: [
+        {
+          trigger: 'change',
+          validator({ itemValue, rule, rules, data, property }) {
+            return new Promise((resolve, reject) => {
+              if (data.proRealEndDate && data.proRealStaDate) {
+                let d1 = new Date(data.proRealStaDate).getTime()
+                let d2 = new Date(data.proRealEndDate).getTime()
+                if (d1 <= d2) {
+                  resolve(true)
+                } else {
+                  reject(new Error(
+                    '实际开工时间不得晚于实际竣工时间'
+                  ))
+                }
+              } else {
+                resolve(true)
+              }
+            })
+          }
+        }
+      ],
       isUseMultiTrackPro: [ { required: true, message: '请输入是否使用多项中央转移支付资金', trigger: 'change' } ],
       isEnd: [{ required: true, message: '请输入项目是否终结', trigger: 'change' }],
       kpiTarget: [{ required: true, message: '请输入项目整体绩效目标', trigger: 'change' }],
@@ -771,6 +812,20 @@ export let config = () => {
       {
         title: '三级指标编码',
         field: 'lv3PerfIndCode',
+        editRender: {
+          name: '$input'
+        }
+      },
+      {
+        title: '评（扣）分标准',
+        field: 'kpiEvalstd',
+        editRender: {
+          name: '$input'
+        }
+      },
+      {
+        title: '绩效指标说明',
+        field: 'kpiContent',
         editRender: {
           name: '$input'
         }
@@ -983,15 +1038,22 @@ export let config = () => {
           name: '$vxeTree',
           required: true,
           props: {
-            isleaf: true,
             placeholder: '请输入项目所属投向领域',
+            queryparams: {
+              elementCode: 'PROFUNDINVESTAREA'
+            },
             config: {
               disabled: false,
+              isleaf: true,
               treeProps: {
                 labelFormat: '{code}-{name}',
                 nodeKey: 'id',
                 label: 'label',
                 children: 'children'
+              },
+              axiosConfig: {
+                method: 'post',
+                url: '/dfr-monitor-service/dfr/common/elementtree'
               }
             }
           }
@@ -1059,8 +1121,48 @@ export let config = () => {
       fundInvestAreaCode: [ { required: true, message: '请输入项目所属投向领域代码', trigger: 'change' } ],
       fundInvestAreaName: [ { required: true, message: '请输入项目所属投向领域名称', trigger: 'change' } ],
       proContent: [ { required: true, message: '请输入项目主要建设内容', trigger: 'change' } ],
-      proStaDate: [ { required: true, message: '请输入开工或预计开工时间', trigger: 'change' } ],
-      proEndDate: [ { required: true, message: '请输入预计完工时间', trigger: 'change' } ],
+      proStaDate: [{
+        required: true,
+        message: '请输入开工或预计开工时间',
+        trigger: 'change',
+        validator({ itemValue, rule, rules, data, property }) {
+          return new Promise((resolve, reject) => {
+            let d1 = new Date(data.proStaDate).getTime()
+            let d2 = new Date(data.proEndDate).getTime()
+            if (d1 <= d2) {
+              resolve(true)
+            } else {
+              reject(new Error(
+                '开工或预计开工时间不得晚于预计完工时间'
+              ))
+            }
+          })
+        }
+      }
+      ],
+      proEndDate: [{ required: true, message: '请输入预计完工时间', trigger: 'change' }],
+      proRealStaDate: [
+        {
+          trigger: 'change',
+          validator({ itemValue, rule, rules, data, property }) {
+            return new Promise((resolve, reject) => {
+              if (data.proRealEndDate && data.proRealStaDate) {
+                let d1 = new Date(data.proRealStaDate).getTime()
+                let d2 = new Date(data.proRealEndDate).getTime()
+                if (d1 <= d2) {
+                  resolve(true)
+                } else {
+                  reject(new Error(
+                    '实际开工时间不得晚于实际竣工时间'
+                  ))
+                }
+              } else {
+                resolve(true)
+              }
+            })
+          }
+        }
+      ],
       isUseMultiTrackPro: [ { required: true, message: '请输入是否使用多项中央转移支付资金', trigger: 'change' } ],
       isEnd: [{ required: true, message: '请输入项目是否终结', trigger: 'change' }],
       kpiTarget: [{ required: true, message: '请输入项目整体绩效目标', trigger: 'change' }],
