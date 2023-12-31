@@ -415,63 +415,63 @@ export let config = () => {
         title: '项目总投资',
         span: 24,
         titleWidth: '240',
-        itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '自动生成', disabled: true } }
+        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '自动生成', disabled: true } }
       },
       {
         field: 'proGiAddnb',
         title: '增发国债资金',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入增发国债资金' } }
+        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入增发国债资金' } }
       },
       {
         field: 'proGiCff',
         title: '中央预算内投资',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入中央预算内投资' } }
+        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入中央预算内投资' } }
       },
       {
         field: 'proGiCfo',
         title: '其他中央财政性建设资金',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入其他中央财政性建设资金' } }
+        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入其他中央财政性建设资金' } }
       },
       {
         field: 'proGiLff',
         title: '地方财政资金',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入地方财政资金' } }
+        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入地方财政资金' } }
       },
       {
         field: 'proGiEf',
         title: '企业自有资金',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入企业自有资金' } }
+        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入企业自有资金' } }
       },
       {
         field: 'proGiLb',
         title: '地方政府专项债券',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入地方政府专项债券' } }
+        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入地方政府专项债券' } }
       },
       {
         field: 'proGiBankl',
         title: '银行贷款',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入银行贷款' } }
+        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入银行贷款' } }
       },
       {
         field: 'proGiOth',
         title: '其他资金',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入其他资金' } }
+        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入其他资金' } }
       }
     ],
     formItemsConfigBtm:

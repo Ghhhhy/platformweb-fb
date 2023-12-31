@@ -199,6 +199,7 @@ import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceD
 import FilePreview from '@/views/main/fundMonitoring/violationHandle/warningCreate/children/common/filePreview.vue'
 import moment from 'moment'
 import { config } from './financeDepartmentMaintainsInfo'
+import Decimal from 'decimal.js'
 
 export default {
   components: {
@@ -223,7 +224,7 @@ export default {
         showFooter: false
       },
       activeNameBtm: '1',
-      uploadDFileParams: [],
+      uploadDFileParams: {},
       attachmentId: '',
       fileDataBakDel: [],
       fileData: [],
@@ -787,15 +788,16 @@ export default {
       })
     },
     insertItemChange({ $form, property, itemValue, data }, bsform) {
-      let sum = 0
+      let sum = new Decimal(0)
       this.formDataListThird[property] = data[property]
       this.formItemsConfigThird.forEach(item => {
         if (item.field !== 'proGi') {
           console.log(data[item.field])
-          sum += this.clearFormat(data[item.field])
+          const itemValue = new Decimal(this.clearFormat(data[item.field]))
+          sum = sum.add(itemValue)
         }
       })
-      this.formDataListThird.proGi = sum
+      this.formDataListThird.proGi = sum.toString()
       this.formDataListThird = { ...this.formDataListThird }
       console.log(this.formDataListThird)
       console.log(data.sums)
