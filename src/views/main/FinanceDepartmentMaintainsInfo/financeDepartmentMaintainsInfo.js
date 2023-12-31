@@ -1,3 +1,15 @@
+// 校验座机电话号码
+const phoneValid = ({ itemValue: value, rule, rules }) => {
+  const re = /^1\d{10}$/ // 手机号码
+  const re1 = /^\d{3}-\d{8}$|\d{4}-\d{7}$/ // 座机号
+  const re2 = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/ // 固定号码
+  if (!value) {
+    return Promise.reject(new Error(rule.message))
+  } else if (value && (!re1.test(value) && !re.test(value) && !re2.test(value))) {
+    return Promise.reject(new Error('请填写正确的电话号码格式'))
+  }
+  return Promise.resolve()
+}
 export let config = () => {
   return {
     modalTblColumnsConfigSx: [
@@ -179,17 +191,17 @@ export let config = () => {
       consAgencyName: [ { required: true, message: '请输入主要施工单位', trigger: 'change' } ],
       agencyLeaderPerName: [{ required: true, message: '请输入项目单位负责人姓名', trigger: 'change' }],
 
-      agencyLeaderPerOtel: [ { required: true, message: '请输入项目单位负责人办公电话', trigger: 'change' } ],
-      agencyLeaderPerMtel: [ { required: true, message: '请输入项目单位负责人手机', trigger: 'change' } ],
+      agencyLeaderPerOtel: [ { required: true, validator: phoneValid, message: '请输入项目单位负责人办公电话', trigger: 'change' } ],
+      agencyLeaderPerMtel: [ { required: true, validator: phoneValid, message: '请输入项目单位负责人手机', trigger: 'change' } ],
       fiLeader: [ { required: true, message: '请输入财务负责人姓名', trigger: 'change' } ],
-      fiLeaderOtel: [ { required: true, message: '请输入财务负责人办公电话', trigger: 'change' } ],
-      fiLeaderMtel: [ { required: true, message: '请输入财务负责人手机', trigger: 'change' } ],
+      fiLeaderOtel: [ { required: true, validator: phoneValid, message: '请输入财务负责人办公电话', trigger: 'change' } ],
+      fiLeaderMtel: [ { required: true, validator: phoneValid, message: '请输入财务负责人手机', trigger: 'change' } ],
       proLeader: [ { required: true, message: '请输入项目负责人姓名', trigger: 'change' } ],
-      proLeaderOtel: [ { required: true, message: '请输入项目负责人办公电话', trigger: 'change' } ],
-      proLeaderMtel: [ { required: true, message: '请输入项目负责人手机', trigger: 'change' } ],
+      proLeaderOtel: [ { required: true, validator: phoneValid, message: '请输入项目负责人办公电话', trigger: 'change' } ],
+      proLeaderMtel: [ { required: true, validator: phoneValid, message: '请输入项目负责人手机', trigger: 'change' } ],
       proLessor: [ { required: true, message: '请输入工作联系人姓名', trigger: 'change' } ],
-      proLessorOtel: [ { required: true, message: '请输入工作联系人办公电话', trigger: 'change' } ],
-      proLessorMtel: [ { required: true, message: '请输入工作联系人手机', trigger: 'change' } ]
+      proLessorOtel: [ { required: true, validator: phoneValid, message: '请输入工作联系人办公电话', trigger: 'change' } ],
+      proLessorMtel: [ { required: true, validator: phoneValid, message: '请输入工作联系人手机', trigger: 'change' } ]
     },
     modalTblColumnsConfigFv: [
       {
