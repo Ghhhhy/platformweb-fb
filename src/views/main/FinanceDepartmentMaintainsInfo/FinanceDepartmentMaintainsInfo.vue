@@ -1407,7 +1407,7 @@ export default {
       localThis.formDataListBtm.speProName = projectInfo.speProName
       localThis.formDataListBtm.speProCode = projectInfo.speProCode
       // localThis.formDataListBtm.trackProName = projectInfo.trackProName
-      // localThis.formDataListBtm.trackProCode = projectInfo.trackProCode
+      localThis.formDataListBtm.trackProCode = projectInfo.trackProCode
       // 项目主管部门
       let proDeptName = projectInfo.proDeptName
       localThis.formDataListBtm.proDeptName = projectInfo.proDeptName
