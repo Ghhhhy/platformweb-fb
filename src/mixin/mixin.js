@@ -157,26 +157,36 @@ export default {
       this.isShowQueryConditions = isOpen
     },
     // 操作日志
-    viewOprationLog(row) {
-      // HttpModule.getLogs(row.dealNo).then(res => {
-      //   if (res.code === '000000') {
-      //     let tempData = res.data?.map(item => {
-      //       return {
-      //         logid: item['operationTypeCode'],
-      //         nodeName: item['operationTypeName'],
-      //         actionUser: item['operationUser'],
-      //         actionName: item['operationTypeName'],
-      //         actionTime: item['createdTime'] == null ? '' : item['createdTime'],
-      //         message: item['operationComment']
-      //       }
-      //     })
-      //     this.logData = tempData
-      //     console.log(this.logData)
-      //     this.showLogView = true
-      //   } else {
-      //     this.$message.error(res.message)
-      //   }
-      // })
+    viewOprationLog({ row }) {
+      const params = {
+        appId: 'pm_project_info_detail',
+        id: row.proDetId
+      }
+      const basicRoute = ['PmProDetFinalAduit', 'PmProDetAduit', 'PmProDetInput']
+      const monthReportRoute = ['PmProDetMonFinalAudit', 'PmProDetMonAudit', 'PmProDetMonInput']
+      if (basicRoute.includes(this.$route.name)) {
+        params.appId = 'pm_project_info_detail'
+      } else if (monthReportRoute.includes(this.$route.name)) {
+        params.appId = 'pm_project_info_det_mon'
+      }
+      this.$http.get(BSURL.dfr_commonActionLog, params).then(res => {
+        if (res.code === '000000') {
+          let tempData = res.data?.map(item => {
+            return {
+              logid: item['operationTypeCode'],
+              nodeName: item['operationTypeName'],
+              actionUser: item['operationUser'],
+              actionName: item['operationTypeName'],
+              actionTime: item['createdTime'] == null ? '' : item['createdTime'],
+              message: item['operationComment']
+            }
+          })
+          this.logData = tempData
+          this.showLogView = true
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     }
   },
   computed: {

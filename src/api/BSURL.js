@@ -45,6 +45,7 @@ const BSURL = {
   dfr_zdzjledgerExportData: 'dfr-monitor-service/dfr/zdzjledger/exportData', // 报表明细钻取大数据（>50w）导出接口
   dfr_warningResultHandleRuleUpdateZGBatch: 'dfr-monitor-service/dfr/warningResultHandleRule/updateZGBatch', // 预算重点监督预警处理_分规则 批量整改
   dfr_file_downLoadFile: 'dfr-monitor-service/dfr/file/downLoadFile',
+  dfr_commonActionLog: 'dfr-monitor-service/dfr/common/actionLog', // 国债 操作日志接口
 
   // 平台  文件服务
   api_fileservice_v2_files: 'fileservice/v2/files', // 平台获取文件列表

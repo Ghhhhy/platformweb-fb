@@ -1557,6 +1557,7 @@
               :keyboard-config="{ isDel: false }"
               :pager-config="false"
               :footer-config="{ showFooter: false }"
+              :table-config="fileTableConfig"
               :toolbar-config="tableToolbarConfigAttachBasic"
             >
               <template v-slot:pagerLeftSlots>
@@ -1599,6 +1600,7 @@ export default {
   },
   data() {
     return {
+      appId: this.$store.getters.getLoginAuthentication.appguid,
       fileGuid: '',
       filePreviewDialogVisible: false,
       downloadParams: {
@@ -1730,7 +1732,7 @@ export default {
       isFirst: false,
       isClearable: false,
       activeNameBtm: '1',
-      uploadDFileParams: [],
+      uploadDFileParams: {},
       attachmentId: '',
       fileDataBakDel: [],
       fileData: [],
@@ -2308,6 +2310,25 @@ export default {
       showModalBasic: false,
       modalFormBasic: '',
       showModalFooterBasic: true,
+      fileTableConfig: {
+        renderers: {
+          $fileTableOperation: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row } = params
+              return [
+                <div class="gloableOptionRow fcc">
+                  <el-tooltip content="预览" placement="top" effect="light">
+                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-view" onClick={() => this.preview(row)}>预览</div>
+                  </el-tooltip>
+                  <el-tooltip content="下载" placement="top" effect="light">
+                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-download" onClick={() => this.downloadAttachment(row)}>下载</div>
+                  </el-tooltip>
+                </div>
+              ]
+            }
+          }
+        }
+      },
       tableToolbarConfigInmodalBasic: {
         // table工具栏配置
         disabledMoneyConversion: false,
@@ -2558,7 +2579,8 @@ export default {
       form.append('year', this.$store.state.userInfo.year)
       form.append('province', this.$store.state.userInfo.province)
       form.append('userguid', this.$store.state.userInfo.guid)
-      form.append('billguid', this.$ToolFn.utilFn.getUuid())
+      const tempUUID = this.$ToolFn.utilFn.getUuid()
+      form.append('billguid', tempUUID)
       this.addLoading = true
       this.fileUpload(form).then(res => {
         this.addLoading = false
@@ -2581,13 +2603,13 @@ export default {
           data['appid'] = 'pay_plan_voucher'
           data['creater'] = e.file.uid
           data['guid'] = this.$store.state.userInfo.guid
-          data['billguid'] = this.$ToolFn.utilFn.getUuid()
+          data['billguid'] = tempUUID
           data['importuser'] = this.$store.state.userInfo.name
           data['createTime'] = new Date().toLocaleDateString()
           data['proAttchKindCode'] = ''
           data.proAttchKindCode = this.filetype
 
-          data.proAttchKindName = this.filetypeName
+          data.proAttchKindName = this.filetype
           this.tableDataSx.push(data)
           this.$message.success('上传成功')
         } else {
@@ -2911,6 +2933,10 @@ export default {
         itemConfigs.forEach(item => {
           if (this.readonly.indexOf(item.field) === -1) {
             if (item.itemRender) {
+              if (item.itemRender.name === '$vxeTree') {
+                item.itemRender.props.config.disabled = disabled
+                return
+              }
               if (item.itemRender.props) {
                 if (item.itemRender.name === '$vxeTree' || item.itemRender.name === '$formTreeInput') {
                   if (this.isView) {
