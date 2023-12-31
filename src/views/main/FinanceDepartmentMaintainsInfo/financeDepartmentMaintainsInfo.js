@@ -573,7 +573,7 @@ export let config = () => {
         },
         {
           field: 'bgtMofDep_',
-          title: '资金管理处室',
+          title: '资金主管处室',
           span: 12,
           titleWidth: '255',
           itemRender: {
@@ -588,7 +588,7 @@ export let config = () => {
                 disabled: false,
                 isleaf: true,
                 showFilter: false,
-                placeholder: '请选择资金管理处室',
+                placeholder: '请选择资金主管处室',
                 treeProps: {
                   labelFormat: '{code}-{name}',
                   nodeKey: 'id',
@@ -799,7 +799,7 @@ export let config = () => {
       speProName: [{ required: true, message: '请输入项目名称', trigger: 'change' }],
       proDeptCode: [{ required: true, message: '请输入项目主管部门代码', trigger: 'change' }],
       proDept_: [{ required: true, message: '请输入项目主管部门名称', trigger: 'change' }],
-      bgtMofDep_: [{ required: true, message: '请输入资金管理处室', trigger: 'change' }],
+      bgtMofDep_: [{ required: true, message: '请输入资金主管处室', trigger: 'change' }],
       manageMofDep_: [{ required: true, message: '请输入业管理处室', trigger: 'change' }],
       fundInvestArea_: [ { required: true, message: '请输入项目所属投向领域代码', trigger: 'change' } ],
       fundInvestAreaName: [ { required: true, message: '请输入项目所属投向领域名称', trigger: 'change' } ],
@@ -1041,7 +1041,7 @@ export let config = () => {
       },
       {
         field: 'bgtMofDep_',
-        title: '资金管理处室',
+        title: '资金主管处室',
         span: 12,
         titleWidth: '255',
         itemRender: {
@@ -1056,7 +1056,7 @@ export let config = () => {
               disabled: false,
               isleaf: true,
               showFilter: false,
-              placeholder: '请选择资金管理处室',
+              placeholder: '请选择资金主管处室',
               treeProps: {
                 labelFormat: '{code}-{name}',
                 nodeKey: 'id',
@@ -1213,11 +1213,11 @@ export let config = () => {
                 nodeKey: 'id',
                 label: 'label',
                 children: 'children'
-              },
-              axiosConfig: {
-                method: 'post',
-                url: '/dfr-monitor-service/dfr/common/elementtree'
               }
+              // axiosConfig: {
+              //   method: 'post',
+              //   url: '/dfr-monitor-service/dfr/common/elementtree'
+              // }
             }
           }
         }
@@ -1281,7 +1281,7 @@ export let config = () => {
       speProName: [{ required: true, message: '请输入项目名称', trigger: 'change' }],
       proDeptCode: [{ required: true, message: '请输入项目主管部门代码', trigger: 'change' }],
       proDept_: [{ required: true, message: '请输入项目主管部门名称', trigger: 'change' }],
-      bgtMofDep_: [{ required: true, message: '请输入资金管理处室', trigger: 'change' }],
+      bgtMofDep_: [{ required: true, message: '请输入资金主管处室', trigger: 'change' }],
       manageMofDep_: [{ required: true, message: '请输入业管理处室', trigger: 'change' }],
       fundInvestAreaCode: [ { required: true, message: '请输入项目所属投向领域代码', trigger: 'change' } ],
       fundInvestAreaName: [ { required: true, message: '请输入项目所属投向领域名称', trigger: 'change' } ],
