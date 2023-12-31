@@ -112,15 +112,17 @@
               :pager-config="false"
               :footer-config="{ showFooter: false }"
               :toolbar-config="tableToolbarConfigAttach"
+              :table-config="fileTableConfig"
               @editClosed="editClosed"
             >
-              <template v-slot:pagerLeftSlots>
-                <div class="table-toolbar-left">
-                  <div class="table-toolbar-left-title">
-                    <span class="fn-inline"><span>支持png/jpg/pdf等，不超过20M</span></span>
-                    <i class="fn-inline"></i>
+              <template v-slot:toolbarSlots>
+                <template v-if="btnClickType !== 'pay-checkDetails'">
+                  <vxe-button v-deClick status="primary" @click="handleUpload">上传附件</vxe-button>
+                  <vxe-button v-deClick status="primary" @click="deleteAttachment">删除</vxe-button>
+                  <div class="table-toolbar-left fn-inline">
+                    支持png/jpg/pdf等，不超过20M
                   </div>
-                </div>
+                </template>
               </template>
             </BsTable>
           </el-tab-pane>
@@ -175,6 +177,19 @@
         <vxe-button status="primary" @click="confirm">确定</vxe-button>
       </div>
     </vxe-modal>
+    <!-- 附件预览 -->
+    <FilePreview
+      v-if="filePreviewDialogVisible"
+      :visible.sync="filePreviewDialogVisible"
+      :file-guid="fileGuid"
+      :app-id="appId"
+    />
+    <!-- 下载方法调用实例 -->
+    <BsUpload
+      ref="attachmentUpload"
+      :downloadparams="downloadParams"
+      uniqe-name="attachmentUpload"
+    />
   </div>
 </template>
 <script>
@@ -184,6 +199,12 @@ import { config } from './financeDepartmentMaintainsInfo'
 export default {
   data() {
     return {
+      appId: this.$store.getters.getLoginAuthentication.appguid,
+      fileGuid: '',
+      filePreviewDialogVisible: false,
+      downloadParams: {
+        fileguid: ''
+      },
       btnClickType: '',
       // readonly: ['proAgencyName', 'mofDiv_', 'budgetLevel_', 'speProCode', 'proDept_', 'proGi'],
       menuId: '',
@@ -308,10 +329,29 @@ export default {
         print: false, // 打印
         zoom: true, // 缩放
         custom: false, // 选配展示列
-        buttons: [
-          { code: 'upload-attachment', name: '上传附件', status: 'primary', callback: this.handleUpload },
-          { code: 'delete-attachment', name: '删除', status: 'primary', callback: this.deleteAttachment }
-        ]
+        slots: {
+          tools: 'toolbarTools',
+          buttons: 'toolbarSlots'
+        }
+      },
+      fileTableConfig: {
+        renderers: {
+          $fileTableOperation: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row } = params
+              return [
+                <div class="gloableOptionRow fcc">
+                  <el-tooltip content="预览" placement="top" effect="light">
+                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-view" onClick={() => this.preview(row)}>预览</div>
+                  </el-tooltip>
+                  <el-tooltip content="下载" placement="top" effect="light">
+                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-download" onClick={() => this.downloadAttachment(row)}>下载</div>
+                  </el-tooltip>
+                </div>
+              ]
+            }
+          }
+        }
       },
       tableData: [],
       modalTblColumnsConfig: config().modalTblColumnsConfig,
@@ -395,6 +435,16 @@ export default {
     this.formDataListBtm.budgetLevelName = this.$store.state.userInfo.budgetlevelname
   },
   methods: {
+    // 下载附件
+    downloadAttachment(row) {
+      this.downloadParams.fileguid = row.fileguid
+      this.$refs.attachmentUpload.downloadFileFile()
+    },
+    // 预览文件
+    preview(row) {
+      this.fileGuid = row.billguid
+      this.filePreviewDialogVisible = true
+    },
     stringToDate(str) {
       return (str || '').substr(0, 4) + '-' + (str || '').substr(4, 2) + '-' + (str || '').substr(6)
     },
@@ -906,9 +956,6 @@ export default {
       this.setItemsDisable(this.formItemsConfigForth, false, disabled)
       this.setItemsDisable(this.contactInformationFormConfig, false, disabled)
       this.setItemsDisable(this.modalTblColumnsConfigSx, true, disabled)
-      this.tableToolbarConfigAttach.buttons.forEach(btn => {
-        btn.disabled = disabled
-      })
     },
     setItemsDisable(itemConfigs, isTable, disabled) {
       if (isTable) {
