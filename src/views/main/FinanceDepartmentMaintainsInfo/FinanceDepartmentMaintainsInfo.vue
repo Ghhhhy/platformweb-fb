@@ -482,7 +482,8 @@ export default {
       this.filePreviewDialogVisible = true
     },
     stringToDate(str) {
-      return (str || '').substr(0, 4) + '-' + (str || '').substr(4, 2) + '-' + (str || '').substr(6)
+      if (!str) return str
+      return moment(str).format('YYYY-MM-DD')
     },
     deleteAttachment() {
       let selections = this.$refs.fileDataRef.getSelectionData()
