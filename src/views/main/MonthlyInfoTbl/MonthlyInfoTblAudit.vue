@@ -2079,12 +2079,12 @@ export default {
   methods: {
     // 下载附件
     downloadAttachment(row) {
-      this.downloadParams.fileguid = row.fileguid
+      this.downloadParams.fileguid = row.proAttchId
       this.$refs.attachmentUpload.downloadFileFile()
     },
     // 预览文件
     preview(row) {
-      this.fileGuid = row.billguid
+      this.fileGuid = row.proAttchId
       this.filePreviewDialogVisible = true
     },
     async loadConfig(id) {
