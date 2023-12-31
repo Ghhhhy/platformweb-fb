@@ -19,7 +19,13 @@ export let config = () => {
       },
       {
         title: '上传时间',
-        field: 'createTime'
+        field: 'createTime',
+        'cellRender': {
+          'name': '$vxeTime',
+          'props': {
+            'format': 'YYYY/MM/DD'
+          }
+        }
       },
       {
         title: '附件分类',
@@ -388,16 +394,16 @@ export let config = () => {
       consApproveNumber: ''
     },
     formDataListThird: {
-      sums: '',
-      proGi: '',
-      proGiAddnb: '',
-      proGiCff: '',
-      proGiCfo: '',
-      proGiLff: '',
-      proGiEf: '',
-      proGiLb: '',
-      proGiBankl: '',
-      proGiOth: ''
+      sums: '0',
+      proGi: '0',
+      proGiAddnb: '0',
+      proGiCff: '0',
+      proGiCfo: '0',
+      proGiLff: '0',
+      proGiEf: '0',
+      proGiLb: '0',
+      proGiBankl: '0',
+      proGiOth: '0'
     },
     formDataListThirdRequired: {
       proGiAddnb: [ { required: true, message: '请输入增发国债资金', trigger: 'change' } ],
@@ -415,63 +421,65 @@ export let config = () => {
         title: '项目总投资',
         span: 24,
         titleWidth: '240',
-        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '自动生成', disabled: true } }
+        itemRender: { name: '$vxeMoney', props: { type: 'number', align: 'right', controls: false, required: true, placeholder: '自动生成', disabled: true } }
       },
       {
         field: 'proGiAddnb',
         title: '增发国债资金',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入增发国债资金' } }
+        itemRender: { name: '$vxeMoney', props: { type: 'number', min: '0', align: 'right', controls: false, required: true, placeholder: '请输入增发国债资金' } }
       },
       {
         field: 'proGiCff',
         title: '中央预算内投资',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入中央预算内投资' } }
+        itemRender: { name: '$vxeMoney', props: { type: 'number', min: '0', align: 'right', controls: false, required: true, placeholder: '请输入中央预算内投资' } }
       },
       {
         field: 'proGiCfo',
         title: '其他中央财政性建设资金',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入其他中央财政性建设资金' } }
+        itemRender: { name: '$vxeMoney', props: { type: 'number', min: '0', align: 'right', controls: false, required: true, placeholder: '请输入其他中央财政性建设资金' } }
       },
       {
         field: 'proGiLff',
         title: '地方财政资金',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入地方财政资金' } }
+        itemRender: { name: '$vxeMoney', props: { type: 'number', min: '0', align: 'right', controls: false, required: true, placeholder: '请输入地方财政资金' } }
       },
       {
         field: 'proGiEf',
         title: '企业自有资金',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入企业自有资金' } }
+        itemRender: { name: '$vxeMoney', props: { type: 'number', min: '0', align: 'right', controls: false, required: true, placeholder: '请输入企业自有资金' } }
       },
       {
         field: 'proGiLb',
         title: '地方政府专项债券',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入地方政府专项债券' } }
+        itemRender: { name: '$vxeMoney', props: { type: 'number', min: '0', align: 'right', controls: false, required: true, placeholder: '请输入地方政府专项债券' } }
       },
       {
         field: 'proGiBankl',
         title: '银行贷款',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入银行贷款' } }
+
+        itemRender: { name: '$vxeMoney', props: { type: 'number', min: '0', align: 'right', controls: false, required: true, placeholder: '请输入银行贷款' } }
       },
       {
         field: 'proGiOth',
         title: '其他资金',
         span: 12,
         titleWidth: '240',
-        itemRender: { name: '$vxeInput', props: { type: 'number', controls: false, required: true, placeholder: '请输入其他资金' } }
+
+        itemRender: { name: '$vxeMoney', props: { type: 'number', min: '0', align: 'right', controls: false, required: true, placeholder: '请输入其他资金' } }
       }
     ],
     formItemsConfigBtm:
@@ -549,6 +557,69 @@ export let config = () => {
                 isleaf: true,
                 showFilter: false,
                 placeholder: '请选择项目主管部门',
+                treeProps: {
+                  labelFormat: '{code}-{name}',
+                  nodeKey: 'id',
+                  label: 'label',
+                  children: 'children'
+                },
+                axiosConfig: {
+                  method: 'post',
+                  url: '/dfr-monitor-service/dfr/common/elementtree'
+                }
+              }
+            }
+          }
+        },
+        {
+          field: 'bgtMofDep_',
+          title: '资金管理处室',
+          span: 12,
+          titleWidth: '255',
+          itemRender: {
+            name: '$vxeTree',
+            props: {
+              isleaf: true,
+              elecode: 'bgt_mof_dep',
+              queryparams: {
+                elementCode: 'bgt_mof_dep'
+              },
+              config: {
+                disabled: false,
+                isleaf: true,
+                showFilter: false,
+                placeholder: '请选择资金管理处室',
+                treeProps: {
+                  labelFormat: '{code}-{name}',
+                  nodeKey: 'id',
+                  label: 'label',
+                  children: 'children'
+                },
+                axiosConfig: {
+                  method: 'post',
+                  url: '/dfr-monitor-service/dfr/common/elementtree'
+                }
+              }
+            }
+          }
+        }, {
+          field: 'manageMofDep_',
+          title: '业务管理处室',
+          span: 12,
+          titleWidth: '255',
+          itemRender: {
+            name: '$vxeTree',
+            props: {
+              isleaf: true,
+              elecode: 'manage_mof_dep',
+              queryparams: {
+                elementCode: 'manage_mof_dep'
+              },
+              config: {
+                disabled: true,
+                isleaf: true,
+                showFilter: false,
+                placeholder: '请选择业务管理处室',
                 treeProps: {
                   labelFormat: '{code}-{name}',
                   nodeKey: 'id',
@@ -728,9 +799,13 @@ export let config = () => {
       speProName: [{ required: true, message: '请输入项目名称', trigger: 'change' }],
       proDeptCode: [{ required: true, message: '请输入项目主管部门代码', trigger: 'change' }],
       proDept_: [{ required: true, message: '请输入项目主管部门名称', trigger: 'change' }],
+      bgtMofDep_: [{ required: true, message: '请输入资金管理处室', trigger: 'change' }],
+      manageMofDep_: [{ required: true, message: '请输入业管理处室', trigger: 'change' }],
       fundInvestArea_: [ { required: true, message: '请输入项目所属投向领域代码', trigger: 'change' } ],
       fundInvestAreaName: [ { required: true, message: '请输入项目所属投向领域名称', trigger: 'change' } ],
       proContent: [ { required: true, message: '请输入项目主要建设内容', trigger: 'change' } ],
+      ndrcProName: [ { required: true, message: '请输入发改委项目名称', trigger: 'change' } ],
+      ndrcProCode: [ { required: true, message: '请输入发改委项目编码', trigger: 'change' } ],
       proStaDate: [
         {
           required: true,
@@ -776,9 +851,9 @@ export let config = () => {
       ],
       isUseMultiTrackPro: [ { required: true, message: '请输入是否使用多项中央转移支付资金', trigger: 'change' } ],
       isEnd: [{ required: true, message: '请输入项目是否终结', trigger: 'change' }],
-      kpiTarget: [{ required: true, message: '请输入项目整体绩效目标', trigger: 'change' }],
-      trackPro_: [{ required: true, message: '增发国债资金中央转移支付项目名称', trigger: 'change' }],
-      trackProCode: [{ required: true, message: '增发国债资金中央转移支付项目代码', trigger: 'change' }]
+      kpiTarget: [{ required: true, message: '请输入项目整体绩效目标', trigger: 'change' }]
+      // trackPro_: [{ required: true, message: '增发国债资金中央转移支付项目名称', trigger: 'change' }],
+      // trackProCode: [{ required: true, message: '增发国债资金中央转移支付项目代码', trigger: 'change' }]
     },
     formDataListBtm: {
       proDeptName: '',
@@ -791,6 +866,12 @@ export let config = () => {
       speProName: '',
       speProCode: '',
       proDept_: '',
+      bgtMofDep_: '',
+      bgtMofDepName: '',
+      bgtMofDepCode: '',
+      manageMofDep_: '',
+      manageMofDepName: '',
+      manageMofDepCode: '',
       ndrcProName: '',
       ndrcProCode: '',
       trackProName: '',
@@ -821,13 +902,13 @@ export let config = () => {
           name: '$input'
         }
       },
-      {
-        title: '三级指标编码',
-        field: 'lv3PerfIndCode',
-        editRender: {
-          name: '$input'
-        }
-      },
+      // {
+      //   title: '三级指标编码',
+      //   field: 'lv3PerfIndCode',
+      //   editRender: {
+      //     name: '$input'
+      //   }
+      // },
       {
         title: '评（扣）分标准',
         field: 'kpiEvalstd',
@@ -959,6 +1040,69 @@ export let config = () => {
         }
       },
       {
+        field: 'bgtMofDep_',
+        title: '资金管理处室',
+        span: 12,
+        titleWidth: '255',
+        itemRender: {
+          name: '$vxeTree',
+          props: {
+            isleaf: true,
+            elecode: 'bgt_mof_dep',
+            queryparams: {
+              elementCode: 'bgt_mof_dep'
+            },
+            config: {
+              disabled: false,
+              isleaf: true,
+              showFilter: false,
+              placeholder: '请选择资金管理处室',
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'id',
+                label: 'label',
+                children: 'children'
+              },
+              axiosConfig: {
+                method: 'post',
+                url: '/dfr-monitor-service/dfr/common/elementtree'
+              }
+            }
+          }
+        }
+      }, {
+        field: 'manageMofDep_',
+        title: '业务管理处室',
+        span: 12,
+        titleWidth: '255',
+        itemRender: {
+          name: '$vxeTree',
+          props: {
+            isleaf: true,
+            elecode: 'manage_mof_dep',
+            queryparams: {
+              elementCode: 'manage_mof_dep'
+            },
+            config: {
+              disabled: false,
+              isleaf: true,
+              showFilter: false,
+              placeholder: '请选择业务管理处室',
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'id',
+                label: 'label',
+                children: 'children'
+              },
+              axiosConfig: {
+                method: 'post',
+                url: '/dfr-monitor-service/dfr/common/elementtree'
+              }
+            }
+          }
+        }
+      },
+      {
         field: 'ndrcProName',
         title: '发改委项目名称',
         span: 12,
@@ -1018,28 +1162,35 @@ export let config = () => {
         title: '开工或预计开工时间',
         span: 12,
         titleWidth: '255',
-        itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择开工或预计开工时间' } }
+        itemRender: { name: '$vxeTime', props: { type: 'date', 'label-format': 'yyyy/MM/dd', placeholder: '请选择开工或预计开工时间' } }
       },
       {
         field: 'proEndDate',
         title: '预计完工时间',
         span: 12,
         titleWidth: '255',
-        itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择预计完工时间' } }
+        itemRender: { name: '$vxeTime', props: { type: 'date', 'label-format': 'yyyy/MM/dd', placeholder: '请选择预计完工时间' } }
       },
       {
         field: 'proRealStaDate',
         title: '实际开工时间',
         span: 12,
         titleWidth: '255',
-        itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择开工或预计开工时间' } }
+        itemRender: { name: '$vxeTime', props: { type: 'date', 'label-format': 'yyyy/MM/dd', placeholder: '请选择开工或预计开工时间' } }
       },
       {
         field: 'proRealEndDate',
         title: '实际竣工时间',
         span: 12,
         titleWidth: '255',
-        itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择预计完工时间' } }
+        itemRender: {
+          name: '$vxeTime',
+          props: {
+            type: 'date',
+            'label-format': 'yyyy/MM/dd',
+            placeholder: '请选择预计完工时间'
+          }
+        }
       },
       {
         field: 'fundInvestArea_',
@@ -1130,12 +1281,22 @@ export let config = () => {
       speProName: [{ required: true, message: '请输入项目名称', trigger: 'change' }],
       proDeptCode: [{ required: true, message: '请输入项目主管部门代码', trigger: 'change' }],
       proDept_: [{ required: true, message: '请输入项目主管部门名称', trigger: 'change' }],
+      bgtMofDep_: [{ required: true, message: '请输入资金管理处室', trigger: 'change' }],
+      manageMofDep_: [{ required: true, message: '请输入业管理处室', trigger: 'change' }],
       fundInvestAreaCode: [ { required: true, message: '请输入项目所属投向领域代码', trigger: 'change' } ],
       fundInvestAreaName: [ { required: true, message: '请输入项目所属投向领域名称', trigger: 'change' } ],
       proContent: [ { required: true, message: '请输入项目主要建设内容', trigger: 'change' } ],
+      ndrcProName: [ { required: true, message: '请输入发改委项目名称', trigger: 'change' } ],
+      ndrcProCode: [ { required: true, message: '请输入发改委项目编码', trigger: 'change' } ],
       proStaDate: [{
         required: true,
         message: '请输入开工或预计开工时间',
+        trigger: 'change'
+      }
+      ],
+      proEndDate: [{
+        required: true,
+        message: '请输入预计完工时间',
         trigger: 'change',
         validator({ itemValue, rule, rules, data, property }) {
           return new Promise((resolve, reject) => {
@@ -1145,15 +1306,13 @@ export let config = () => {
               resolve(true)
             } else {
               reject(new Error(
-                '开工或预计开工时间不得晚于预计完工时间'
+                '预计完工时间不得早于开工或预计开工时间'
               ))
             }
           })
         }
-      }
-      ],
-      proEndDate: [{ required: true, message: '请输入预计完工时间', trigger: 'change' }],
-      proRealStaDate: [
+      }],
+      proRealEndDate: [
         {
           trigger: 'change',
           validator({ itemValue, rule, rules, data, property }) {
@@ -1165,7 +1324,7 @@ export let config = () => {
                   resolve(true)
                 } else {
                   reject(new Error(
-                    '实际开工时间不得晚于实际竣工时间'
+                    '实际竣工时间不得早于实际开工时间'
                   ))
                 }
               } else {
@@ -1178,8 +1337,8 @@ export let config = () => {
       isUseMultiTrackPro: [ { required: true, message: '请输入是否使用多项中央转移支付资金', trigger: 'change' } ],
       isEnd: [{ required: true, message: '请输入项目是否终结', trigger: 'change' }],
       kpiTarget: [{ required: true, message: '请输入项目整体绩效目标', trigger: 'change' }],
-      trackPro_: [{ required: true, message: '增发国债资金中央转移支付项目名称', trigger: 'change' }],
-      trackProCode: [{ required: true, message: '增发国债资金中央转移支付项目代码', trigger: 'change' }],
+      // trackPro_: [{ required: true, message: '增发国债资金中央转移支付项目名称', trigger: 'change' }],
+      // trackProCode: [{ required: true, message: '增发国债资金中央转移支付项目代码', trigger: 'change' }],
       fundInvestArea_: [ { required: true, message: '请选择项目所属投向领域', trigger: 'change' } ]
     },
     formDataListBtmAdd: {
@@ -1194,6 +1353,12 @@ export let config = () => {
       speProName: '',
       speProCode: '',
       proDept_: '',
+      bgtMofDep_: '',
+      bgtMofDepName: '',
+      bgtMofDepCode: '',
+      manageMofDep_: '',
+      manageMofDepName: '',
+      manageMofDepCode: '',
       ndrcProName: '',
       ndrcProCode: '',
       trackProName: '',
@@ -1211,10 +1376,11 @@ export let config = () => {
     addBudgetFormConfig: [
       {
         field: 'lv1PerfIndName',
-        title: '一级指标名称',
+        title: '绩效指标选择',
         span: 12,
         titleWidth: '120',
-        itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入一级指标名称', disabled: true } }
+        visible: false,
+        itemRender: { name: '$input', props: { type: 'string', placeholder: '请选择绩效指标', disabled: true } }
       },
       {
         field: 'lv2PerfInd_',
@@ -1253,17 +1419,17 @@ export let config = () => {
     KPIFormConfig: [
       {
         field: 'kpiTarget',
-        title: '项目整体绩效目标',
+        title: '项目总体绩效',
         span: 24,
         titleWidth: '160',
-        itemRender: { name: '$textarea', props: { type: 'string', placeholder: '请输入项目整体绩效目标' } }
+        itemRender: { name: '$textarea', props: { type: 'string', placeholder: '请输入项目总体绩效' } }
       }
     ],
     KPIFormData: {
       kpiTarget: ''
     },
     KPIFormDataRequired: {
-      kpiTarget: [{ required: true, message: '请输入项目整体绩效目标', trigger: 'change' }]
+      kpiTarget: [{ required: true, message: '请输入项目总体绩效', trigger: 'change' }]
     }
   }
 }

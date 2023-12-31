@@ -1395,6 +1395,7 @@
               ref="perfGoalDetMonRef"
               height="530"
               :table-columns-config="modalTblColumnsConfig"
+              :keyboard-config="{ isDel: false }"
               :span-method="objectSpanMethod"
               :table-data="tableData"
               :high-config="{ scrollY: { enabled: false } }"
@@ -1435,6 +1436,7 @@
               ref="fileDataRef"
               height="350"
               :table-columns-config="modalTblColumnsConfigSx"
+              :keyboard-config="{ isDel: false }"
               :table-data="tableDataSx"
               :pager-config="false"
               :footer-config="{ showFooter: false }"
@@ -1538,6 +1540,7 @@
               height="530"
               :table-columns-config="modalTblColumnsConfigBasic"
               :span-method="objectSpanMethod"
+              :keyboard-config="{ isDel: false }"
               :table-data="tableDataBasic"
               :high-config="{ scrollY: { enabled: false } }"
               :pager-config="false"
@@ -1551,6 +1554,7 @@
               height="460"
               :table-columns-config="modalTblColumnsConfigSxBasic"
               :table-data="tableDataSxBasic"
+              :keyboard-config="{ isDel: false }"
               :pager-config="false"
               :footer-config="{ showFooter: false }"
               :table-config="fileTableConfig"
@@ -1588,8 +1592,12 @@
 import HttpModule from '@/api/frame/main/MonthlyInfoTbl/MonthlyInfoTbl.js'
 import { config } from '@/views/main/FinanceDepartmentMaintainsInfo/financeDepartmentMaintainsInfo.js'
 import HttpModule1 from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfo.js'
+import FilePreview from '@/views/main/fundMonitoring/violationHandle/warningCreate/children/common/filePreview.vue'
 
 export default {
+  components: {
+    FilePreview
+  },
   data() {
     return {
       appId: this.$store.getters.getLoginAuthentication.appguid,
@@ -2433,6 +2441,7 @@ export default {
     },
     closeModalBasic() {
       this.showModalBasic = false
+      this.activeNameBtmBasic = '1'
     },
     // 获取指标级次
     getBudgetElement() {
@@ -2740,6 +2749,7 @@ export default {
       }
     },
     onBtnClick(obj) {
+      this.isViewBasic = false
       let localThis = this
       this.btnClickType = obj.code
       if (obj.code === 'pay-add') {
@@ -2800,11 +2810,11 @@ export default {
         localThis.$refs.tmp.showLoading = false
       })
     },
-    initTreeInfoBasic(formData, property, value, projectInfo) {
-      let infos = value.split('##')
+    initTreeInfo(formData, property, value, projectInfo) {
+      let infos = (value || '').split('##')
       if (!(infos[1] || '').trim() || !(infos[2] || '').trim()) {
         let p = property.substr(0, property.length - 1)
-        formData[property] = '##' + projectInfo[p + 'Code'] + infos[0]
+        formData[property] = '##' + projectInfo[p + 'Code'] + '##' + infos[0]
         formData[property + 'code'] = (infos[1] || '').trim() || projectInfo[p + 'Code']
         formData[property + 'name'] = (infos[2] || '').trim() || infos[0]
       } else {
@@ -2819,27 +2829,39 @@ export default {
       // 基本情况
       localThis.formDataListBtmBasic.proAgencyName = projectInfo.proAgencyCode + '-' + projectInfo.proAgencyName
       localThis.formDataListBtmBasic.proAgencyCode = projectInfo.proAgencyCode
+      localThis.formDataListBtmBasic.ndrcProCode = projectInfo.ndrcProCode
+      localThis.formDataListBtmBasic.ndrcProName = projectInfo.ndrcProName
       // 财政区划
       let mofDiv = projectInfo.mofDivName
-      this.initTreeInfoBasic(localThis.formDataListBtmBasic, 'mofDiv_', mofDiv, projectInfo)
+      this.initTreeInfo(localThis.formDataListBtmBasic, 'mofDiv_', mofDiv, projectInfo)
+      let trackProName = projectInfo.trackProName
+      this.initTreeInfo(localThis.formDataListBtmBasic, 'trackPro_', trackProName, projectInfo)
       localThis.formDataListBtmBasic.mofDivName = projectInfo.mofDivName
       // localThis.formDataListBtmBasic.mofDivNameId = projectInfo.mofDivName
       // 预算级次
       localThis.formDataListBtmBasic.budgetLevelName = projectInfo.budgetLevelName
       let budgetLevel = projectInfo.budgetLevelName
-      this.initTreeInfoBasic(localThis.formDataListBtmBasic, 'budgetLevel_', budgetLevel, projectInfo)
+      this.initTreeInfo(localThis.formDataListBtmBasic, 'budgetLevel_', budgetLevel, projectInfo)
       localThis.formDataListBtmBasic.speProName = projectInfo.speProName
       localThis.formDataListBtmBasic.speProCode = projectInfo.speProCode
       localThis.formDataListBtmBasic.trackProName = projectInfo.trackProName
       localThis.formDataListBtmBasic.trackProCode = projectInfo.trackProCode
       // 项目主管部门
       let proDeptName = projectInfo.proDeptName
-      localThis.formDataListBtm.proDeptName = projectInfo.proDeptName
-      this.initTreeInfoBasic(localThis.formDataListBtm, 'proDept_', proDeptName, projectInfo)
+      localThis.formDataListBtmBasic.proDeptName = projectInfo.proDeptName
+      this.initTreeInfo(localThis.formDataListBtmBasic, 'proDept_', proDeptName, projectInfo)
       // 项目所属投向领域
       let fundInvestInfo = projectInfo.fundInvestAreaName
       localThis.formDataListBtmBasic.fundInvestAreaName = projectInfo.fundInvestAreaName
-      this.initTreeInfoBasic(localThis.formDataListBtmBasic, 'fundInvestArea_', fundInvestInfo, projectInfo)
+      this.initTreeInfo(localThis.formDataListBtmBasic, 'fundInvestArea_', fundInvestInfo, projectInfo)
+      // 资金管理处室
+      let bgtMofDepInfo = projectInfo.bgtMofDepName
+      localThis.formDataListBtm.bgtMofDepName = projectInfo.bgtMofDepName
+      this.initTreeInfo(localThis.formDataListBtm, 'bgtMofDep_', bgtMofDepInfo, projectInfo)
+      // 业务管理处室
+      let manageMofDepInfo = projectInfo.manageMofDepName
+      localThis.formDataListBtm.manageMofDepName = projectInfo.manageMofDepName
+      this.initTreeInfo(localThis.formDataListBtm, 'manageMofDep_', manageMofDepInfo, projectInfo)
       localThis.formDataListBtmBasic.proContent = projectInfo.proContent
       localThis.formDataListBtmBasic.proStaDate = this.stringToDate(projectInfo.proStaDate)
       localThis.formDataListBtmBasic.proEndDate = this.stringToDate(projectInfo.proEndDate)
@@ -2852,15 +2874,15 @@ export default {
       localThis.formDataListBtmBasic.fundInvestAreaDesc = projectInfo.fundInvestAreaDesc
       localThis.formDataListBtmBasic.isEnd = projectInfo.isEnd
       // 项目总投资
-      localThis.formDataListThirdBasic.proGi = projectInfo.proGi
-      localThis.formDataListThirdBasic.proGiAddnb = projectInfo.proGiAddnb
-      localThis.formDataListThirdBasic.proGiCff = projectInfo.proGiCff
-      localThis.formDataListThirdBasic.proGiCfo = projectInfo.proGiCfo
-      localThis.formDataListThirdBasic.proGiLff = projectInfo.proGiLff
-      localThis.formDataListThirdBasic.proGiEf = projectInfo.proGiEf
-      localThis.formDataListThirdBasic.proGiLb = projectInfo.proGiLb
-      localThis.formDataListThirdBasic.proGiBankl = projectInfo.proGiBankl
-      localThis.formDataListThirdBasic.proGiOth = projectInfo.proGiOth
+      localThis.formDataListThirdBasic.proGi = projectInfo.proGi || '0.00'
+      localThis.formDataListThirdBasic.proGiAddnb = projectInfo.proGiAddnb || '0.00'
+      localThis.formDataListThirdBasic.proGiCff = projectInfo.proGiCff || '0.00'
+      localThis.formDataListThirdBasic.proGiCfo = projectInfo.proGiCfo || '0.00'
+      localThis.formDataListThirdBasic.proGiLff = projectInfo.proGiLff || '0.00'
+      localThis.formDataListThirdBasic.proGiEf = projectInfo.proGiEf || '0.00'
+      localThis.formDataListThirdBasic.proGiLb = projectInfo.proGiLb || '0.00'
+      localThis.formDataListThirdBasic.proGiBankl = projectInfo.proGiBankl || '0.00'
+      localThis.formDataListThirdBasic.proGiOth = projectInfo.proGiOth || '0.00'
       // 项目批复信息
       localThis.formDataListForthBasic.proApproveNumber = projectInfo.proApproveNumber
       localThis.formDataListForthBasic.landApproveNumber = projectInfo.landApproveNumber
@@ -2924,16 +2946,28 @@ export default {
                 return
               }
               if (item.itemRender.props) {
-                item.itemRender.props.disabled = disabled
+                if (item.itemRender.name === '$vxeTree' || item.itemRender.name === '$formTreeInput') {
+                  if (this.isView) {
+                    item.itemRender.props.config ? item.itemRender.props.config.disabled = true : item.itemRender.props.config = { disabled: true }
+                  } else {
+                    item.itemRender.props.config ? item.itemRender.props.config.disabled = disabled : item.itemRender.props.config = { disabled: disabled }
+                  }
+                } else {
+                  if (this.isView) {
+                    item.itemRender.props.disabled = true
+                  } else {
+                    item.itemRender.props.disabled = disabled
+                  }
+                }
               } else {
-                item.itemRender.props = { disabled: disabled }
+                if (this.isView) {
+                  item.itemRender.props = { disabled: true }
+                } else {
+                  item.itemRender.props = { disabled: disabled }
+                }
               }
             }
           } else {
-            if (item.itemRender.name === '$vxeTree') {
-              item.itemRender.props.config.disabled = disabled
-              return
-            }
             item.itemRender.props.disabled = true
           }
         })
