@@ -1183,6 +1183,11 @@ export default {
       this.isView = false
       this.isAdd = false
       this.btnClickType = obj.code
+      delete this.tableToolbarConfigInmodal.buttons
+      this.tableToolbarConfigInmodal.slots = {
+        tools: 'toolbarTools',
+        buttons: 'toolbarSlots'
+      }
       if (obj.code === 'pay-add') {
         this.showModal = true
         this.isAdd = true
@@ -1190,6 +1195,11 @@ export default {
         this.clearFormDatas()
         this.initFormItems(false)
         this.formDataListBtmAdd.trackProCode = ''
+        this.tableToolbarConfigInmodal.buttons = [
+          { code: 'code-add', name: '新增', status: 'primary', callback: this.addLine },
+          { code: 'code-delete', name: '删除', status: 'primary', callback: this.deleteLine }
+        ]
+        delete this.tableToolbarConfigInmodal.slots
       }
       this.tableToolbarConfigInmodal = { ...this.tableToolbarConfigInmodal }
       if (obj.code === 'pay-import') {
