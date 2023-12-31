@@ -322,7 +322,7 @@ export default {
         }
       },
       tableData: [],
-      modalTblColumnsConfig: config().modalTblColumnsConfig,
+      modalTblColumnsConfig: config().modalTblColumnsConfig.filter(item => item.filed !== 'lv3PerfIndCode'),
       addModal: false,
       hideTree: false,
       isCheckbox: false,
