@@ -1178,7 +1178,7 @@ export default {
       })
     },
     initTreeInfo(formData, property, value, projectInfo) {
-      let infos = value.split('##')
+      let infos = (value || '').split('##')
       if (!(infos[1] || '').trim() || !(infos[2] || '').trim()) {
         let p = property.substr(0, property.length - 1)
         formData[property] = '##' + projectInfo[p + 'Code'] + '##' + infos[0]
@@ -1221,6 +1221,14 @@ export default {
       let fundInvestInfo = projectInfo.fundInvestAreaName
       localThis.formDataListBtm.fundInvestAreaName = projectInfo.fundInvestAreaName
       this.initTreeInfo(localThis.formDataListBtm, 'fundInvestArea_', fundInvestInfo, projectInfo)
+      // 资金管理处室
+      let bgtMofDepInfo = projectInfo.bgtMofDepName
+      localThis.formDataListBtm.bgtMofDepName = projectInfo.bgtMofDepName
+      this.initTreeInfo(localThis.formDataListBtm, 'bgtMofDep_', bgtMofDepInfo, projectInfo)
+      // 业务管理处室
+      let manageMofDepInfo = projectInfo.manageMofDepName
+      localThis.formDataListBtm.manageMofDepName = projectInfo.manageMofDepName
+      this.initTreeInfo(localThis.formDataListBtm, 'manageMofDep_', manageMofDepInfo, projectInfo)
       localThis.formDataListBtm.proContent = projectInfo.proContent
       localThis.formDataListBtm.proStaDate = this.stringToDate(projectInfo.proStaDate)
       localThis.formDataListBtm.proEndDate = this.stringToDate(projectInfo.proEndDate)

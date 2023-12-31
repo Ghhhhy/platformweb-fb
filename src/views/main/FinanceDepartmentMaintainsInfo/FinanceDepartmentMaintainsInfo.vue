@@ -1405,7 +1405,7 @@ export default {
       })
     },
     initTreeInfo(formData, property, value, projectInfo) {
-      let infos = value.split('##')
+      let infos = (value || '').split('##')
       if (!(infos[1] || '').trim() || !(infos[2] || '').trim()) {
         let p = property.substr(0, property.length - 1)
         formData[property] = '##' + projectInfo[p + 'Code'] + '##' + infos[0]
