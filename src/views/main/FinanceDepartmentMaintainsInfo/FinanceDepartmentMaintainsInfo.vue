@@ -540,11 +540,14 @@ export default {
             let fundInvestArea = (item['*项目所属投向领域'] || '').split('-')
             let trackProInfo = (item['增发国债资金中央转移支付项目'] || '').split('-')
             let proDept = (item['*项目主管部门'] || '').split('-')
+            let btnMofDepInfo = (item['*资金主管处室'] || '').split('-')
             return {
               proAgencyCode: proAgency[0],
               proAgencyName: proAgency[1],
               speProCode: item['*具体项目代码'],
               speProName: item['*具体项目名称'],
+              bgtMofDepName: btnMofDepInfo[0],
+              bgtMofDepCode: btnMofDepInfo[1],
               fundInvestAreaCode: fundInvestArea[0],
               fundInvestAreaName: fundInvestArea[1],
               fundInvestAreaDesc: item['项目所属投向领域说明'],
@@ -1448,7 +1451,7 @@ export default {
       let fundInvestInfo = projectInfo.fundInvestAreaName
       localThis.formDataListBtm.fundInvestAreaName = projectInfo.fundInvestAreaName
       this.initTreeInfo(localThis.formDataListBtm, 'fundInvestArea_', fundInvestInfo, projectInfo)
-      // 资金管理处室
+      // *资金主管处室
       let bgtMofDepInfo = projectInfo.bgtMofDepName
       localThis.formDataListBtm.bgtMofDepName = projectInfo.bgtMofDepName
       this.initTreeInfo(localThis.formDataListBtm, 'bgtMofDep_', bgtMofDepInfo, projectInfo)
