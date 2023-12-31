@@ -486,6 +486,7 @@ export default {
     closeModal() {
       this.showModal = false
       this.activeNameBtm = '1'
+      this.$refs.KPIForm.reset()
     },
     formatDate(numb) {
       if (!numb) return numb
