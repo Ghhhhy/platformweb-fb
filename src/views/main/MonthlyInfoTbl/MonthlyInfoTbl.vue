@@ -1412,6 +1412,7 @@
               :show-file-list="false"
               :data="uploadDFileParams"
               :on-remove="handleRemove"
+              style="display:none;"
               :http-request="handelUploadDebugfile"
             >
               <!-- <div class="fn-inline"> -->
@@ -1446,6 +1447,9 @@
                 <div v-if="showModalFooter" class="table-toolbar-left">
                   <vxe-button status="primary" style="float: left" @click="deleteAttachment">删除附件</vxe-button>
                   <vxe-button status="primary" style="float: left" @click="handleUpload">上传附件</vxe-button>
+                  <!-- <div class="fn-inline" style="height:33px;float: left"> -->
+                  <span class="sp-my-two" style="height:33px;line-height: 43px;float: left">支持png/jpg/pdf等，不超过20M</span>
+                  <!-- </div> -->
                 </div>
               </template>
             </BsTable>
