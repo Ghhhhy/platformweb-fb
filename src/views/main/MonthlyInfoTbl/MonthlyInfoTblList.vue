@@ -1391,6 +1391,19 @@
         <vxe-button status="primary" @click="handleSureType">保存</vxe-button>
       </div>
     </vxe-modal>
+    <!-- 附件预览 -->
+    <FilePreview
+      v-if="filePreviewDialogVisible"
+      :visible.sync="filePreviewDialogVisible"
+      :file-guid="fileGuid"
+      :app-id="appId"
+    />
+    <!-- 下载方法调用实例 -->
+    <BsUpload
+      ref="attachmentUpload"
+      :downloadparams="downloadParams"
+      uniqe-name="attachmentUpload"
+    />
   </div>
 </template>
 <script>
@@ -1399,6 +1412,31 @@ import HttpModule from '@/api/frame/main/MonthlyInfoTbl/MonthlyInfoTblSecondAudi
 export default {
   data() {
     return {
+      appId: this.$store.getters.getLoginAuthentication.appguid,
+      fileGuid: '',
+      filePreviewDialogVisible: false,
+      downloadParams: {
+        fileguid: ''
+      },
+      fileTableConfig: {
+        renderers: {
+          $fileTableOperation: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row } = params
+              return [
+                <div class="gloableOptionRow fcc">
+                  <el-tooltip content="预览" placement="top" effect="light">
+                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-view" onClick={() => this.preview(row)}>预览</div>
+                  </el-tooltip>
+                  <el-tooltip content="下载" placement="top" effect="light">
+                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-download" onClick={() => this.downloadAttachment(row)}>下载</div>
+                  </el-tooltip>
+                </div>
+              ]
+            }
+          }
+        }
+      },
       btnClickType: '',
       readonly: ['proAgencyName', 'mofDiv_', 'budgetLevel_', 'speProCode', 'proDept_', 'proGi'],
       formData: {
@@ -2020,6 +2058,16 @@ export default {
     }
   },
   methods: {
+    // 下载附件
+    downloadAttachment(row) {
+      this.downloadParams.fileguid = row.fileguid
+      this.$refs.attachmentUpload.downloadFileFile()
+    },
+    // 预览文件
+    preview(row) {
+      this.fileGuid = row.billguid
+      this.filePreviewDialogVisible = true
+    },
     async loadConfig(id) {
       let params = {
         tableId: {
