@@ -984,7 +984,8 @@ export default {
                   if (key === 'proStaDate' || key === 'proEndDate' || key === 'proRealStaDate' || key === 'proRealEndDate') {
                     btmFormData[key] = btmFormData[key].replaceAll('-', '')
                   }
-                } let kpiTarget = localThis.$refs.KPIForm.getFormData().kpiTarget
+                }
+                let kpiTarget = localThis.$refs.KPIForm.getFormData().kpiTarget
                 let params = {
                   projectInfo: { ...btmFormData, kpiTarget: kpiTarget },
                   // projectInfo: localThis.formDataListBtm,
@@ -1089,7 +1090,6 @@ export default {
     addLine() {
       this.showAddLineModal = true
       this.addBudgetFormData.lv1PerfIndName = ''
-      this.KPIFormConfig.kpiTarget = ''
     },
     clearFormDatas() {
       this.tableData = []
@@ -1136,7 +1136,6 @@ export default {
       })
       this.levelTableMap = levelTableMap
       console.log(this.levelTableMap)
-
       Object.keys(self.levelTableMap).forEach(firstLevelKey => {
         let firstLevelObj = self.levelTableMap[firstLevelKey]
         Object.keys(firstLevelObj).forEach(secondLevelKey => {
@@ -1178,6 +1177,7 @@ export default {
         })
       }
       this.$refs.bgtTblRef.$refs.xGrid.reloadData(tableData)
+      this.formatKPIBudget(tableData)
     },
     onBtnClick(obj) {
       this.isView = false
@@ -1194,6 +1194,7 @@ export default {
         this.modalTitle = '新增'
         this.clearFormDatas()
         this.initFormItems(false)
+        this.KPIFormData.kpiTarget = ''
         this.formDataListBtmAdd.trackProCode = ''
         this.tableToolbarConfigInmodal.buttons = [
           { code: 'code-add', name: '新增', status: 'primary', callback: this.addLine },
@@ -1313,7 +1314,8 @@ export default {
           let perfIndica = res.data.perfIndica
           let attchs = res.data.attchs
           localThis.tableDataSx = attchs
-          localThis.tableData = perfIndica
+          let tableData = perfIndica || []
+          localThis.tableData = localThis.formatKPIBudget(tableData)
           localThis.initModalFormData(projectInfo)
           localThis.showModalFooter = true
           this.showModal = true
@@ -1323,6 +1325,36 @@ export default {
         }
         localThis.$refs.tmp.showLoading = false
       })
+    },
+    formatKPIBudget(datas) {
+      // 循环给数据添加uuid，便于添加删除
+      let levelTableMap = {}
+      console.log(datas)
+      datas.forEach(d => {
+        if (!levelTableMap[d.lv1PerfIndCode]) {
+          levelTableMap[d.lv1PerfIndCode] = {}
+        }
+        if (!levelTableMap[d.lv1PerfIndCode][d.lv2PerfIndCode]) {
+          levelTableMap[d.lv1PerfIndCode][d.lv2PerfIndCode] = []
+        }
+        let uuid = this.getUuid()
+        levelTableMap[d.lv1PerfIndCode][d.lv2PerfIndCode].push({
+          rowId: uuid,
+          lv1PerfIndCode: d.lv1PerfIndCode || '',
+          lv1PerfIndName: d.lv1PerfIndName || '',
+          lv2PerfIndCode: d.lv2PerfIndCode || '',
+          lv2PerfIndName: d.lv2PerfIndName || '',
+          lv3PerfIndName: d.lv3PerfIndName || '',
+          // lv3PerfIndCode: '',
+          kpiEvalstd: d.kpiEvalstd || '',
+          kpiContent: d.kpiContent || '',
+          kpiVal: d.kpiVal || ''
+        })
+        d.uuid = uuid
+      })
+      this.levelTableMap = levelTableMap
+      console.log(this.levelTableMap)
+      return datas
     },
     discardRecord() {
       let localThis = this
