@@ -68,6 +68,7 @@
               ref="bgtTblRef"
               height="530"
               :table-columns-config="modalTblColumnsConfig"
+              :keyboard-config="{ isDel: false }"
               :span-method="objectSpanMethod"
               :table-data="tableData"
               :high-config="{ scrollY: { enabled: false } }"
@@ -108,6 +109,7 @@
               ref="fileDataRef"
               height="460"
               :table-columns-config="modalTblColumnsConfigSx"
+              :keyboard-config="{ isDel: false }"
               :table-data="tableDataSx"
               :pager-config="false"
               :footer-config="{ showFooter: false }"
@@ -194,9 +196,14 @@
 </template>
 <script>
 import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfoSecondAudit.js'
+import FilePreview from '@/views/main/fundMonitoring/violationHandle/warningCreate/children/common/filePreview.vue'
 import { config } from './financeDepartmentMaintainsInfo'
+import Decimal from 'decimal.js'
 
 export default {
+  components: {
+    FilePreview
+  },
   data() {
     return {
       appId: this.$store.getters.getLoginAuthentication.appguid,
@@ -282,7 +289,7 @@ export default {
       formDataListThirdRequired: config().formDataListThirdRequired,
       formItemsConfigThird: config().formItemsConfigThird,
       activeNameTop: '1',
-      readonly: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi', 'trackProCode'],
+      readonly: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi', 'trackProCode', 'proDept_'],
       formItemsConfigBtm: config().formItemsConfigBtm,
       formDataListBtmRequired: config().formDataListBtmRequired,
       formDataListBtm: config().formDataListBtm,
@@ -458,6 +465,8 @@ export default {
     },
     closeModal() {
       this.showModal = false
+      this.activeNameBtm = '1'
+      this.$refs.KPIForm.reset()
     },
     formatDate(numb) {
       if (!numb) {
@@ -587,15 +596,16 @@ export default {
       })
     },
     insertItemChange({ $form, property, itemValue, data }, bsform) {
-      let sum = 0
+      let sum = new Decimal(0)
       this.formDataListThird[property] = data[property]
       this.formItemsConfigThird.forEach(item => {
         if (item.field !== 'proGi') {
           console.log(data[item.field])
-          sum += this.clearFormat(data[item.field])
+          const itemValue = new Decimal(this.clearFormat(data[item.field]))
+          sum = sum.add(itemValue)
         }
       })
-      this.formDataListThird.proGi = sum
+      this.formDataListThird.proGi = sum.toString()
       this.formDataListThird = { ...this.formDataListThird }
       console.log(this.formDataListThird)
       console.log(data.sums)
@@ -845,28 +855,8 @@ export default {
     // 根据二级指标获取一级指标并填充值
     addFormChange({ $form, property, itemValue, data, renderOpts, node, nodes, treeData }) {
       this.formDataListBtm['lv1PerfIndName'] = data[property + 'name']
-      let levelTableMap = { ...(this.levelTableMap || {}) }
-      nodes.forEach(level => {
-        if (!levelTableMap[level.p.code]) {
-          levelTableMap[level.p.code] = {}
-        }
-        if (!levelTableMap[level.p.code][level.code]) {
-          levelTableMap[level.p.code][level.code] = []
-        }
-        levelTableMap[level.p.code][level.code].push({
-          rowId: this.getUuid(),
-          lv1PerfIndCode: level.p.code,
-          lv1PerfIndName: level.p.name,
-          lv2PerfIndCode: level.code,
-          lv2PerfIndName: level.name,
-          lv3PerfIndName: '',
-          lv3PerfIndCode: '',
-          kpiEvalstd: '',
-          kpiContent: '',
-          kpiVal: ''
-        })
-      })
-      this.levelTableMap = levelTableMap
+      console.log(nodes)
+      this.selectNodes = nodes
       let firstLevel = this.getFirstLevel(nodes, treeData)
       let firstlevelStr = ''
       for (let key in firstLevel) {
@@ -884,25 +874,54 @@ export default {
     addLine() {
       this.showAddLineModal = true
       this.addBudgetFormData.lv1PerfIndName = ''
+      this.KPIFormConfig.kpiTarget = ''
     },
     clearFormDatas() {
       this.tableData = []
       this.tableDataSx = []
       this.clearData(this.formDataListBtmAdd)
-      this.clearData(this.formDataListThird)
+      this.clearData(this.formDataListThird, 'isAmt')
       this.clearData(this.formDataListForth)
       this.clearData(this.contactInformationFormData)
     },
-    clearData(items) {
+    clearData(items, type) {
       for (let key in items) {
-        if (key !== 'mofDivName' && key !== 'budgetLevelName') {
-          items[key] = ''
+        if (type === 'isAmt') {
+          items[key] = '0.00'
+        } else {
+          if (key !== 'mofDivName' && key !== 'budgetLevelName' && key !== 'budgetLevelCode') {
+            items[key] = ''
+          }
         }
       }
     },
     confirm() {
       let self = this
       let levelTableDatas = []
+      let levelTableMap = { ...(this.levelTableMap || {}) }
+      this.selectNodes.forEach(level => {
+        if (!levelTableMap[level.p.code]) {
+          levelTableMap[level.p.code] = {}
+        }
+        if (!levelTableMap[level.p.code][level.code]) {
+          levelTableMap[level.p.code][level.code] = []
+        }
+        levelTableMap[level.p.code][level.code].push({
+          rowId: this.getUuid(),
+          lv1PerfIndCode: level.p.code,
+          lv1PerfIndName: level.p.name,
+          lv2PerfIndCode: level.code,
+          lv2PerfIndName: level.name,
+          lv3PerfIndName: '',
+          // lv3PerfIndCode: '',
+          kpiEvalstd: '',
+          kpiContent: '',
+          kpiVal: ''
+        })
+      })
+      this.levelTableMap = levelTableMap
+      console.log(this.levelTableMap)
+
       Object.keys(self.levelTableMap).forEach(firstLevelKey => {
         let firstLevelObj = self.levelTableMap[firstLevelKey]
         Object.keys(firstLevelObj).forEach(secondLevelKey => {
@@ -915,7 +934,7 @@ export default {
               lv2PerfIndCode: level.lv2PerfIndCode,
               lv2PerfIndName: level.lv2PerfIndName,
               lv3PerfIndName: level.lv3PerfIndName,
-              lv3PerfIndCode: level.lv3PerfIndCode,
+              // lv3PerfIndCode: level.lv3PerfIndCode,
               kpiEvalstd: level.kpiEvalstd,
               kpiContent: level.kpiContent,
               kpiVal: level.kpiVal
@@ -934,17 +953,27 @@ export default {
         this.$message.warning('请选择删除数据')
         return
       }
-      this.$refs.bgtTblRef.$refs.xGrid.removeCheckboxRow()
+      let tableData = this.$refs.bgtTblRef.getTableData().fullData
+      for (let index = 0; index < tableData.length; index++) {
+        checkItems.forEach(item => {
+          if (tableData[index] === item) {
+            tableData.splice(index, 1)
+            index--
+          }
+        })
+      }
+      this.$refs.bgtTblRef.$refs.xGrid.reloadData(tableData)
     },
     onBtnClick(obj) {
-      this.btnClickType = obj.code
       this.isView = false
+      this.btnClickType = obj.code
       if (obj.code === 'pay-checkDetails') {
         this.isView = true
         if (this.$refs.tmp.getSelectionRcd().length !== 1) {
           this.$message.warning('请选择一条数据进行查看')
           return false
         }
+        // 查看详情设置为只读
         this.initFormItems(true)
         this.viewDetail()
       }
@@ -981,16 +1010,28 @@ export default {
           if (this.readonly.indexOf(item.field) === -1) {
             if (item.itemRender) {
               if (item.itemRender.props) {
-                item.itemRender.props.disabled = disabled
+                if (item.itemRender.name === '$vxeTree' || item.itemRender.name === '$formTreeInput') {
+                  if (this.isView) {
+                    item.itemRender.props.config ? item.itemRender.props.config.disabled = true : item.itemRender.props.config = { disabled: true }
+                  } else {
+                    item.itemRender.props.config ? item.itemRender.props.config.disabled = disabled : item.itemRender.props.config = { disabled: disabled }
+                  }
+                } else {
+                  if (this.isView) {
+                    item.itemRender.props.disabled = true
+                  } else {
+                    item.itemRender.props.disabled = disabled
+                  }
+                }
               } else {
-                item.itemRender.props = { disabled: disabled }
+                if (this.isView) {
+                  item.itemRender.props = { disabled: true }
+                } else {
+                  item.itemRender.props = { disabled: disabled }
+                }
               }
             }
           } else {
-            if (item.itemRender.name === '$vxeTree') {
-              item.itemRender.props.config.disabled = disabled
-              return
-            }
             item.itemRender.props.disabled = true
           }
         })
@@ -1026,10 +1067,10 @@ export default {
       })
     },
     initTreeInfo(formData, property, value, projectInfo) {
-      let infos = value.split('##')
+      let infos = (value || '').split('##')
       if (!(infos[1] || '').trim() || !(infos[2] || '').trim()) {
         let p = property.substr(0, property.length - 1)
-        formData[property] = '##' + projectInfo[p + 'Code'] + infos[0]
+        formData[property] = '##' + projectInfo[p + 'Code'] + '##' + infos[0]
         formData[property + 'code'] = (infos[1] || '').trim() || projectInfo[p + 'Code']
         formData[property + 'name'] = (infos[2] || '').trim() || infos[0]
       } else {
@@ -1044,9 +1085,13 @@ export default {
       // 基本情况
       localThis.formDataListBtm.proAgencyName = projectInfo.proAgencyCode + '-' + projectInfo.proAgencyName
       localThis.formDataListBtm.proAgencyCode = projectInfo.proAgencyCode
+      localThis.formDataListBtm.ndrcProCode = projectInfo.ndrcProCode
+      localThis.formDataListBtm.ndrcProName = projectInfo.ndrcProName
       // 财政区划
       let mofDiv = projectInfo.mofDivName
       this.initTreeInfo(localThis.formDataListBtm, 'mofDiv_', mofDiv, projectInfo)
+      let trackProName = projectInfo.trackProName
+      this.initTreeInfo(localThis.formDataListBtm, 'trackPro_', trackProName, projectInfo)
       localThis.formDataListBtm.mofDivName = projectInfo.mofDivName
       // localThis.formDataListBtm.mofDivNameId = projectInfo.mofDivName
       // 预算级次
@@ -1065,6 +1110,14 @@ export default {
       let fundInvestInfo = projectInfo.fundInvestAreaName
       localThis.formDataListBtm.fundInvestAreaName = projectInfo.fundInvestAreaName
       this.initTreeInfo(localThis.formDataListBtm, 'fundInvestArea_', fundInvestInfo, projectInfo)
+      // 资金管理处室
+      let bgtMofDepInfo = projectInfo.bgtMofDepName
+      localThis.formDataListBtm.bgtMofDepName = projectInfo.bgtMofDepName
+      this.initTreeInfo(localThis.formDataListBtm, 'bgtMofDep_', bgtMofDepInfo, projectInfo)
+      // 业务管理处室
+      let manageMofDepInfo = projectInfo.manageMofDepName
+      localThis.formDataListBtm.manageMofDepName = projectInfo.manageMofDepName
+      this.initTreeInfo(localThis.formDataListBtm, 'manageMofDep_', manageMofDepInfo, projectInfo)
       localThis.formDataListBtm.proContent = projectInfo.proContent
       localThis.formDataListBtm.proStaDate = this.stringToDate(projectInfo.proStaDate)
       localThis.formDataListBtm.proEndDate = this.stringToDate(projectInfo.proEndDate)
@@ -1077,15 +1130,15 @@ export default {
       localThis.formDataListBtm.fundInvestAreaDesc = projectInfo.fundInvestAreaDesc
       localThis.formDataListBtm.isEnd = projectInfo.isEnd
       // 项目总投资
-      localThis.formDataListThird.proGi = projectInfo.proGi
-      localThis.formDataListThird.proGiAddnb = projectInfo.proGiAddnb
-      localThis.formDataListThird.proGiCff = projectInfo.proGiCff
-      localThis.formDataListThird.proGiCfo = projectInfo.proGiCfo
-      localThis.formDataListThird.proGiLff = projectInfo.proGiLff
-      localThis.formDataListThird.proGiEf = projectInfo.proGiEf
-      localThis.formDataListThird.proGiLb = projectInfo.proGiLb
-      localThis.formDataListThird.proGiBankl = projectInfo.proGiBankl
-      localThis.formDataListThird.proGiOth = projectInfo.proGiOth
+      localThis.formDataListThird.proGi = projectInfo.proGi || '0.00'
+      localThis.formDataListThird.proGiAddnb = projectInfo.proGiAddnb || '0.00'
+      localThis.formDataListThird.proGiCff = projectInfo.proGiCff || '0.00'
+      localThis.formDataListThird.proGiCfo = projectInfo.proGiCfo || '0.00'
+      localThis.formDataListThird.proGiLff = projectInfo.proGiLff || '0.00'
+      localThis.formDataListThird.proGiEf = projectInfo.proGiEf || '0.00'
+      localThis.formDataListThird.proGiLb = projectInfo.proGiLb || '0.00'
+      localThis.formDataListThird.proGiBankl = projectInfo.proGiBankl || '0.00'
+      localThis.formDataListThird.proGiOth = projectInfo.proGiOth || '0.00'
       // 项目批复信息
       localThis.formDataListForth.proApproveNumber = projectInfo.proApproveNumber
       localThis.formDataListForth.landApproveNumber = projectInfo.landApproveNumber
