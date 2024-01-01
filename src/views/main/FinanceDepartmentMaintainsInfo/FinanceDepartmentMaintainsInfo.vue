@@ -498,6 +498,18 @@ export default {
     closeModal() {
       this.showModal = false
       this.activeNameBtm = '1'
+      this.formItemsConfigBtmAdd.forEach(item => {
+        if (item.field === 'manageMofDep_') {
+          item.itemRender.props.value = ''
+          this.formDataListBtmAdd['manageMofDep_'] = ''
+          this.formDataListBtmAdd['manageMofDep_code'] = ''
+          this.formDataListBtmAdd['manageMofDep_name'] = ''
+          this.formDataListBtmAdd['manageMofDep_id'] = ''
+          this.formDataListBtmAdd['manageMofDepCode'] = ''
+          this.formDataListBtmAdd['manageMofDepName'] = ''
+          this.formDataListBtmAdd['manageMofDepId'] = ''
+        }
+      })
       this.$refs.KPIForm.reset()
     },
     formatDate(numb) {
@@ -721,6 +733,8 @@ export default {
                 this.formDataListBtmAdd['manageMofDepId'] = res.data.guid
               }
             })
+          } else {
+            this.$message.error(res.message)
           }
         })
       }
