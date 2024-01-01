@@ -1085,7 +1085,6 @@ export let config = () => {
           options: [],
           props: {
             isleaf: true,
-            value: '',
             valueKeys: ['code', 'name', 'id'],
             elecode: 'manage_mof_dep',
             config: {

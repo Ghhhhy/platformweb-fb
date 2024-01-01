@@ -206,7 +206,7 @@ export default {
   },
   data() {
     return {
-      appId: this.$store.getters.getLoginAuthentication.appguid,
+      appId: this.$store.state.curNavModule.appid,
       fileGuid: '',
       filePreviewDialogVisible: false,
       downloadParams: {
@@ -690,7 +690,7 @@ export default {
       // 文件对象
       form.append('file', e.file)
       form.append('filename', e.file.name)
-      form.append('appid', 'pay_plan_voucher')
+      form.append('appid', this.appId)
       temp.push(e.file.name)
       form.append('doctype', '')
       form.append('year', this.$store.state.userInfo.year)

@@ -1412,7 +1412,7 @@ import HttpModule from '@/api/frame/main/MonthlyInfoTbl/MonthlyInfoTblSecondAudi
 export default {
   data() {
     return {
-      appId: this.$store.getters.getLoginAuthentication.appguid,
+      appId: this.$store.state.curNavModule.appid,
       fileGuid: '',
       filePreviewDialogVisible: false,
       downloadParams: {

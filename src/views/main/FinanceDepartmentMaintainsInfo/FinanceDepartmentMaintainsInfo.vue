@@ -208,7 +208,7 @@ export default {
   },
   data() {
     return {
-      appId: this.$store.getters.getLoginAuthentication.appguid,
+      appId: this.$store.state.curNavModule.appid,
       fileGuid: '',
       filePreviewDialogVisible: false,
       downloadParams: {
@@ -500,14 +500,16 @@ export default {
       this.activeNameBtm = '1'
       this.formItemsConfigBtmAdd.forEach(item => {
         if (item.field === 'manageMofDep_') {
-          item.itemRender.props.value = ''
-          this.formDataListBtmAdd['manageMofDep_'] = ''
-          this.formDataListBtmAdd['manageMofDep_code'] = ''
-          this.formDataListBtmAdd['manageMofDep_name'] = ''
-          this.formDataListBtmAdd['manageMofDep_id'] = ''
-          this.formDataListBtmAdd['manageMofDepCode'] = ''
-          this.formDataListBtmAdd['manageMofDepName'] = ''
-          this.formDataListBtmAdd['manageMofDepId'] = ''
+          let newObj = {
+            manageMofDep_: '',
+            manageMofDep_code: '',
+            manageMofDep_name: '',
+            manageMofDep_id: '',
+            manageMofDepCode: '',
+            manageMofDepName: '',
+            manageMofDepId: ''
+          }
+          this.formDataListBtmAdd = { ...this.formDataListBtmAdd, ...newObj }
         }
       })
       this.$refs.KPIForm.reset()
@@ -723,14 +725,16 @@ export default {
             let data = `${res.data.code}##${res.data.name}##${res.data.guid}`
             this.formItemsConfigBtmAdd.forEach(item => {
               if (item.field === 'manageMofDep_') {
-                item.itemRender.props.value = data
-                this.formDataListBtmAdd['manageMofDep_'] = data
-                this.formDataListBtmAdd['manageMofDep_code'] = res.data.code
-                this.formDataListBtmAdd['manageMofDep_name'] = res.data.name
-                this.formDataListBtmAdd['manageMofDep_id'] = res.data.guid
-                this.formDataListBtmAdd['manageMofDepCode'] = res.data.code
-                this.formDataListBtmAdd['manageMofDepName'] = res.data.name
-                this.formDataListBtmAdd['manageMofDepId'] = res.data.guid
+                let newObj = {
+                  manageMofDep_: data,
+                  manageMofDep_code: res.data.code,
+                  manageMofDep_name: res.data.name,
+                  manageMofDep_id: res.data.guid,
+                  manageMofDepCode: res.data.code,
+                  manageMofDepName: res.data.name,
+                  manageMofDepId: res.data.guid
+                }
+                this.formDataListBtmAdd = { ...this.formDataListBtmAdd, ...newObj }
               }
             })
           } else {
@@ -862,7 +866,7 @@ export default {
       // 文件对象
       form.append('file', e.file)
       form.append('filename', e.file.name)
-      form.append('appid', 'pay_voucher')
+      form.append('appid', this.appId)
       temp.push(e.file.name)
       form.append('doctype', '')
       form.append('year', this.$store.state.userInfo.year)
