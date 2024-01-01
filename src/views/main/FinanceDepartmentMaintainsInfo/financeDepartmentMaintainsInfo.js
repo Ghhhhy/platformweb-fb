@@ -501,6 +501,7 @@ export let config = () => {
         {
           field: 'mofDivName',
           title: '财政区划',
+          visible: false,
           span: 12,
           titleWidth: '255',
           itemRender: {
@@ -513,6 +514,7 @@ export let config = () => {
         },
         {
           field: 'budgetLevelName',
+          visible: false,
           title: '预算级次',
           span: 12,
           titleWidth: '255',
@@ -792,7 +794,7 @@ export let config = () => {
     formDataListBtmRequired: {
       proAgency_: [{ required: true, message: '请输入项目单位名称', trigger: 'change' }],
       mofDivCode: [{ required: true, message: '请输入区划编码', trigger: 'change' }],
-      mofDivName: [{ required: true, message: '请输入区划名称', trigger: 'change' }],
+      // mofDivName: [{ required: true, message: '请输入区划名称', trigger: 'change' }],
       bugdetLevelCode: [{ required: true, message: '请输入预算级次编码', trigger: 'change' }],
       bugdetLevelName: [{ required: true, message: '请输入预算级次名称', trigger: 'change' }],
       speProCode: [ { required: true, message: '请输入项目代码', trigger: 'change' } ],
@@ -968,6 +970,7 @@ export let config = () => {
       {
         field: 'mofDivName',
         title: '财政区划',
+        visible: false,
         span: 12,
         titleWidth: '255',
         itemRender: {
@@ -982,6 +985,7 @@ export let config = () => {
       {
         field: 'budgetLevelName',
         title: '预算级次',
+        visible: false,
         span: 12,
         titleWidth: '255',
         itemRender: {
@@ -1274,7 +1278,7 @@ export let config = () => {
     formDataListBtmRequiredAdd: {
       proAgency_: [{ required: true, message: '请输入项目单位名称', trigger: 'change' }],
       mofDivCode: [{ required: true, message: '请输入区划编码', trigger: 'change' }],
-      mofDivName: [{ required: true, message: '请输入区划名称', trigger: 'change' }],
+      // mofDivName: [{ required: true, message: '请输入区划名称', trigger: 'change' }],
       bugdetLevelCode: [{ required: true, message: '请输入预算级次编码', trigger: 'change' }],
       bugdetLevelName: [{ required: true, message: '请输入预算级次名称', trigger: 'change' }],
       speProCode: [ { required: true, message: '请输入项目代码', trigger: 'change' } ],
