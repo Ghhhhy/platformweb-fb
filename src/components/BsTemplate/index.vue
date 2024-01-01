@@ -157,7 +157,7 @@ export default {
         // 下拉树
         if (item.itemRender && (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree')) {
           if (item.field) {
-            condition[item.field + 'code'] = []
+            condition[item.field + '_code'] = []
           }
         } else {
           if (item.field) {
@@ -166,7 +166,7 @@ export default {
         }
       })
       for (let key in condition) {
-        if ((this.searchDataList[key] !== undefined) & (this.searchDataList[key] !== null)) {
+        if ((this.searchDataList[key] !== undefined) && (this.searchDataList[key] !== null)) {
           if (Array.isArray(this.searchDataList[key])) {
             condition[key] = this.searchDataList[key]
           } else if (typeof this.searchDataList[key] === 'string') {
