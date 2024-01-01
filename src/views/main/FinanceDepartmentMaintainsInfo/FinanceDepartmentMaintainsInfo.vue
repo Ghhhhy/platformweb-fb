@@ -251,7 +251,7 @@ export default {
       formDataListThirdRequired: config().formDataListThirdRequired,
       formItemsConfigThird: config().formItemsConfigThird,
       activeNameTop: '1',
-      readonly: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi', 'trackProCode', 'proDept_'],
+      readonly: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi', 'trackProCode', 'proDept_', 'manageMofDep_'],
       formItemsConfigBtm: config().formItemsConfigBtm,
       formDataListBtmRequired: config().formDataListBtmRequired,
       formDataListBtm: config().formDataListBtm,
@@ -700,6 +700,27 @@ export default {
           console.log(this.formDataListBtm)
         }
         this.fundInvestArea(data.trackPro_id)
+      } else if (property === 'proAgency_') {
+        const params = {
+          agencyCode: this.formDataListBtmAdd[property + 'code']
+        }
+        this.$http.get(BSURL.dfr_pmProjectInfoDetailQueryManageMofDep, params).then(res => {
+          if (res.rscode === '200' && res.data) {
+            let data = `${res.data.code}##${res.data.name}##${res.data.guid}`
+            this.formItemsConfigBtmAdd.forEach(item => {
+              if (item.field === 'manageMofDep_') {
+                item.itemRender.props.value = data
+                this.formDataListBtmAdd['manageMofDep_'] = data
+                this.formDataListBtmAdd['manageMofDep_code'] = res.data.code
+                this.formDataListBtmAdd['manageMofDep_name'] = res.data.name
+                this.formDataListBtmAdd['manageMofDep_id'] = res.data.guid
+                this.formDataListBtmAdd['manageMofDepCode'] = res.data.code
+                this.formDataListBtmAdd['manageMofDepName'] = res.data.name
+                this.formDataListBtmAdd['manageMofDepId'] = res.data.guid
+              }
+            })
+          }
+        })
       }
     },
     beforeUploadProjectFile(file) {
@@ -1190,6 +1211,7 @@ export default {
         buttons: 'toolbarSlots'
       }
       if (obj.code === 'pay-add') {
+        this.getManageMofDepOptions()
         this.showModal = true
         this.isAdd = true
         this.modalTitle = '新增'
@@ -1239,6 +1261,17 @@ export default {
       if (obj.code === 'pay-unAudit') {
         this.auditRecord(3)
       }
+    },
+    getManageMofDepOptions() {
+      this.$http.post('dfr-monitor-service/dfr/common/elementtree', {
+        'elementCode': 'manage_mof_dep'
+      }).then(res => {
+        this.formItemsConfigBtmAdd.forEach(item => {
+          if (item.field === 'manageMofDep_') {
+            item.itemRender.options = res.data
+          }
+        })
+      })
     },
     initFormItems(disabled) {
       this.setItemsDisable(this.formItemsConfigBtm, false, disabled)

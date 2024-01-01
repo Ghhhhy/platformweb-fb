@@ -290,7 +290,7 @@ export default {
       formDataListThirdRequired: config().formDataListThirdRequired,
       formItemsConfigThird: config().formItemsConfigThird,
       activeNameTop: '1',
-      readonly: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi', 'trackProCode', 'proDept_'],
+      readonly: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi', 'trackProCode', 'proDept_', 'manageMofDep_'],
       formItemsConfigBtm: config().formItemsConfigBtm,
       formDataListBtmRequired: config().formDataListBtmRequired,
       formDataListBtm: config().formDataListBtm,

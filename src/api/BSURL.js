@@ -46,6 +46,7 @@ const BSURL = {
   dfr_warningResultHandleRuleUpdateZGBatch: 'dfr-monitor-service/dfr/warningResultHandleRule/updateZGBatch', // 预算重点监督预警处理_分规则 批量整改
   dfr_file_downLoadFile: 'dfr-monitor-service/dfr/file/downLoadFile',
   dfr_commonActionLog: 'dfr-monitor-service/dfr/common/actionLog', // 国债 操作日志接口
+  dfr_pmProjectInfoDetailQueryManageMofDep: 'dfr-monitor-service/dfr/pmProjectInfoDetail/queryManageMofDep', // 国债 根据项目主管处室获取业务主管处室接口
 
   // 平台  文件服务
   api_fileservice_v2_files: 'fileservice/v2/files', // 平台获取文件列表

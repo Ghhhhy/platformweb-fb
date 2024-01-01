@@ -606,11 +606,12 @@ export let config = () => {
           }
         }, {
           field: 'manageMofDep_',
-          title: '业务管理处室',
+          title: '业务主管处室',
           span: 12,
           titleWidth: '255',
           itemRender: {
             name: '$vxeTree',
+            options: [],
             props: {
               isleaf: true,
               elecode: 'manage_mof_dep',
@@ -1076,19 +1077,20 @@ export let config = () => {
         }
       }, {
         field: 'manageMofDep_',
-        title: '业务管理处室',
+        title: '业务主管处室',
         span: 12,
         titleWidth: '255',
         itemRender: {
           name: '$vxeTree',
+          options: [],
           props: {
             isleaf: true,
+            value: '',
+            valueKeys: ['code', 'name', 'id'],
             elecode: 'manage_mof_dep',
-            queryparams: {
-              elementCode: 'manage_mof_dep'
-            },
             config: {
-              disabled: false,
+              format: '{code}-{name}',
+              disabled: true,
               isleaf: true,
               showFilter: false,
               placeholder: '请选择业务管理处室',
@@ -1097,10 +1099,6 @@ export let config = () => {
                 nodeKey: 'id',
                 label: 'label',
                 children: 'children'
-              },
-              axiosConfig: {
-                method: 'post',
-                url: '/dfr-monitor-service/dfr/common/elementtree'
               }
             }
           }
