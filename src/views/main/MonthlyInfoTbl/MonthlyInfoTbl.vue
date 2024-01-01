@@ -2927,6 +2927,10 @@ export default {
     setItemsDisable(itemConfigs, isTable, disabled) {
       if (isTable) {
         itemConfigs.forEach(column => {
+          if (column.field === '$fileTableOperation') {
+            column.visible = disabled
+            return
+          }
           if (disabled) {
             // 只读
             let render = column.editRender
