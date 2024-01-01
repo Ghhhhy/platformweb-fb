@@ -1304,6 +1304,9 @@ export default {
             column.visible = disabled
             return
           }
+          if (column.field === 'createTime') {
+            return
+          }
           if (disabled) {
             // 只读
             let render = column.editRender
