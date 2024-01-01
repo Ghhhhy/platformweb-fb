@@ -14,7 +14,7 @@ export default {
             renderDefault: (h, cellRender, params, context) => {
               let { row, column } = params
               return [
-                <el-tooltip content="查看附件" placement="top" effect="light">
+                <el-tooltip content="查看操作日志" placement="top" effect="light">
                   <div class="gloableOptionRow">
                     <div style="width:20px;;height:20px;;text-align:center;" class="gloable-option-row-optionlog fn-inline" onClick={() => this.viewOprationLog({ row, column })}></div>
                   </div>
@@ -170,15 +170,15 @@ export default {
         params.appId = 'pm_project_info_det_mon'
       }
       this.$http.get(BSURL.dfr_commonActionLog, params).then(res => {
-        if (res.code === '000000') {
+        if (res.rscode === '200') {
           let tempData = res.data?.map(item => {
             return {
-              logid: item['operationTypeCode'],
-              nodeName: item['operationTypeName'],
-              actionUser: item['operationUser'],
-              actionName: item['operationTypeName'],
-              actionTime: item['createdTime'] == null ? '' : item['createdTime'],
-              message: item['operationComment']
+              logid: item['logid'],
+              nodeName: item['nodeName'],
+              actionUser: item['actionUser'],
+              actionName: item['actionName'],
+              actionTime: item['actionTime'] == null ? '' : item['actionTime'],
+              message: item['message']
             }
           })
           this.logData = tempData
