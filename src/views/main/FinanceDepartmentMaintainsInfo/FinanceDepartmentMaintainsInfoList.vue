@@ -461,9 +461,8 @@ export default {
         this.$message.warning('请选择要删除的附件')
         return
       }
-      let billguidList = selections.map(item => item.billguid)
-      this.$refs.fileDataRef.$refs.xGrid.removeCheckboxRow()
-      this.tableDataSx = this.tableDataSx.filter(item => !billguidList.includes(item.billguid))
+      let proAttchIdList = selections.map(item => item.proAttchId)
+      this.tableDataSx = this.tableDataSx.filter(item => !proAttchIdList.includes(item.proAttchId))
     },
     closeModal() {
       this.showModal = false
