@@ -1439,6 +1439,9 @@
               :table-columns-config="modalTblColumnsConfigSx"
               :keyboard-config="{ isDel: false }"
               :table-data="tableDataSx"
+              :edit-config="{
+                editable: !(btnClickType === 'pay-checkDetails' || btnClickType === 'pay-checkDetailsBasic'),
+              }"
               :pager-config="false"
               :footer-config="{ showFooter: false }"
               :toolbar-config="tableToolbarConfigInmodal"
@@ -2925,13 +2928,15 @@ export default {
     initFormItems(disabled) {
       this.setItemsDisable(this.formItemsConfigBtm, false, disabled)
       this.setItemsDisable(this.modalTblColumnsConfig, true, disabled)
-      this.setItemsDisable(this.modalTblColumnsConfigSx, true, disabled)
     },
     setItemsDisable(itemConfigs, isTable, disabled) {
       if (isTable) {
         itemConfigs.forEach(column => {
           if (column.field === '$fileTableOperation') {
             column.visible = disabled
+            return
+          }
+          if (column.field === 'createTime') {
             return
           }
           if (disabled) {
@@ -3090,25 +3095,27 @@ export default {
       let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
         return item.proDetMonId
       })
-      this.$XModal.confirm('请确认是否作废？').then(() => {
-        let params = {
-          ids: ids,
-          appId: 'pm_project_info_det_month',
-          menuId: localThis.menuId,
-          actionType: 2,
-          actionName: '作废'
-        }
-        localThis.$refs.tmp.showLoading = true
-        HttpModule.discardRecords(params).then((res) => {
-          if (res.rscode === '200') {
-            localThis.$message.success('操作成功')
-            localThis.$refs.tmp.refresh()
-          } else {
-            localThis.$message.warning('操作失败' + res.message)
+      this.$XModal.confirm('请确认是否作废？').then((status) => {
+        if (status === 'confirm') {
+          let params = {
+            ids: ids,
+            appId: 'pm_project_info_det_month',
+            menuId: localThis.menuId,
+            actionType: 2,
+            actionName: '作废'
           }
-        }).finally(() => {
-          localThis.$refs.tmp.showLoading = false
-        })
+          localThis.$refs.tmp.showLoading = true
+          HttpModule.discardRecords(params).then((res) => {
+            if (res.rscode === '200') {
+              localThis.$message.success('操作成功')
+              localThis.$refs.tmp.refresh()
+            } else {
+              localThis.$message.warning('操作失败' + res.message)
+            }
+          }).finally(() => {
+            localThis.$refs.tmp.showLoading = false
+          })
+        }
       })
     },
     auditRecord(type) {
