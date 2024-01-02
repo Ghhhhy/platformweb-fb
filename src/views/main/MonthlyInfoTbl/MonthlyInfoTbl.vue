@@ -49,6 +49,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccAddnb"
                             type="number"
+                            min="0"
                             style="width: 100%"
                             align="right"
                             clearable
@@ -63,6 +64,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreAddnb"
                             type="number"
+                            min="0"
                             style="width: 100%;"
                             align="right"
                             :clearable="isClearable"
@@ -81,6 +83,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccCff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -95,6 +98,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreCff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -113,6 +117,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccCfo"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -127,6 +132,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreCfo"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -145,6 +151,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccLff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -159,6 +166,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreLff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -177,6 +185,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccEf"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -191,6 +200,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreEf"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -209,6 +219,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccLb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -223,6 +234,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreLb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -241,6 +253,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccBankl"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -255,6 +268,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreBankl"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -273,6 +287,7 @@
                           <vxe-input
                             v-model="formData.proGiIpAccOth"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -287,6 +302,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreOth"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -314,6 +330,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccAddnb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -328,6 +345,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreAddnb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -346,6 +364,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccAddnb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -360,6 +379,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreAddnb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -378,6 +398,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccAddnb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -392,6 +413,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreAddnb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -410,6 +432,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccAddnb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -424,6 +447,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreAddnb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -444,6 +468,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccCff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -458,6 +483,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreCff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -476,6 +502,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccCff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -490,6 +517,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreCff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -508,6 +536,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccCff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -522,6 +551,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreCff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -540,6 +570,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccCff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -554,6 +585,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreCff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -574,6 +606,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccCfo"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -588,6 +621,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreCfo"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -606,6 +640,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccCfo"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -620,6 +655,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreCfo"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -638,6 +674,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccCfo"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -652,6 +689,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreCfo"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -670,6 +708,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccCfo"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -684,6 +723,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreCfo"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -704,6 +744,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccLff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -718,6 +759,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreLff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -736,6 +778,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccLff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -750,6 +793,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreLff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -768,6 +812,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccLff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -782,6 +827,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreLff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -800,6 +846,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccLff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -814,6 +861,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreLff"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -834,6 +882,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccEf"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -848,6 +897,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreEf"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -866,6 +916,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccEf"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -880,6 +931,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreEf"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -898,6 +950,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccEf"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -912,6 +965,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreEf"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -930,6 +984,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccEf"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -944,6 +999,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreEf"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -964,6 +1020,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccLb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -978,6 +1035,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreLb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -996,6 +1054,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccLb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1010,6 +1069,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreLb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -1028,6 +1088,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccLb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1042,6 +1103,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreLb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -1060,6 +1122,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccLb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1074,6 +1137,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreLb"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -1094,6 +1158,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccBankl"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1108,6 +1173,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreBankl"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -1126,6 +1192,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccBankl"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1140,6 +1207,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreBankl"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -1158,6 +1226,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccBankl"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1172,6 +1241,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreBankl"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -1190,6 +1260,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccBankl"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1204,6 +1275,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreBankl"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -1224,6 +1296,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayAccOth"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1238,6 +1311,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreOth"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -1256,6 +1330,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayAccOth"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1270,6 +1345,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreOth"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -1288,6 +1364,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayAccOth"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1302,6 +1379,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreOth"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -1320,6 +1398,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayAccOth"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1334,6 +1413,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreOth"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"
@@ -1353,6 +1433,7 @@
                           <vxe-input
                             v-model="formData.proGiCompAcc"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             clearable
@@ -1367,6 +1448,7 @@
                           <vxe-input
                             v-model="formData.proGiCompPre"
                             type="number"
+                            min="0"
                             align="right"
                             style="width: 100%"
                             :clearable="isClearable"

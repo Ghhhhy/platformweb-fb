@@ -1385,7 +1385,7 @@ export let config = () => {
       },
       {
         field: 'lv2PerfInd_',
-        title: '二级指标名称',
+        title: '绩效指标',
         span: 12,
         titleWidth: '120',
         itemRender: {
