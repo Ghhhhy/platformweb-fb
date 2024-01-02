@@ -201,6 +201,7 @@ export default {
   },
   data() {
     return {
+      appId: this.$store.state.curNavModule.appid,
       fileGuid: '',
       filePreviewDialogVisible: false,
       downloadParams: {
@@ -1103,7 +1104,7 @@ export default {
           data['proAttchId'] = resultData
           data['filepath'] = e.file.webkitRelativePath
           data['province'] = this.$store.state.userInfo.province
-          data['appid'] = 'pay_voucher'
+          data['appid'] = this.appId
           data['creater'] = e.file.uid
           data['guid'] = this.$store.state.userInfo.guid
           data['billguid'] = tempUUID
