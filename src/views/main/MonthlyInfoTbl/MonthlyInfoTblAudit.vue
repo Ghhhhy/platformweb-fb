@@ -1561,7 +1561,7 @@ export default {
           field: 'createTime'
         },
         {
-          title: '附件代码',
+          title: '附件分类代码',
           field: 'proAttchKindCode'
         },
         {
