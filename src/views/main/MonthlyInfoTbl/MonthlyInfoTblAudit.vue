@@ -1360,6 +1360,9 @@
               :table-data="tableDataSx"
               :pager-config="false"
               :footer-config="{ showFooter: false }"
+              :edit-config="{
+                editable: !(btnClickType === 'pay-checkDetails' || btnClickType === 'pay-checkDetailsBasic'),
+              }"
               :toolbar-config="tableToolbarConfigInmodal"
               :table-config="fileTableConfig"
             />
@@ -1592,6 +1595,15 @@ export default {
           field: 'kpiRemark',
           editRender: {
             name: '$vxeInput'
+          }
+        },
+        {
+          title: '操作',
+          field: '$fileTableOperation',
+          filter: false,
+          visible: true,
+          cellRender: {
+            name: '$fileTableOperation'
           }
         }
       ],

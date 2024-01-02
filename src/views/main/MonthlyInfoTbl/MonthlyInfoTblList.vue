@@ -1359,6 +1359,10 @@
               :table-columns-config="modalTblColumnsConfigSx"
               :table-data="tableDataSx"
               :pager-config="false"
+              :edit-config="{
+                editable: !(btnClickType === 'pay-checkDetails' || btnClickType === 'pay-checkDetailsBasic'),
+              }"
+              :table-config="fileTableConfig"
               :footer-config="{ showFooter: false }"
               :toolbar-config="tableToolbarConfigInmodal"
             />
@@ -1606,6 +1610,15 @@ export default {
           field: 'kpiRemark',
           editRender: {
             name: '$vxeInput'
+          }
+        },
+        {
+          title: '操作',
+          field: '$fileTableOperation',
+          filter: false,
+          visible: true,
+          cellRender: {
+            name: '$fileTableOperation'
           }
         }
       ],
