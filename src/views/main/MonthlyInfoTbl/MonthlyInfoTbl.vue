@@ -1524,6 +1524,7 @@
               :edit-config="{
                 editable: !(btnClickType === 'pay-checkDetails' || btnClickType === 'pay-checkDetailsBasic'),
               }"
+              :table-config="fileTableConfig"
               :pager-config="false"
               :footer-config="{ showFooter: false }"
               :toolbar-config="tableToolbarConfigInmodal"
@@ -1573,6 +1574,19 @@
     </vxe-modal>
     <!-- 基本信息查看详情 -->
     <FinanceDepartmentDetailInfoVue v-if="showDetailInfo" ref="financeDepartmentDetail" @refresh="refresh" @closeDetail="closeDetail" />
+    <!-- 附件预览 -->
+    <FilePreview
+      v-if="filePreviewDialogVisible"
+      :visible.sync="filePreviewDialogVisible"
+      :file-guid="fileGuid"
+      :app-id="appId"
+    />
+    <!-- 下载方法调用实例 -->
+    <BsUpload
+      ref="attachmentUpload"
+      :downloadparams="downloadParams"
+      uniqe-name="attachmentUpload"
+    />
   </div>
 </template>
 <script>
@@ -1585,6 +1599,11 @@ export default {
   data() {
     return {
       appId: this.$store.state.curNavModule.appid,
+      fileGuid: '',
+      filePreviewDialogVisible: false,
+      downloadParams: {
+        fileguid: ''
+      },
       btnClickType: '',
       readonly: ['proAgencyName', 'mofDiv_', 'budgetLevel_', 'speProCode', 'proDept_', 'proGi'],
       ready2DeleteFileId: [],
@@ -1766,8 +1785,36 @@ export default {
           editRender: {
             name: '$vxeInput'
           }
+        },
+        {
+          title: '操作',
+          field: '$fileTableOperation',
+          filter: false,
+          visible: true,
+          cellRender: {
+            name: '$fileTableOperation'
+          }
         }
       ],
+      fileTableConfig: {
+        renderers: {
+          $fileTableOperation: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row } = params
+              return [
+                <div class="gloableOptionRow fcc">
+                  <el-tooltip content="预览" placement="top" effect="light">
+                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-view" onClick={() => this.preview(row)}>预览</div>
+                  </el-tooltip>
+                  <el-tooltip content="下载" placement="top" effect="light">
+                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-download" onClick={() => this.downloadAttachment(row)}>下载</div>
+                  </el-tooltip>
+                </div>
+              ]
+            }
+          }
+        }
+      },
       tableDataSx: [],
       tableDataFv: [
         {
@@ -2298,6 +2345,16 @@ export default {
     }
   },
   methods: {
+    // 下载附件
+    downloadAttachment(row) {
+      this.downloadParams.fileguid = row.proAttchId
+      this.$refs.attachmentUpload.downloadFileFile()
+    },
+    // 预览文件
+    preview(row) {
+      this.fileGuid = row.proAttchId
+      this.filePreviewDialogVisible = true
+    },
     async loadConfig(id) {
       let params = {
         tableId: {
