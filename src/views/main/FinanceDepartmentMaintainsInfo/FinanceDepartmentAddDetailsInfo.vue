@@ -478,7 +478,7 @@ export default {
           this.showModal = true
           this.modalTitle = '编辑'
         } else {
-          localThis.$message.warning('数据详细查询失败')
+          localThis.$message.warning('数据详细查询失败' + res.message)
         }
         localThis.loadingPage.close()
       })
@@ -872,9 +872,9 @@ export default {
                       localThis.$emit('refresh')
                     } else {
                       if (res.message) {
-                        localThis.$message.error('数据保存询失败:' + res.message)
+                        localThis.$message.error('数据保存失败:' + res.message)
                       } else {
-                        localThis.$message.error('数据保存询失败')
+                        localThis.$message.error('数据保存失败')
                       }
                     }
                     localThis.loadingPage.close()
@@ -891,9 +891,9 @@ export default {
                       localThis.$emit('refresh')
                     } else {
                       if (res.message) {
-                        localThis.$message.error('数据编辑保存询失败:' + res.message)
+                        localThis.$message.error('数据编辑保存失败:' + res.message)
                       } else {
-                        localThis.$message.error('数据编辑保存询失败')
+                        localThis.$message.error('数据编辑保存失败')
                       }
                     }
                     localThis.loadingPage.close()
@@ -981,6 +981,8 @@ export default {
               this.toFlatTree(res.data)
             }
           })
+        } else {
+          this.$message.error('获取指标级次失败:' + res.message)
         }
       })
     },
@@ -999,6 +1001,8 @@ export default {
               item.itemRender.options = res.data
             }
           })
+        } else {
+          this.$message.error('获取项目所属投向领域失败:' + res.message)
         }
       })
     },
