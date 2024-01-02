@@ -1490,129 +1490,19 @@
       </div>
     </vxe-modal>
     <!-- 基本信息查看详情 -->
-    <vxe-modal
-      v-if="showModalBasic"
-      ref="modalForm"
-      v-model="modalFormBasic"
-      :title="modalTitleBasic"
-      width="75%"
-      :height="(activeNameBtmBasic === '2' || activeNameBtmBasic === '6') ? '79%' : '60%'"
-      :show-footer="showModalFooterBasic"
-      :destroy-on-close="true"
-      @close="closeModalBasic"
-    >
-      <div style="overflow: auto">
-        <el-tabs v-model="activeNameBtmBasic" type="border-card">
-          <el-tab-pane label="基本情况" name="1">
-            <BsForm
-              ref="addFormBasic"
-              :form-items-config="formItemsConfigBtmBasic"
-              :form-data-list="formDataListBtmBasic"
-              :form-validation-config="formDataListBtmRequiredBasic"
-            />
-          </el-tab-pane>
-          <el-tab-pane label="项目总投资" name="3">
-            <BsForm
-              ref="addFormthridBasic"
-              :form-items-config="formItemsConfigThirdBasic"
-              :form-data-list="formDataListThirdBasic"
-              :form-validation-config="formDataListThirdRequiredBasic"
-            />
-          </el-tab-pane>
-          <el-tab-pane label="项目批复信息" name="4">
-            <BsForm
-              ref="addFormForthBasic"
-              :form-items-config="formItemsConfigForthBasic"
-              :form-data-list="formDataListForthBasic"
-              :form-validation-config="formDataListForthRequiredBasic"
-            />
-          </el-tab-pane>
-          <el-tab-pane label="相关部门联系方式" name="5">
-            <BsForm
-              ref="contactInformationFormBasic"
-              :form-items-config="contactInformationFormConfigBasic"
-              :form-data-list="contactInformationFormDataBasic"
-              :form-validation-config="contactInformationFormDataRequiredBasic"
-            />
-          </el-tab-pane>
-          <el-tab-pane label="绩效目标" name="2">
-            <BsForm
-              ref="KPIFormBasic"
-              :form-items-config="KPIFormConfigBasic"
-              :form-data-list="KPIFormDataBasic"
-              :form-validation-config="KPIFormDataRequiredBasic"
-            />
-            <BsTable
-              ref="bgtTblRefBasic"
-              height="530"
-              :table-columns-config="modalTblColumnsConfigBasic"
-              :span-method="objectSpanMethod"
-              :keyboard-config="{ isDel: false }"
-              :table-data="tableDataBasic"
-              :high-config="{ scrollY: { enabled: false } }"
-              :pager-config="false"
-              :footer-config="footerConfigs"
-              :toolbar-config="tableToolbarConfigInmodalBasic"
-            />
-          </el-tab-pane>
-          <el-tab-pane label="项目附件" name="6">
-            <BsTable
-              ref="fileDataRefBasic"
-              height="460"
-              :table-columns-config="modalTblColumnsConfigSxBasic"
-              :table-data="tableDataSxBasic"
-              :keyboard-config="{ isDel: false }"
-              :pager-config="false"
-              :footer-config="{ showFooter: false }"
-              :table-config="fileTableConfig"
-              :toolbar-config="tableToolbarConfigAttachBasic"
-            >
-              <template v-slot:pagerLeftSlots>
-                <div class="table-toolbar-left">
-                  <div class="table-toolbar-left-title">
-                    <span class="fn-inline"><span>支持png/jpg/pdf等，不超过20M</span></span>
-                    <i class="fn-inline"></i>
-                  </div>
-                </div>
-              </template>
-            </BsTable>
-          </el-tab-pane>
-        </el-tabs>
-      </div>
-    </vxe-modal>
-    <!-- 附件预览 -->
-    <FilePreview
-      v-if="filePreviewDialogVisible"
-      :visible.sync="filePreviewDialogVisible"
-      :file-guid="fileGuid"
-      :app-id="appId"
-    />
-    <!-- 下载方法调用实例 -->
-    <BsUpload
-      ref="attachmentUpload"
-      :downloadparams="downloadParams"
-      uniqe-name="attachmentUpload"
-    />
+    <FinanceDepartmentDetailInfoVue v-if="showDetailInfo" ref="financeDepartmentDetail" @refresh="refresh" @closeDetail="closeDetail" />
   </div>
 </template>
 <script>
 import HttpModule from '@/api/frame/main/MonthlyInfoTbl/MonthlyInfoTbl.js'
-import { config } from '@/views/main/FinanceDepartmentMaintainsInfo/financeDepartmentMaintainsInfo.js'
-import HttpModule1 from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfo.js'
-import FilePreview from '@/views/main/fundMonitoring/violationHandle/warningCreate/children/common/filePreview.vue'
-
+import FinanceDepartmentDetailInfoVue from '@/views/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentAddDetailsInfo.vue'
 export default {
   components: {
-    FilePreview
+    FinanceDepartmentDetailInfoVue
   },
   data() {
     return {
       appId: this.$store.state.curNavModule.appid,
-      fileGuid: '',
-      filePreviewDialogVisible: false,
-      downloadParams: {
-        fileguid: ''
-      },
       btnClickType: '',
       readonly: ['proAgencyName', 'mofDiv_', 'budgetLevel_', 'speProCode', 'proDept_', 'proGi'],
       formData: {
@@ -2279,120 +2169,12 @@ export default {
       proDetId: '',
       proDetMonId: '',
       genMonthId: '',
-      // 基本信息查看详情-------------------------start----------------
-      activeNameBtmBasic: '1',
-      footerConfigs: {
-        totalObj: {
-          aviamt: 0
-        },
-        showFooter: false
-      },
-      modalTblColumnsConfigSxBasic: config().modalTblColumnsConfigSx,
-      tableDataSxBasic: [],
-      showTypeModalBasic: false,
-      KPIFormConfigBasic: config().KPIFormConfig,
-      KPIFormDataBasic: config().KPIFormData,
-      KPIFormDataRequiredBasic: config().KPIFormDataRequired,
-      contactInformationFormDataRequiredBasic: config().contactInformationFormDataRequired,
-      contactInformationFormConfigBasic: config().contactInformationFormConfig,
-      contactInformationFormDataBasic: config().contactInformationFormData,
-      modalTblColumnsConfigFvBasic: config().modalTblColumnsConfigFv,
-      formDataListForthRequiredBasic: config().formDataListForthRequired,
-      formItemsConfigForthBasic: config().formItemsConfigForth,
-      formDataListForthBasic: config().formDataListForth,
-      formDataListThirdBasic: config().formDataListThird,
-      formDataListThirdRequiredBasic: config().formDataListThirdRequired,
-      formItemsConfigThirdBasic: config().formItemsConfigThird,
-      activeNameTopBasic: '1',
-      readonlyBasic: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi', 'trackProCode'],
-      formItemsConfigBtmBasic: config().formItemsConfigBtm,
-      formDataListBtmRequiredBasic: config().formDataListBtmRequired,
-      formDataListBtmBasic: config().formDataListBtm,
-      formItemsConfigBtmAddBasic: config().formItemsConfigBtmAdd,
-      formDataListBtmRequiredAddBasic: config().formDataListBtmRequiredAdd,
-      formDataListBtmAddBasic: config().formDataListBtmAdd,
-      addBudgetFormConfigBasic: config().addBudgetFormConfig,
-      addBudgetFormDataBasic: config().addBudgetFormData,
-      addBudgetFormDataRequiredBasic: config().addBudgetFormDataRequired,
-      showModalBasic: false,
-      modalFormBasic: '',
-      showModalFooterBasic: true,
-      fileTableConfig: {
-        renderers: {
-          $fileTableOperation: {
-            renderDefault: (h, cellRender, params, context) => {
-              let { row } = params
-              return [
-                <div class="gloableOptionRow fcc">
-                  <el-tooltip content="预览" placement="top" effect="light">
-                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-view" onClick={() => this.preview(row)}>预览</div>
-                  </el-tooltip>
-                  <el-tooltip content="下载" placement="top" effect="light">
-                    <div style="width:20px;height:100%;cursor: pointer;text-align:center;" class="gloable-option-row-download" onClick={() => this.downloadAttachment(row)}>下载</div>
-                  </el-tooltip>
-                </div>
-              ]
-            }
-          }
-        }
-      },
-      tableToolbarConfigInmodalBasic: {
-        // table工具栏配置
-        disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
-        search: false, // 是否有search
-        import: false, // 导入
-        export: true, // 导出
-        print: false, // 打印
-        zoom: true, // 缩放
-        custom: false, // 选配展示列
-        slots: {
-          tools: 'toolbarTools',
-          buttons: 'toolbarSlots'
-        }
-      },
-      fileTypeOptionsBasic: [
-        { value: '01', label: '项目审批（核准、备案）资料' },
-        { value: '02', label: '项目用地审批、环评审批、施工许可资料' },
-        { value: '03', label: '项目招投标和政府采购资料' },
-        { value: '04', label: '项目主要合同资料' },
-        { value: '05', label: '项目评审报告' },
-        { value: '99', label: '其他' }
-      ],
-      filetypeBasic: '01',
-      filetypeNameBasic: '项目审批（核准、备案）资料',
-      tableToolbarConfigAttachBasic: {
-        // table工具栏配置
-        disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
-        search: false, // 是否有search
-        import: false, // 导入
-        export: true, // 导出
-        print: false, // 打印
-        zoom: true, // 缩放
-        custom: false // 选配展示列
-      },
-      tableDataBasic: [],
-      modalTblColumnsConfigBasic: config().modalTblColumnsConfig,
-      addModalBasic: false,
-      hideTreeBasic: false,
-      isCheckboxBasic: false,
-      currentRowBasic: {},
-      proDetIdBasic: '',
-      isViewBasic: false,
-      treePropsBasic: ['mofDiv_', 'budgetLevel_', 'proDept_', 'fundInvestArea_', 'proAgency_', 'trackPro_', 'fundInvestArea_']
+      showDetailInfo: false
     }
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
     this.loadConfig('C7FB497B80C44A1E86416BDFAE4AB510')
-
-    this.getFundInvestArea()
-    this.getBudgetElement()
-    this.formDataListBtmAddBasic.mofDivName = this.$store.state.userInfo.province
-    this.formDataListBtmAddBasic.budgetLevelCode = this.$store.state.userInfo.budgetlevelcode
-    this.formDataListBtmAddBasic.budgetLevelName = this.$store.state.userInfo.budgetlevelname
-    this.formDataListBtmBasic.budgetLevelName = this.$store.state.userInfo.budgetlevelname
   },
   computed: {
     proGiIpPre: {
@@ -2433,91 +2215,6 @@ export default {
     }
   },
   methods: {
-    // 下载附件
-    downloadAttachment(row) {
-      this.downloadParams.fileguid = row.proAttchId
-      this.$refs.attachmentUpload.downloadFileFile()
-    },
-    // 预览文件
-    preview(row) {
-      this.fileGuid = row.proAttchId
-      this.filePreviewDialogVisible = true
-    },
-    stringToDate(str) {
-      return (str || '').substr(0, 4) + '-' + (str || '').substr(4, 2) + '-' + (str || '').substr(6)
-    },
-    closeModalBasic() {
-      this.showModalBasic = false
-      this.activeNameBtmBasic = '1'
-    },
-    // 获取指标级次
-    getBudgetElement() {
-      this.$http.post('/dfr-monitor-service/dfr/pmProjectInfoDetail/perfindtree').then((res) => {
-        if (res.rscode === '200') {
-          this.addBudgetFormConfigBasic.forEach(item => {
-            if (item.field === 'lv2PerfInd_') {
-              item.itemRender.options = res.data
-              this.toFlatTree(res.data)
-            }
-          })
-        } else {
-          this.$message.warning('获取指标级次失败:' + res.message)
-        }
-      })
-    },
-    getFundInvestArea() {
-      this.$http.post('/dfr-monitor-service/dfr/common/elementtree', { elementCode: 'PROFUNDINVESTAREA' }).then((res) => {
-        if (res.rscode === '200') {
-          let configs = []
-          configs = this.formItemsConfigBtmBasic
-          configs.forEach(item => {
-            if (item.field === 'fundInvestArea_') {
-              this.fundInvestAreaOptionsBasic = res.data
-              item.itemRender.options = res.data
-            }
-          })
-        } else {
-          this.$message.error('获取项目所属投向领域失败:' + res.message)
-        }
-      })
-    },
-    // 树扁平化Map
-    toFlatTree(trees) {
-      let self = this
-      trees.forEach(tree => {
-        if (tree.children) {
-          self.getChildren(tree, tree.children)
-        }
-      })
-    },
-    getChildren(tree, children) {
-      children.forEach(c => {
-        c.p = {
-          id: tree.id,
-          code: tree.code,
-          label: tree.label,
-          name: tree.name
-        }
-      })
-    },
-    fundInvestAreaBasic(id) {
-      let currentFundInvest = []
-      for (let i = 0; i < this.fundInvestAreaOptionsBasic.length; i++) {
-        if (this.fundInvestAreaOptionsBasic[i].code === id) {
-          currentFundInvest = [this.fundInvestAreaOptionsBasic[i]]
-          console.log(currentFundInvest)
-          break
-        }
-      }
-      let configs = this.formItemsConfigBtmBasic
-      configs.forEach(item => {
-        if (item.field === 'fundInvestArea_') {
-          item.itemRender.options = currentFundInvest
-        }
-      })
-      this.formItemsConfigBtmBasic = [...configs]
-    },
-
     async loadConfig(id) {
       let params = {
         tableId: {
@@ -2781,13 +2478,12 @@ export default {
         localThis.auditRecord(2)
       }
       if (obj.code === 'pay-checkDetailsBasic') {
-        this.isView = true
-        if (this.$refs.tmp.getSelectionRcd().length !== 1) {
-          this.$message.warning('请选择一条数据进行查看')
-          return false
-        }
-        this.initFormItemsBasic(true)
-        this.viewDetailBasic()
+        console.log('======')
+        let selectionData = this.$refs.tmp.getSelectionRcd()
+        this.showDetailInfo = true
+        this.$nextTick(() => {
+          this.$refs.financeDepartmentDetail.btnClick(obj, selectionData)
+        })
       }
       if (obj.code === 'pay-checkDetails') {
         this.initFormItems(true)
@@ -2796,134 +2492,6 @@ export default {
       if (obj.code === 'pay-unAudit') {
         localThis.auditRecord(3)
       }
-    },
-    viewDetailBasic() {
-      let localThis = this
-      localThis.$refs.tmp.showLoading = true
-      let selection = localThis.$refs.tmp.getSelectionRcd()[0]
-      let params = {
-        proDetId: selection.proDetId
-      }
-      localThis.tableDataBasic = []
-      HttpModule1.detailDataRecord(params).then((res) => {
-        if (res.rscode === '200') {
-          let projectInfo = res.data.projectInfo
-          let perfIndica = res.data.perfIndica
-          let attchs = res.data.attchs
-          localThis.tableDataSxBasic = attchs
-          localThis.tableDataBasic = perfIndica
-          localThis.initModalFormData(projectInfo)
-          localThis.showModalFooterBasic = false
-          localThis.showModalBasic = true
-          localThis.modalTitleBasic = '查看详情'
-        } else {
-          localThis.$message.warning('查看详情失败' + res.message)
-        }
-        localThis.$refs.tmp.showLoading = false
-      })
-    },
-    initTreeInfo(formData, property, value, projectInfo) {
-      let infos = (value || '').split('##')
-      if (!(infos[1] || '').trim() || !(infos[2] || '').trim()) {
-        let p = property.substr(0, property.length - 1)
-        formData[property] = '##' + projectInfo[p + 'Code'] + '##' + infos[0]
-        formData[property + 'code'] = (infos[1] || '').trim() || projectInfo[p + 'Code']
-        formData[property + 'name'] = (infos[2] || '').trim() || infos[0]
-      } else {
-        formData[property] = value
-        formData[property + 'id'] = infos[0]
-        formData[property + 'code'] = (infos[1] || '').trim()
-        formData[property + 'name'] = (infos[2] || '').trim()
-      }
-    },
-    initModalFormData(projectInfo) {
-      let localThis = this
-      // 基本情况
-      localThis.formDataListBtmBasic.proAgencyName = projectInfo.proAgencyCode + '-' + projectInfo.proAgencyName
-      localThis.formDataListBtmBasic.proAgencyCode = projectInfo.proAgencyCode
-      localThis.formDataListBtmBasic.ndrcProCode = projectInfo.ndrcProCode
-      localThis.formDataListBtmBasic.ndrcProName = projectInfo.ndrcProName
-      // 财政区划
-      let mofDiv = projectInfo.mofDivName
-      this.initTreeInfo(localThis.formDataListBtmBasic, 'mofDiv_', mofDiv, projectInfo)
-      let trackProName = projectInfo.trackProName
-      this.initTreeInfo(localThis.formDataListBtmBasic, 'trackPro_', trackProName, projectInfo)
-      localThis.formDataListBtmBasic.mofDivName = projectInfo.mofDivName
-      // localThis.formDataListBtmBasic.mofDivNameId = projectInfo.mofDivName
-      // 预算级次
-      localThis.formDataListBtmBasic.budgetLevelName = projectInfo.budgetLevelName
-      let budgetLevel = projectInfo.budgetLevelName
-      this.initTreeInfo(localThis.formDataListBtmBasic, 'budgetLevel_', budgetLevel, projectInfo)
-      localThis.formDataListBtmBasic.speProName = projectInfo.speProName
-      localThis.formDataListBtmBasic.speProCode = projectInfo.speProCode
-      localThis.formDataListBtmBasic.trackProName = projectInfo.trackProName
-      localThis.formDataListBtmBasic.trackProCode = projectInfo.trackProCode
-      // 项目主管部门
-      let proDeptName = projectInfo.proDeptName
-      localThis.formDataListBtmBasic.proDeptName = projectInfo.proDeptName
-      this.initTreeInfo(localThis.formDataListBtmBasic, 'proDept_', proDeptName, projectInfo)
-      // 项目所属投向领域
-      let fundInvestInfo = projectInfo.fundInvestAreaName
-      localThis.formDataListBtmBasic.fundInvestAreaName = projectInfo.fundInvestAreaName
-      this.initTreeInfo(localThis.formDataListBtmBasic, 'fundInvestArea_', fundInvestInfo, projectInfo)
-      // 资金管理处室
-      let bgtMofDepInfo = projectInfo.bgtMofDepName
-      localThis.formDataListBtm.bgtMofDepName = projectInfo.bgtMofDepName
-      this.initTreeInfo(localThis.formDataListBtm, 'bgtMofDep_', bgtMofDepInfo, projectInfo)
-      // 业务管理处室
-      let manageMofDepInfo = projectInfo.manageMofDepName
-      localThis.formDataListBtm.manageMofDepName = projectInfo.manageMofDepName
-      this.initTreeInfo(localThis.formDataListBtm, 'manageMofDep_', manageMofDepInfo, projectInfo)
-      localThis.formDataListBtmBasic.proContent = projectInfo.proContent
-      localThis.formDataListBtmBasic.proStaDate = this.stringToDate(projectInfo.proStaDate)
-      localThis.formDataListBtmBasic.proEndDate = this.stringToDate(projectInfo.proEndDate)
-      localThis.formDataListBtmBasic.proRealStaDate = this.stringToDate(projectInfo.proRealStaDate)
-      localThis.formDataListBtmBasic.proRealEndDate = this.stringToDate(projectInfo.proRealEndDate)
-      localThis.formDataListBtmBasic.proNotStaRea = projectInfo.proNotStaRea
-      localThis.formDataListBtmBasic.kpiTarget = projectInfo.kpiTarget
-      localThis.KPIFormDataBasic.kpiTarget = projectInfo.kpiTarget
-      localThis.formDataListBtmBasic.isUseMultiTrackPro = projectInfo.isUseMultiTrackPro
-      localThis.formDataListBtmBasic.fundInvestAreaDesc = projectInfo.fundInvestAreaDesc
-      localThis.formDataListBtmBasic.isEnd = projectInfo.isEnd
-      // 项目总投资
-      localThis.formDataListThirdBasic.proGi = projectInfo.proGi || '0.00'
-      localThis.formDataListThirdBasic.proGiAddnb = projectInfo.proGiAddnb || '0.00'
-      localThis.formDataListThirdBasic.proGiCff = projectInfo.proGiCff || '0.00'
-      localThis.formDataListThirdBasic.proGiCfo = projectInfo.proGiCfo || '0.00'
-      localThis.formDataListThirdBasic.proGiLff = projectInfo.proGiLff || '0.00'
-      localThis.formDataListThirdBasic.proGiEf = projectInfo.proGiEf || '0.00'
-      localThis.formDataListThirdBasic.proGiLb = projectInfo.proGiLb || '0.00'
-      localThis.formDataListThirdBasic.proGiBankl = projectInfo.proGiBankl || '0.00'
-      localThis.formDataListThirdBasic.proGiOth = projectInfo.proGiOth || '0.00'
-      // 项目批复信息
-      localThis.formDataListForthBasic.proApproveNumber = projectInfo.proApproveNumber
-      localThis.formDataListForthBasic.landApproveNumber = projectInfo.landApproveNumber
-      localThis.formDataListForthBasic.eiaApproveNumber = projectInfo.eiaApproveNumber
-      localThis.formDataListForthBasic.consApproveNumber = projectInfo.consApproveNumber
-      // 相关部门联系方式
-      localThis.contactInformationFormDataBasic.proAddress = projectInfo.proAddress
-      localThis.contactInformationFormDataBasic.estAgencyName = projectInfo.estAgencyName
-      localThis.contactInformationFormDataBasic.consAgencyName = projectInfo.consAgencyName
-      localThis.contactInformationFormDataBasic.agencyLeaderPerName = projectInfo.agencyLeaderPerName
-      localThis.contactInformationFormDataBasic.agencyLeaderPerOtel = projectInfo.agencyLeaderPerOtel
-      localThis.contactInformationFormDataBasic.agencyLeaderPerMtel = projectInfo.agencyLeaderPerMtel
-      localThis.contactInformationFormDataBasic.fiLeader = projectInfo.fiLeader
-      localThis.contactInformationFormDataBasic.fiLeaderOtel = projectInfo.fiLeaderOtel
-      localThis.contactInformationFormDataBasic.fiLeaderMtel = projectInfo.fiLeaderMtel
-      localThis.contactInformationFormDataBasic.proLeader = projectInfo.proLeader
-      localThis.contactInformationFormDataBasic.proLeaderOtel = projectInfo.proLeaderOtel
-      localThis.contactInformationFormDataBasic.proLeaderMtel = projectInfo.proLeaderMtel
-      localThis.contactInformationFormDataBasic.proLessor = projectInfo.proLessor
-      localThis.contactInformationFormDataBasic.proLessorOtel = projectInfo.proLessorOtel
-      localThis.contactInformationFormDataBasic.proLessorMtel = projectInfo.proLessorMtel
-    },
-    initFormItemsBasic(disabled) {
-      this.setItemsDisable(this.formItemsConfigBtmBasic, false, disabled)
-      this.setItemsDisable(this.modalTblColumnsConfigBasic, true, disabled)
-      this.setItemsDisable(this.formItemsConfigThirdBasic, false, disabled)
-      this.setItemsDisable(this.formItemsConfigForthBasic, false, disabled)
-      this.setItemsDisable(this.contactInformationFormConfigBasic, false, disabled)
-      this.setItemsDisable(this.modalTblColumnsConfigSxBasic, true, disabled)
     },
     initFormItems(disabled) {
       this.setItemsDisable(this.formItemsConfigBtm, false, disabled)
@@ -3184,6 +2752,12 @@ export default {
         }
         localThis.$refs.tmp.showLoading = false
       })
+    },
+    closeDetail() {
+      this.showDetailInfo = false
+    },
+    refresh() {
+      this.$refs.tmp.refresh()
     }
   }
 }
