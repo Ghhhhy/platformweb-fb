@@ -108,6 +108,9 @@
               :pager-config="false"
               :footer-config="{ showFooter: false }"
               :toolbar-config="tableToolbarConfigAttach"
+              :edit-config="{
+                editable: !(btnClickType === 'pay-checkDetails' || btnClickType === 'pay-checkDetailsBasic'),
+              }"
               :table-config="fileTableConfig"
               @editClosed="editClosed"
             >
@@ -392,36 +395,28 @@ export default {
       this.setItemsDisable(this.formItemsConfigThird, false, disabled)
       this.setItemsDisable(this.formItemsConfigForth, false, disabled)
       this.setItemsDisable(this.contactInformationFormConfig, false, disabled)
-      this.setItemsDisable(this.modalTblColumnsConfigSx, true, disabled)
       console.log(this.modalTblColumnsConfig, this.modalTblColumnsConfigSx)
     },
     setItemsDisable(itemConfigs, isTable, disabled) {
       if (isTable) {
         itemConfigs.forEach(column => {
-          if (column.field === '$fileTableOperation') {
-            column.visible = !disabled
-          } else {
-            if (column.field === 'createTime') {
-              return
+          if (disabled) {
+            // 只读
+            let render = column.editRender
+            if (render) {
+              if (render.name === '$vxeSelect') {
+                column.cellRender = render
+              } else {
+                column.render = render
+              }
+              delete column.editRender
             }
-            if (disabled) {
-              // 只读
-              let render = column.editRender
-              if (render) {
-                if (render.name === '$vxeSelect') {
-                  column.cellRender = render
-                } else {
-                  column.render = render
-                }
-                delete column.editRender
-              }
-            } else {
-              let render = column.cellRender || column.render
-              if (render) {
-                column.editRender = render
-                delete column.cellRender
-                delete column.render
-              }
+          } else {
+            let render = column.cellRender || column.render
+            if (render) {
+              column.editRender = render
+              delete column.cellRender
+              delete column.render
             }
           }
         })
