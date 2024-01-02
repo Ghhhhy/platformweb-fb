@@ -802,11 +802,15 @@ export default {
     },
     fundInvestArea(id) {
       let currentFundInvest = []
-      for (let i = 0; i < this.fundInvestAreaOptions.length; i++) {
-        if (this.fundInvestAreaOptions[i].code === id) {
-          currentFundInvest = [this.fundInvestAreaOptions[i]]
-          console.log(currentFundInvest)
-          break
+      if (!id) {
+        currentFundInvest = this.fundInvestAreaOptions
+      } else {
+        for (let i = 0; i < this.fundInvestAreaOptions.length; i++) {
+          if (this.fundInvestAreaOptions[i].code === id) {
+            currentFundInvest = [this.fundInvestAreaOptions[i]]
+            console.log(currentFundInvest)
+            break
+          }
         }
       }
       let configs = []
