@@ -2164,7 +2164,7 @@ export default {
     handleSure() {
       let localThis = this
       let fileList = []
-      let fileDataList = localThis.$refs.fileDataRef.getTableData().fullData
+      let fileDataList = this.tableDataSx
       if (fileDataList && fileDataList.length > 0) {
         fileDataList.forEach((item) => {
           fileList.push({
