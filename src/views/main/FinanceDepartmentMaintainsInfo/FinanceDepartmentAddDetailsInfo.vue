@@ -80,6 +80,7 @@
           <el-tab-pane label="项目附件" name="6">
             <!-- 不要再加v-if了，这里的上传附件按钮不用显示，但是上传的时候需要用到的 -->
             <el-upload
+              v-show="false"
               ref="fileUpload"
               action="#"
               multiple
