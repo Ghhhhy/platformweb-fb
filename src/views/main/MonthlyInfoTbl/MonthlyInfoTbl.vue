@@ -1505,6 +1505,7 @@ export default {
       appId: this.$store.state.curNavModule.appid,
       btnClickType: '',
       readonly: ['proAgencyName', 'mofDiv_', 'budgetLevel_', 'speProCode', 'proDept_', 'proGi'],
+      ready2DeleteFileId: [],
       formData: {
         // 累计可用资金合计
         proGiIpAcc: '',
@@ -2238,7 +2239,21 @@ export default {
         return
       }
       let proAttchIdList = selections.map(item => item.proAttchId)
+      this.ready2DeleteFileId = Array.from(new Set([...this.ready2DeleteFileId, ...proAttchIdList]))
       this.tableDataSx = this.tableDataSx.filter(item => !proAttchIdList.includes(item.proAttchId))
+    },
+    platformServerDeleteFile() {
+      const params = {
+        appid: this.appId,
+        fileguids: this.ready2DeleteFileId.join(',')
+      }
+      this.$http.del(BSURL.api_fileservice_v2_files, params, '', '', true).then(res => {
+        if (res.rscode === '100000') {
+          this.$message.success('删除附件成功')
+        } else {
+          this.$message.success('删除失败')
+        }
+      })
     },
     handleSureType() {
       let proAttchKindName = this.fileTypeOptions.find((item) => {
