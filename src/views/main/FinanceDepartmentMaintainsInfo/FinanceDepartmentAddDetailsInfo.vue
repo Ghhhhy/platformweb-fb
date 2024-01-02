@@ -867,6 +867,7 @@ export default {
                   HttpModule.insertDataRecord(params).then((res) => {
                     if (res.rscode === '200') {
                       this.showModal = false
+                      localThis.activeNameBtm = '1'
                       localThis.$message.success('操作成功')
                       localThis.$emit('refresh')
                     } else {
@@ -884,6 +885,7 @@ export default {
                   params.projectInfo.proDetId = localThis.proDetId
                   HttpModule.editDataRecord(params).then((res) => {
                     if (res.rscode === '200') {
+                      localThis.activeNameBtm = '1'
                       this.showModal = false
                       localThis.$message.success('操作成功')
                       localThis.$emit('refresh')
