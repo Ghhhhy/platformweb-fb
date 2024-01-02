@@ -2218,7 +2218,7 @@ export default {
             localThis.$message.success('操作成功')
             localThis.$refs.tmp.refresh()
           } else {
-            localThis.$message.warning('数据保存询失败')
+            localThis.$message.warning('数据保存失败' + res.message)
           }
           localThis.$refs.tmp.showLoading = false
         })
@@ -2235,7 +2235,7 @@ export default {
             localThis.$message.success('操作成功')
             localThis.$refs.tmp.refresh()
           } else {
-            localThis.$message.warning('数据编辑保存询失败')
+            localThis.$message.warning('数据编辑保存失败' + res.message)
           }
           localThis.$refs.tmp.showLoading = false
         })
@@ -2329,7 +2329,7 @@ export default {
                 localThis.$message.success('操作成功')
                 localThis.$refs.tmp.refresh()
               } else {
-                localThis.$message.warning('操作失败' + res.errorMessage)
+                localThis.$message.warning('操作失败' + res.message)
               }
             }).finally(() => {
               localThis.$refs.tmp.showLoading = false
@@ -2368,7 +2368,7 @@ export default {
           localThis.modalTitle = '查看详情'
           localThis.showModalFooter = false
         } else {
-          localThis.$message.warning('查看详情失败')
+          localThis.$message.warning('查看详情失败' + res.message)
         }
         localThis.$refs.tmp.showLoading = false
       })

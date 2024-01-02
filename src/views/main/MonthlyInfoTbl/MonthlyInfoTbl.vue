@@ -2457,6 +2457,8 @@ export default {
               this.toFlatTree(res.data)
             }
           })
+        } else {
+          this.$message.warning('获取指标级次失败:' + res.message)
         }
       })
     },
@@ -2471,6 +2473,8 @@ export default {
               item.itemRender.options = res.data
             }
           })
+        } else {
+          this.$message.error('获取项目所属投向领域失败:' + res.message)
         }
       })
     },
@@ -2730,7 +2734,7 @@ export default {
             localThis.$message.success('操作成功')
             localThis.$refs.tmp.refresh()
           } else {
-            localThis.$message.warning('数据保存询失败')
+            localThis.$message.warning('数据保存失败' + res.message)
           }
           localThis.$refs.tmp.showLoading = false
         })
@@ -2747,7 +2751,7 @@ export default {
             localThis.$message.success('操作成功')
             localThis.$refs.tmp.refresh()
           } else {
-            localThis.$message.warning('数据编辑保存询失败')
+            localThis.$message.warning('数据编辑保存失败' + res.message)
           }
           localThis.$refs.tmp.showLoading = false
         })
@@ -2810,7 +2814,7 @@ export default {
           localThis.showModalBasic = true
           localThis.modalTitleBasic = '查看详情'
         } else {
-          localThis.$message.warning('查看详情失败')
+          localThis.$message.warning('查看详情失败' + res.message)
         }
         localThis.$refs.tmp.showLoading = false
       })
@@ -3014,7 +3018,7 @@ export default {
           localThis.modalTitle = '新增'
           localThis.showModalFooter = true
         } else {
-          localThis.$message.warning('数据详细查询失败')
+          localThis.$message.warning('数据详细查询失败' + res.message)
         }
         localThis.$refs.tmp.showLoading = false
       })
@@ -3072,7 +3076,7 @@ export default {
           this.modalTitle = '编辑'
           localThis.showModalFooter = true
         } else {
-          localThis.$message.warning('数据详细查询失败')
+          localThis.$message.warning('数据详细查询失败' + res.message)
         }
         localThis.$refs.tmp.showLoading = false
       })
@@ -3169,7 +3173,7 @@ export default {
           localThis.modalTitle = '查看详情'
           localThis.showModalFooter = false
         } else {
-          localThis.$message.warning('查看详情失败')
+          localThis.$message.warning('查看详情失败' + res.message)
         }
         localThis.$refs.tmp.showLoading = false
       })

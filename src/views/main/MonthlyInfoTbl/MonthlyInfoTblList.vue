@@ -2227,7 +2227,7 @@ export default {
           localThis.modalTitle = '查看详情'
           localThis.showModalFooter = false
         } else {
-          localThis.$message.warning('查看详情失败')
+          localThis.$message.warning('查看详情失败' + res.message)
         }
         localThis.$refs.tmp.showLoading = false
       })
